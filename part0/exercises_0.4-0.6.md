@@ -33,3 +33,11 @@ sequenceDiagram
     server->>browser: JSON data [{"content":"new_note2","date":"2022-11-30T03:18:18.158Z"},...]
 
 ```
+
+# 0.6: New note
+
+```mermaid
+
+
+
+```
