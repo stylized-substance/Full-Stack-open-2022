@@ -40,6 +40,6 @@ sequenceDiagram
 
 sequenceDiagram
     browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
-    server-->browser: JSON data [{"message":"note created"}]
+    server-->>browser: JSON data [{"message":"note created"}]
 
 ```
