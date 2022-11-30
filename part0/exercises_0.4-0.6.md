@@ -16,3 +16,11 @@ sequenceDiagram
     server->>browser: JSON data [{"content":"Bryan","date":"2022-11-29T22:57:53.572Z"},...]
 
 ```
+
+# 0.5: Single page app
+
+```mermaid
+
+
+
+```
