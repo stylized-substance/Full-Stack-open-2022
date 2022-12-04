@@ -1,5 +1,38 @@
 import React, { Component } from 'react';
 
+//Components for part 1, 2 and 3
+
+const Part1 = () => {
+  return (
+    <div>
+      <p>
+        Fundamentals of React 10
+      </p>
+    </div>
+  )
+}
+
+const Part2 = () => {
+  return (
+    <div>
+      <p>
+      Using props to pass data 7
+      </p>
+    </div>
+  )
+}
+
+const Part3 = () => {
+  return (
+    <div>
+      <p>
+      State of a component 14
+      </p>
+    </div>
+  )
+}
+
+
 // New components
 
 const Header = (header) => {
@@ -11,11 +44,12 @@ const Header = (header) => {
 }
 
 const Content = (content) => {
+  console.log(content)
   return (
     <div>
-      <p>
-        {content.part} {content.exercises}
-      </p>
+      <Part1 />
+      <Part2 />
+      <Part3 />
     </div>
   )
 }
@@ -45,10 +79,7 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content part={part1} exercises={exercises1} />
-      <Content part={part2} exercises={exercises2} />
-      <Content part={part3} exercises={exercises3} />
-      <Total exercises1={exercises1} exercises2={exercises2} exercises3 = {exercises3} />
+      <Content />
     </div>
   )
 }
