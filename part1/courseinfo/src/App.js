@@ -47,9 +47,7 @@ const Content = (content) => {
   console.log(content)
   return (
     <div>
-      <Part1 />
-      <Part2 />
-      <Part3 />
+      {content.parts}
     </div>
   )
 }
@@ -67,8 +65,9 @@ const Total = (total) => {
 // Root component
 
 const App = () => {
-  const course = 'Half stack application development'
-  const parts = [
+  const course = {
+    name: 'Half stack application development',
+    parts: [
     {
       name: 'Fundamentals of React',
       exercises: 10
@@ -82,12 +81,13 @@ const App = () => {
       exercises: 14
     }
   ]
-  
+}
+
   return (
     <div>
       <Header course={course} />
-      <Content />
-      <Total />
+      <Content parts={parts}/>
+      <Total parts={parts} />
     </div>
   )
 }
