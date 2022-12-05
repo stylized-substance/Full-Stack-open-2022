@@ -1,38 +1,5 @@
 import React, { Component } from 'react';
 
-//Components for part 1, 2 and 3
-
-const Part1 = () => {
-  return (
-    <div>
-      <p>
-        Fundamentals of React 10
-      </p>
-    </div>
-  )
-}
-
-const Part2 = () => {
-  return (
-    <div>
-      <p>
-      Using props to pass data 7
-      </p>
-    </div>
-  )
-}
-
-const Part3 = () => {
-  return (
-    <div>
-      <p>
-      State of a component 14
-      </p>
-    </div>
-  )
-}
-
-
 // New components
 
 const Header = (header) => {
