@@ -9,6 +9,12 @@ const Button = (props) => {
   )
 }
 
+const Display = (props) => {
+  return (
+    <div>{props.counter}</div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
