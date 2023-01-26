@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
 import { useState } from 'react'
 
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        No button presses in history
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      Button press history: {props.allClicks.join(' ')}
+    </div>
+  )
+}
+
 const Button = (props) => {
   return (
     <button onClick={props.onClick}>
@@ -42,8 +58,9 @@ const App = () => {
       <Button handleClick={handleGoodClick} text='Good' />
       <Button handleClick={handleNeutralClick} text='Neutral' />
       <Button handleClick={handleBadClick} text='Bad' />
-
+      <History allClicks={allClicks} />
     </div>
+    
   )
 }
 
