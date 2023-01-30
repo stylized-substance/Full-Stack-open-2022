@@ -10,7 +10,13 @@ const Button = ({ handleClick, text }) => {
 }
 
 const Statistics = ({ good, neutral, bad, allClicks}) => {
-  console.log(allClicks.length);
+  if (allClicks.length === 0) {
+    return (
+    <p>
+      No buttons clicked
+    </p>
+    )
+  }
   const all = good + neutral + bad
   const average = (good - bad) / allClicks.length
   const positive = good / all
