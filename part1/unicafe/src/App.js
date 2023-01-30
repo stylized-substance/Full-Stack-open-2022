@@ -1,33 +1,11 @@
 import React, { Component } from 'react';
 import { useState } from 'react'
 
-const History = (props) => {
-  if (props.allClicks.length === 0) {
-    return (
-      <div>
-        No button presses in history
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      Button press history: {props.allClicks.join(' ')}
-    </div>
-  )
-}
-
 const Button = ({ handleClick, text }) => {
   return (
     <button onClick={handleClick}>
       {text}
     </button>
-  )
-}
-
-const Display = (props) => {
-  return (
-    <div>{props.counter}</div>
   )
 }
 
