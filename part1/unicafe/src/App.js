@@ -55,9 +55,15 @@ const App = () => {
 
   return (
     <div>
+      <p>
+        <b>Give feedback</b>
+      </p>
       <Button handleClick={handleGoodClick} text='Good' />
       <Button handleClick={handleNeutralClick} text='Neutral' />
       <Button handleClick={handleBadClick} text='Bad' />
+      <p>
+        <b>Statistics</b>
+      </p>
       <History allClicks={allClicks} />
     </div>
     
