@@ -64,7 +64,15 @@ const App = () => {
       <p>
         <b>Statistics</b>
       </p>
-      <History allClicks={allClicks} />
+      <p>
+        Good: {good}
+      </p>
+      <p>
+        Neutral: {neutral}
+      </p>
+      <p>
+        Bad: {bad}
+      </p>
     </div>
     
   )
