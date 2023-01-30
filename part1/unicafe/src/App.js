@@ -39,17 +39,17 @@ const App = () => {
   const [allClicks, setAll] = useState([])
 
   const handleGoodClick = () => {
-    setAll(allClicks.concat('Good'))
+    setAll(allClicks.concat(1))
     setGood(good + 1)
   }
 
   const handleNeutralClick = () => {
-    setAll(allClicks.concat('Neutral'))
+    setAll(allClicks.concat(0))
     setNeutral(neutral + 1)
   }
 
   const handleBadClick = () => {
-    setAll(allClicks.concat('Bad'))
+    setAll(allClicks.concat(-1))
     setBad(bad + 1)
   }
 
@@ -72,6 +72,12 @@ const App = () => {
       </p>
       <p>
         Bad: {bad}
+      </p>
+      <p>
+        All: {allClicks.length}
+      </p>
+      <p>
+        Average: {allClicks.reduce((p, c) => p + c, 0) / allClicks.length}
       </p>
     </div>
     
