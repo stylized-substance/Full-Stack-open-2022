@@ -18,7 +18,8 @@ const Statistics = ({ good, neutral, bad, allClicks}) => {
     )
   }
   const all = good + neutral + bad
-  const average = (good - bad) / allClicks.length
+  const average = (good + bad) / allClicks.length
+  console.log(allClicks.length);
   const positive = good / all
   return (
     <div>
