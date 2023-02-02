@@ -9,10 +9,15 @@ const Button = ({handleClick, text}) => {
   )
 }
 
-const Display = () => {
-  <p>
-    
-  </p>
+const Display = ({anecdote}) => {
+  console.log({anecdote});
+  return (
+  <div>
+    <p>
+      {anecdote}
+    </p>
+  </div>
+  )
 }
 
 const randomNumberGenerator = (min, max) => {
@@ -20,7 +25,6 @@ const randomNumberGenerator = (min, max) => {
 }
 
 const App = () => {
-  console.log(randomNumberGenerator(1, 8));
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -40,8 +44,8 @@ const App = () => {
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
       <Button handleClick={handleButtonClick} text="Click me" />
+      <Display anecdote={anecdotes[selected]} />
     </div>
   )
 }
