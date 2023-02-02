@@ -10,7 +10,6 @@ const Button = ({handleClick, text}) => {
 }
 
 const Display = ({anecdote}) => {
-  console.log({anecdote});
   return (
   <div>
     <p>
@@ -39,7 +38,7 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
   const handleButtonClick = () => {
-    setSelected(randomNumberGenerator(1, 8))
+    setSelected(randomNumberGenerator(0, 7))
   }
 
   return (
