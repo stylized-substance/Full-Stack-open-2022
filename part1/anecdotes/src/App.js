@@ -1,12 +1,17 @@
 import React from 'react';
 import { useState } from 'react'
 
-const Button = () => {
+/*const Button = () => {
   return (
     <button onClick={handleClick}>
       {text}
     </button>
   )
+}
+*/
+
+const randomNumberGenerator = (min, max) => {
+  return (Math.random() * (max - min) + min).toFixed(0)
 }
 
 const App = () => {
@@ -22,6 +27,10 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+
+  const handleButtonClick = () => {
+    setSelected
+  }
 
   return (
     <div>
