@@ -9,11 +9,18 @@ const Button = ({handleClick, text}) => {
   )
 }
 
+const Display = () => {
+  <p>
+    
+  </p>
+}
+
 const randomNumberGenerator = (min, max) => {
   return (Math.random() * (max - min) + min).toFixed(0)
 }
 
 const App = () => {
+  console.log(randomNumberGenerator(1, 8));
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -28,12 +35,12 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
   const handleButtonClick = () => {
-    setSelected(randomNumberGenerator())
+    setSelected(randomNumberGenerator(1, 8))
   }
 
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
       <Button handleClick={handleButtonClick} text="Click me" />
     </div>
   )
