@@ -44,7 +44,8 @@ const App = () => {
 
   return (
     <div>
-      <Button handleClick={handleButtonClick} text="Click me" />
+      <Button handleClick={handleButtonClick} text="Click for next anecdote" />
+      <Button text="Vote" />
       <Display anecdote={anecdotes[selected]} />
     </div>
   )
