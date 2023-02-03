@@ -50,10 +50,11 @@ const App = () => {
   const handleVoteButtonClick = () => {
     const copy = [...points]
     copy[selected] += 1
-    setPoints(copy)
-    console.log(points);
+    setPoints(copy)    
   }
 
+  console.log(points);
+  
   return (
     <div>
       <Button handleClick={handleNextButtonClick} text="Click for next anecdote" />
