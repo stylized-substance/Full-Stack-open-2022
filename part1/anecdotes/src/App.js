@@ -47,7 +47,6 @@ const App = () => {
   }
 
   const handleVoteButtonClick = () => {
-    console.log(points);
     points[selected] += 1
   }  
 
