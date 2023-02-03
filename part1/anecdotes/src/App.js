@@ -23,7 +23,7 @@ const Display = ({anecdote, points}) => {
 }
 
 const randomNumberGenerator = (min, max) => {
-  return (Math.random() * (max - min) + min).toFixed(0)
+  return Math.floor((Math.random() * (max - min) + min))
 }
 
 const points = new Uint8Array(8)
