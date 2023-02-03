@@ -9,19 +9,24 @@ const Button = ({handleClick, text}) => {
   )
 }
 
-const Display = ({anecdote}) => {
+const Display = ({anecdote, points}) => {
   return (
-  <div>
-    <p>
-      {anecdote}
-    </p>
-  </div>
+    <div>
+      <p>
+      Points: {points}
+      </p>
+      <p>
+      {anecdote}    
+      </p>
+    </div>
   )
 }
 
 const randomNumberGenerator = (min, max) => {
   return (Math.random() * (max - min) + min).toFixed(0)
 }
+
+const points = new Uint8Array(8)
 
 const App = () => {
   const anecdotes = [
@@ -37,17 +42,22 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
-  const handleButtonClick = () => {
+  const handleNextButtonClick = () => {
     setSelected(randomNumberGenerator(0, 7))
   }
 
+  const handleVoteButtonClick = () => {
+    console.log(points);
+    points[selected] += 1
+  }  
+
   return (
     <div>
-      <Button handleClick={handleButtonClick} text="Click for next anecdote" />
-      <Button text="Vote" />
-      <Display anecdote={anecdotes[selected]} />
+      <Button handleClick={handleNextButtonClick} text="Click for next anecdote" />
+      <Button handleClick ={handleVoteButtonClick} text="Vote" />
+      <Display anecdote={anecdotes[selected]} points={points[selected]} />
     </div>
-  )
+  )  
 }
 
 export default App
