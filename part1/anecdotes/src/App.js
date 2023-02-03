@@ -13,7 +13,7 @@ const Display = ({anecdote, points}) => {
   return (
     <div>
       <p>
-      Points: {points}
+      Votes: {points}
       </p>
       <p>
       {anecdote}    
