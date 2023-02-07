@@ -9,7 +9,7 @@ const Button = ({handleClick, text}) => {
   )
 }
 
-const Display = ({anecdote, points, highestVoted}) => {
+const Display = ({anecdote, points, highestVoted, highestVoteCount}) => {
   return (
     <div>
       <h1>
@@ -25,7 +25,12 @@ const Display = ({anecdote, points, highestVoted}) => {
         Anecdote with most votes
       </h1>
       <p>
-        {highestVoted}
+        <i>
+          {highestVoted}
+        </i>
+      </p>
+      <p>
+        Has {highestVoteCount} votes.
       </p>
     </div>
   )
@@ -62,17 +67,17 @@ const App = () => {
     setPoints(copy)    
   }
 
-  const highestVoted = () => {
-    return Math.max(points)
-  }
+  const highestVoteCount = Math.max(...points)
 
-  console.log(highestVoted);
+  const highestVotedIndex = points.indexOf(highestVoteCount)
+
+  console.log(anecdotes[highestVotedIndex]);
 
   return (
     <div>
       <Button handleClick={handleNextButtonClick} text="Click for next anecdote" />
-      <Button handleClick ={handleVoteButtonClick} text="Vote" />
-      <Display anecdote={anecdotes[selected]} points={points[selected]} highestVoted={highestVoted} />
+      <Button handleClick={handleVoteButtonClick} text="Vote" />
+      <Display anecdote={anecdotes[selected]} points={points[selected]} highestVoted={anecdotes[highestVotedIndex]} highestVoteCount={highestVoteCount} />
     </div>
   )  
 }
