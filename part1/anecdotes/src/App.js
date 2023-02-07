@@ -71,8 +71,6 @@ const App = () => {
 
   const highestVotedIndex = points.indexOf(highestVoteCount)
 
-  console.log(anecdotes[highestVotedIndex]);
-
   return (
     <div>
       <Button handleClick={handleNextButtonClick} text="Click for next anecdote" />
