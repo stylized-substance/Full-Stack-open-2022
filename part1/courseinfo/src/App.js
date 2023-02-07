@@ -30,7 +30,7 @@ const Content = (parts) => {
 const Total = (parts) => {
   return (
       <p>
-      {parts.parts[0].exercises + parts.parts[1].exercises + parts.parts[2].exercises}
+      Total {parts.parts[0].exercises + parts.parts[1].exercises + parts.parts[2].exercises}
       </p>
   )
 }
