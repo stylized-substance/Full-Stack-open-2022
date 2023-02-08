@@ -4,11 +4,14 @@ const Course = ({ courses }) => {
   console.log(courses);
   return (
     <div>
+      <h1>
+        Web development curriculum
+      </h1>
       {courses.map(course =>
         <div>
-          <h1>
+          <h2>
             {course.name}
-          </h1>
+          </h2>
           <ul>
             {course.parts.map(part =>
               <li key={part.id}>
