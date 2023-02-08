@@ -23,3 +23,5 @@ const Course = ({ courses }) => {
       </div>
     )
 }
+
+export default Course
