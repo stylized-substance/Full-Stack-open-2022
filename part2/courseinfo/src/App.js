@@ -5,17 +5,17 @@ const Course = ({ courses }) => {
   return (
     <div>
       <h1>
-        {course.name}
+        {courses.name}
       </h1>
       <ul>
-        {course.parts.map(part =>
+        {courses.parts.map(part =>
           <li key={part.id}>
             {part.name} {part.exercises}
           </li>
         )}
       </ul>
       <b>Total number of exercises </b>
-      {course.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
+      {courses.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
     </div>
   )
 }
@@ -66,7 +66,7 @@ const App = () => {
     }
   ]
 
-  return <Course course={courses} />
+  return <Course courses={courses} />
 }
 
 export default App;
