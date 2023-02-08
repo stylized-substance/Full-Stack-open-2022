@@ -2,6 +2,24 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const Course = ({ course }) => {
+  console.log(course);
+  return (
+    <div>
+      <h1>
+        {course.name}
+      </h1>
+      <ul>
+        {course.parts.map(part =>
+          <li key={part.id}>
+            {part.name} {part.exercises}
+          </li>
+        )}
+      </ul>
+    </div>
+  )
+}
+
 const App = () => {
   const course = {
     id: 1,
