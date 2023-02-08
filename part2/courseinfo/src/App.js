@@ -4,18 +4,22 @@ const Course = ({ courses }) => {
   console.log(courses);
   return (
     <div>
-      <h1>
-        {courses.name}
-      </h1>
-      <ul>
-        {courses.parts.map(part =>
-          <li key={part.id}>
-            {part.name} {part.exercises}
-          </li>
-        )}
-      </ul>
-      <b>Total number of exercises </b>
-      {courses.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
+      {courses.map(course =>
+        <div>
+          <h1>
+            {course.name}
+          </h1>
+          <ul>
+            {course.parts.map(part =>
+              <li key={part.id}>
+                {part.name} {part.exercises}
+              </li>
+            )}
+          </ul>
+          <b>Total number of exercises </b>
+          {course.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
+        </div>
+      )}
     </div>
   )
 }
