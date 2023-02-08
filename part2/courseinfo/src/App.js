@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 const Course = ({ courses }) => {
   console.log(courses);
