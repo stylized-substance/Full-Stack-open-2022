@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 const Course = ({ course }) => {
-  console.log(course);
+  console.log(course.parts.reduce(function (acc, obj) {return acc, obj.exercises}, 0));
   return (
     <div>
       <h1>
@@ -16,6 +16,8 @@ const Course = ({ course }) => {
           </li>
         )}
       </ul>
+      <b>Total number of exercises </b>
+      {course.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
     </div>
   )
 }
