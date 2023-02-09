@@ -27,6 +27,33 @@ const Course = ({ courses }) => {
   )
 }
 
+const Header = (course) => {
+  return (
+    <div>
+      <h1>{course.course}</h1>
+    </div>
+  )
+}
+
+const Content = (parts) => {
+  return (
+    <div>
+      <Part name={parts.parts[0].name} exercises={parts.parts[0].exercises} />
+      <Part name={parts.parts[1].name} exercises={parts.parts[1].exercises} />
+      <Part name={parts.parts[2].name} exercises={parts.parts[2].exercises} />
+    </div>
+  )
+}
+
+const Part = (parts) => {
+  console.log(parts)
+  return (
+    <p>
+    {parts.name} {parts.exercises}
+    </p>
+  )
+}
+
 const App = () => {
   const courses = [
     {
