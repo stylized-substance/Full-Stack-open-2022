@@ -1,12 +1,10 @@
 import React from 'react';
 
 const Course = ({ courses }) => {
-  console.log(courses);
+  const firstHeader = 'Web development curriculum'
   return (
     <div>
-      <h1>
-        Web development curriculum
-      </h1>
+      <Header content={firstHeader} />
       {courses.map(course =>
         <div>
           <h2>
@@ -27,10 +25,12 @@ const Course = ({ courses }) => {
   )
 }
 
-const Header = (course) => {
+const Header = ({content}) => {
   return (
     <div>
-      <h1>{course.course}</h1>
+      <h1>
+        {content}
+      </h1>
     </div>
   )
 }
