@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Course = ({ courses }) => {
-  const firstHeader = 'Web development curriculum'
+const Course = ({ header, courses }) => {
+  console.log(header);
   return (
     <div>
-      <Header content={firstHeader} />
+      <Header content={header} />
       {courses.map(course =>
         <div>
           <h2>
@@ -25,7 +25,7 @@ const Course = ({ courses }) => {
   )
 }
 
-const Header = ({content}) => {
+const Header = ({ content }) => {
   return (
     <div>
       <h1>
@@ -35,26 +35,26 @@ const Header = ({content}) => {
   )
 }
 
-const Content = (parts) => {
+const Content = ({ parts }) => {
   return (
     <div>
-      <Part name={parts.parts[0].name} exercises={parts.parts[0].exercises} />
-      <Part name={parts.parts[1].name} exercises={parts.parts[1].exercises} />
-      <Part name={parts.parts[2].name} exercises={parts.parts[2].exercises} />
+      {parts.map(part =>
+        <Part name={part.name} exercises={part.exercises} />
+      )}
     </div>
   )
 }
 
-const Part = (parts) => {
-  console.log(parts)
+const Part = ({ name, exercises }) => {
   return (
     <p>
-    {parts.name} {parts.exercises}
+    {name} {exercises}
     </p>
   )
 }
 
 const App = () => {
+  const firstHeader = 'Web development curriculum'
   const courses = [
     {
       name: 'Half Stack application development',
@@ -100,7 +100,7 @@ const App = () => {
     }
   ]
 
-  return <Course courses={courses} />
+  return <Course header={firstHeader} courses={courses} />
 }
 
 export default App;
