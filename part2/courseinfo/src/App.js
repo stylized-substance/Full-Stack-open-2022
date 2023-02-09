@@ -1,57 +1,5 @@
 import React from 'react';
-
-const Course = ({ header, courses }) => {
-  console.log(header);
-  return (
-    <div>
-      <Header content={header} />
-      {courses.map(course =>
-        <div>
-          <h2>
-            {course.name}
-          </h2>
-          <ul>
-            {course.parts.map(part =>
-              <li key={part.id}>
-                {part.name} {part.exercises}
-              </li>
-            )}
-          </ul>
-          <b>Total number of exercises </b>
-          {course.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
-        </div>
-      )}
-    </div>
-  )
-}
-
-const Header = ({ content }) => {
-  return (
-    <div>
-      <h1>
-        {content}
-      </h1>
-    </div>
-  )
-}
-
-const Content = ({ parts }) => {
-  return (
-    <div>
-      {parts.map(part =>
-        <Part name={part.name} exercises={part.exercises} />
-      )}
-    </div>
-  )
-}
-
-const Part = ({ name, exercises }) => {
-  return (
-    <p>
-    {name} {exercises}
-    </p>
-  )
-}
+import Course from './components/Course';
 
 const App = () => {
   const firstHeader = 'Web development curriculum'

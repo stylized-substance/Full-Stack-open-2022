@@ -1,27 +1,50 @@
-const Course = ({ courses }) => {
+import React from 'react';
+
+const Course = ({ header, courses }) => {
+    console.log(courses);
+    return (
+      <div>
+      <Header content={header} />
+      {courses.map(course =>
+        <Content name={course.name} parts={course.parts} />
+      )}
+      </div>
+    )
+  }
+  
+  const Header = ({ content }) => {
     return (
       <div>
         <h1>
-          Web development curriculum
+          {content}
         </h1>
-        {courses.map(course =>
-          <div>
-            <h2>
-              {course.name}
-            </h2>
-            <ul>
-              {course.parts.map(part =>
-                <li key={part.id}>
-                  {part.name} {part.exercises}
-                </li>
-              )}
-            </ul>
-            <b>Total number of exercises </b>
-            {course.parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
-          </div>
-        )}
       </div>
     )
-}
+  }
+  
+  const Content = ({ name, parts }) => {
+    return (
+      <div>
+        <h2>
+          {name}
+        </h2>
+        <ul>
+        {parts.map(part =>
+          <Part name={part.name} exercises={part.exercises} id={part.id} />
+        )}
+        </ul>
+        <b>Total number of exercises </b>
+        {parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
+      </div>
+    )
+  }
+  
+  const Part = ({ name, exercises, id }) => {
+    return (
+      <li key={id}>
+        {name} {exercises}
+      </li>
+    )
+  }
 
-export default Course
+  export default Course
