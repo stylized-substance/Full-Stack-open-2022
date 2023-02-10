@@ -4,7 +4,7 @@ import { useState } from 'react'
 const Number = ({ name, key }) => {
   console.log(key);
   return (
-  <li key={name}>
+  <li key={key}>
     {name}
   </li>
   )
@@ -12,9 +12,9 @@ const Number = ({ name, key }) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', id: '1' }
   ]) 
-  console.log(persons);
+
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
@@ -26,7 +26,9 @@ const App = () => {
     }
 
     setPersons(persons.concat(nameObject))
+
     setNewName('')
+    
     console.log('button clicked, event.target')
   }
 
@@ -51,7 +53,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map(person =>
-          <Number name={person.name} key={person.name} />
+          <Number name={person.name} key={person.id} />
         )}
       </ul>
       ...
