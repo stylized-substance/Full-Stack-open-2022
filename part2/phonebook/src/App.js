@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react'
 
-const Number = ({ name, key }) => {
+const Number = ({ name }) => {
   return (
-  <li key={key}>
+  <li>
     {name}
   </li>
   )
@@ -11,9 +11,9 @@ const Number = ({ name, key }) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: '1' }
+    { name: 'Arto Hellas', id: 1 }
   ]) 
-
+  console.log(persons);
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
