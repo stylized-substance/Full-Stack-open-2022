@@ -24,11 +24,8 @@ const App = () => {
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
-
     setPersons(persons.concat(nameObject))
-
     setNewName('')
-    
     console.log('button clicked, event.target')
   }
 
