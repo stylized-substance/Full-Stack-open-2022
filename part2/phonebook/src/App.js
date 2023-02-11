@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react'
 
 const Number = ({ name, key }) => {
-  console.log(key);
   return (
   <li key={key}>
     {name}
@@ -20,17 +19,15 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
-      content: newName,
+      name: newName,
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
     setPersons(persons.concat(nameObject))
     setNewName('')
-    console.log('button clicked, event.target')
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
@@ -53,7 +50,6 @@ const App = () => {
           <Number name={person.name} key={person.id} />
         )}
       </ul>
-      ...
     </div>
   )
 }
