@@ -49,8 +49,11 @@ const App = () => {
       <div>debug: {newName}</div>
       <div>debug: {newNumber}</div>
       <h2>Phonebook</h2>
-
+      
       <form onSubmit={addName}>
+        <h3>Filter by name: </h3>
+          <input></input>
+        <h3>Add new</h3>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
