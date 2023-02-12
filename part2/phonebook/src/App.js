@@ -12,8 +12,7 @@ const Number = ({ name }) => {
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', id: 1 }
-  ]) 
-  console.log(persons);
+  ])
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
@@ -23,6 +22,12 @@ const App = () => {
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
+
+    const nameArray = persons.map(person => person.name)
+    if (nameArray.includes(nameObject.name)) {
+      alert('Name already exists in phonebook');
+    }
+
     setPersons(persons.concat(nameObject))
     setNewName('')
   }
