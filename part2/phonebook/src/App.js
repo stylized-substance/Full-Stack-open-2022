@@ -26,10 +26,11 @@ const App = () => {
     const nameArray = persons.map(person => person.name)
     if (nameArray.includes(nameObject.name)) {
       alert('Name already exists in phonebook');
+    } else {
+      setPersons(persons.concat(nameObject))
+      console.log(persons);
+      setNewName('')    
     }
-
-    setPersons(persons.concat(nameObject))
-    setNewName('')
   }
 
   const handleNameChange = (event) => {
