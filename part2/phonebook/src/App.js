@@ -28,7 +28,6 @@ const App = () => {
       alert('Name already exists in phonebook');
     } else {
       setPersons(persons.concat(nameObject))
-      console.log(persons);
       setNewName('')    
     }
   }
