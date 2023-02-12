@@ -25,7 +25,7 @@ const App = () => {
 
     const nameArray = persons.map(person => person.name)
     if (nameArray.includes(newName)) {
-      alert(`${newName} already exists in phonebook`);
+      alert(`"${newName}" already exists in phonebook`);
     } else {
       setPersons(persons.concat(nameObject))
       setNewName('')    
