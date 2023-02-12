@@ -11,7 +11,8 @@ const Number = ({ name, number }) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '666', id: 1 }
+    { name: 'Arto Hellas', number: '666', id: 1 },
+    { name: 'Test Name', numner: '999'}
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
