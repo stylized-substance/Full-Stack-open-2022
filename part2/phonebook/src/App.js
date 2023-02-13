@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 
-const Number = ({ name, number }) => {
+const NumbersList = ({ name, number }) => {
   return (
   <li>
     {name} {number}
@@ -16,6 +16,7 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filterText, setFilterText] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
@@ -44,15 +45,20 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilterTextChange = (event) => {
+    setFilterText(event.target.value)    
+  }
+
   return (
     <div>
       <div>debug: {newName}</div>
       <div>debug: {newNumber}</div>
+      <div>debug: filtertext =  {filterText}</div> 
       <h2>Phonebook</h2>
       
       <form onSubmit={addName}>
         <h3>Filter by name: </h3>
-          <input></input>
+          <input value={filterText} onChange={handleFilterTextChange} />
         <h3>Add new</h3>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -68,7 +74,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map(person =>
-          <Number name={person.name} number={person.number} key={person.id} />
+          <NumbersList name={person.name} number={person.number} key={person.id} />
         )}
       </ul>
     </div>
