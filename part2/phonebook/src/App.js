@@ -20,7 +20,7 @@ const App = () => {
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
 
   const nameArray = persons.map(person => person.name)
-  
+
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
@@ -30,7 +30,7 @@ const App = () => {
       id: persons.length + 1,
     }
 
-        if (nameArray.includes(newName)) {
+    if (nameArray.includes(newName)) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
       setPersons(persons.concat(nameObject))
