@@ -34,6 +34,7 @@ const App = () => {
       alert(`"${newName}" already exists in phonebook`);
     } else {
       setPersons(persons.concat(nameObject))
+      setPersonsToDisplay(persons.concat(nameObject))
       setNewName('')
       setNewNumber('')    
     }
@@ -48,7 +49,11 @@ const App = () => {
   }
 
   const handleFilterTextChange = (event) => {
-    setFilterText(event.target.value)    
+    setFilterText(event.target.value)
+    if (nameArray.includes(filterText)) {
+      console.log('nameArray includes filtertext', `filtertext is ${filterText}`);
+      //setPersonsToDisplay(persons.concat(personsToDisplay))
+    }
   }
 
   return (
