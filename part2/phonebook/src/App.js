@@ -11,8 +11,10 @@ const PersonsList = ({ name, number }) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '666', id: 1 },
-    { name: 'Test Name', number: '999', id: 2}
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -49,12 +51,10 @@ const App = () => {
   }
 
   const handleFilterTextChange = (event) => {
-    console.log(nameArray)
     setFilterText(event.target.value)
-    if (nameArray.includes(filterText)) {
-      console.log('nameArray includes filtertext', `filtertext is ${filterText}`);
-      //setPersonsToDisplay(persons.concat(personsToDisplay))
-    }
+    setPersonsToDisplay(persons.filter(person => person.name.toLowerCase().includes(filterText)))
+    console.log(filterText);
+    console.log(personsToDisplay);
   }
 
   return (
