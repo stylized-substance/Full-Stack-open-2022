@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 
-const NumbersList = ({ name, number }) => {
+const PersonsList = ({ name, number }) => {
   return (
   <li>
     {name} {number}
@@ -72,10 +72,10 @@ const App = () => {
         </div>
       </form>
 
-      <h2>Numbers</h2>
+      <h2>Persons</h2>
       <ul>
-        {persons.map(person =>
-          <NumbersList name={person.name} number={person.number} key={person.id} />
+        {personsToDisplay.map(person =>
+          <PersonsList name={person.name} number={person.number} key={person.id} />
         )}
       </ul>
     </div>
