@@ -49,6 +49,7 @@ const App = () => {
   }
 
   const handleFilterTextChange = (event) => {
+    console.log(nameArray)
     setFilterText(event.target.value)
     if (nameArray.includes(filterText)) {
       console.log('nameArray includes filtertext', `filtertext is ${filterText}`);
