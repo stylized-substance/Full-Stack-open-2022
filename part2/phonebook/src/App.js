@@ -1,13 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
-
-const PersonsList = ({ name, number }) => {
-  return (
-  <li>
-    {name} {number}
-  </li>
-  )
-}
+import PersonsList from './components/PersonsList'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -78,11 +71,9 @@ const App = () => {
       </form>
 
       <h2>Persons</h2>
-      <ul>
         {personsToDisplay.map(person =>
           <PersonsList name={person.name} number={person.number} key={person.id} />
         )}
-      </ul>
     </div>
   )
 }
