@@ -1,13 +1,16 @@
 import React from 'react'
 
-const PersonsList = ({ name, number }) => {
+const PersonsList = ({ personsToDisplay }) => {
+    console.log(personsToDisplay);
     return (
-    <ul>
-        <li>
-        {name} {number}
-        </li>
-    </ul>
+        <ul>
+            {personsToDisplay.map(person =>
+            <li key={person.id}>
+                {person.name} {person.number}
+            </li>
+            )}
+        </ul>
     )
-  }
+}
 
 export default PersonsList

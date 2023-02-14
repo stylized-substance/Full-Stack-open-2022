@@ -67,11 +67,8 @@ const App = () => {
           newNumber={newNumber}
           handleNumberChange={handleNumberChange}
         />     
-
       <h2>Persons</h2>
-        {personsToDisplay.map(person =>
-          <PersonsList name={person.name} number={person.number} key={person.id} />
-        )}
+        <PersonsList personsToDisplay={personsToDisplay} />
     </div>
   )
 }
