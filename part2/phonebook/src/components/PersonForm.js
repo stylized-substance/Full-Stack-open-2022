@@ -1,11 +1,8 @@
 import React from 'react'
 
-const PersonForm = ({ addName, filterText, handleFilterTextChange, newName, handleNameChange, newNumber, handleNumberChange }) => {
+const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
     return (
         <form onSubmit={addName}>
-            <h3>Filter by name: </h3>
-            <input value={filterText} onChange={handleFilterTextChange} />
-            <h3>Add new</h3>
             <div>
             name: <input value={newName} onChange={handleNameChange} />
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import PersonsList from './components/PersonsList'
 import PersonForm from './components/PersonForm'
+import FilterForm from './components/FilterForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -56,10 +57,11 @@ const App = () => {
       <div>debug: filtertext =  {filterText}</div>
 
       <h2>Phonebook</h2>
+      <h3>Filter by name: </h3>
+        <FilterForm filterText={filterText} handleFilterTextChange={handleFilterTextChange} />
+      <h3>Add new</h3>
         <PersonForm
           addName={addName}
-          filterText={filterText}
-          handleFilterTextChange={handleFilterTextChange}
           newName={newName}
           handleNameChange={handleNameChange}
           newNumber={newNumber}
