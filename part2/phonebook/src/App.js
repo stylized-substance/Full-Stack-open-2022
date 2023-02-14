@@ -52,9 +52,7 @@ const App = () => {
 
   const handleFilterTextChange = (event) => {
     setFilterText(event.target.value)
-    setPersonsToDisplay(persons.filter(person => person.name.toLowerCase().includes(filterText)))
-    console.log(filterText);
-    console.log(personsToDisplay);
+    setPersonsToDisplay(persons.filter(person => person.name.toLowerCase().includes(event.target.value)))
   }
 
   return (
