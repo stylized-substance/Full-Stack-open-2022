@@ -31,16 +31,18 @@ const App = () => {
       name: newName,
       number: newNumber,
       important: Math.random() < 0.5,
-      id: persons.length + 1,
+      //id: persons.length + 1,
     }
 
     if (nameArray.includes(newName)) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
-      setPersons(persons.concat(nameObject))
-      setPersonsToDisplay(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')    
+      axios.post('http://localhost:3001/persons', nameObject)
+        .then(response => {
+          console.log(response)
+          setPersonsToDisplay(personsToDisplay.concat(response.data))
+          console.log(personsToDisplay);
+        })    
     }
   }
 
