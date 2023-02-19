@@ -17,6 +17,17 @@ const App = () => {
   const [filterText, setFilterText] = useState('')
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
 
+  useEffect(() => {
+    console.log('effect');
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'persons');
+
   const nameArray = persons.map(person => person.name)
 
   const addName = (event) => {
