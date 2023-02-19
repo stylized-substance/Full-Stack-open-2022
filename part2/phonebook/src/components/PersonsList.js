@@ -1,7 +1,6 @@
 import React from 'react'
 
 const PersonsList = ({ personsToDisplay }) => {
-    console.log(personsToDisplay);
     return (
         <ul>
             {personsToDisplay.map(person =>
