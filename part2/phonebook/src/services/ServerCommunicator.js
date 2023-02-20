@@ -5,12 +5,12 @@ const getPersons = () => {
     return axios.get(baseUrl)
 }
 
-const createPerson = () => {
+const createPerson = newObject => {
     return axios.post(baseUrl, newObject)
 }
 
-const updatePerson = () => {
-    retun axios.put(`${baseUrl}/${id}`, newObject)
+const updatePerson = (id, newObject) => {
+    return axios.put(`${baseUrl}/${id}`, newObject)
 }
 
 export default {

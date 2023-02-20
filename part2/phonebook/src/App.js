@@ -4,6 +4,7 @@ import axios from 'axios'
 import PersonsList from './components/PersonsList'
 import PersonForm from './components/PersonForm'
 import FilterForm from './components/FilterForm'
+import ServerCommunicator from './services/ServerCommunicator';
 
 const App = () => {
   const [persons, setPersons] = useState([])
