@@ -24,8 +24,6 @@ const App = () => {
   }, [])
   console.log('render', personsToDisplay.length, 'persons');
 
-  const nameArray = persons.map(person => person.name)
-
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
@@ -35,7 +33,7 @@ const App = () => {
       //id: persons.length + 1,
     }
 
-    if (nameArray.includes(newName)) {
+    if (persons.map(person => person.name.toLowerCase()).includes(newName.toLowerCase())) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
       axios.post('http://localhost:3001/persons', nameObject)
