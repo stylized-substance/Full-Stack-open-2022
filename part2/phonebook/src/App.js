@@ -18,6 +18,7 @@ const App = () => {
       .get('http://localhost:3001/persons')
       .then(response => {
         console.log('promise fulfilled')
+        setPersons(response.data)
         setPersonsToDisplay(response.data)
       })
   }, [])
@@ -42,7 +43,9 @@ const App = () => {
           console.log(response)
           setPersonsToDisplay(personsToDisplay.concat(response.data))
           console.log(personsToDisplay);
-        })    
+        })
+      setNewName('')
+      setNewNumber('')
     }
   }
 
