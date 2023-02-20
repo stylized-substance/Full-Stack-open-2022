@@ -15,12 +15,12 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect');
-    axios
-      .get('http://localhost:3001/persons')
+    ServerCommunicator
+      .getPersons()
       .then(response => {
         console.log('promise fulfilled')
-        setPersons(response.data)
-        setPersonsToDisplay(response.data)
+        setPersons(response)
+        setPersonsToDisplay(response)
       })
   }, [])
   console.log('render', personsToDisplay.length, 'persons');
@@ -37,12 +37,13 @@ const App = () => {
     if (persons.map(person => person.name.toLowerCase()).includes(newName.toLowerCase())) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
-      axios.post('http://localhost:3001/persons', nameObject)
+      ServerCommunicator
+        .createPerson(newName)
         .then(response => {
-          console.log(response)
-          setPersonsToDisplay(personsToDisplay.concat(response.data))
-          console.log(personsToDisplay);
-        })
+        console.log(response)
+        setPersonsToDisplay(personsToDisplay.concat(response))
+        console.log(personsToDisplay);
+      })
       setNewName('')
       setNewNumber('')
     }
