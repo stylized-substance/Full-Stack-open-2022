@@ -28,9 +28,7 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    /*const nameArray = persons.map(person => person.name)
-    const namesToUpperCase = nameArray.map((name) => name.toUpperCase())
-    console.log(nameArray);*/
+   
     if (persons.map(person => person.name).includes(newName)) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
