@@ -7,7 +7,7 @@ const PersonsList = ({ personsToDisplay }) => {
             {personsToDisplay.map(person =>
             <li key={person.id}>
                 {person.name} {person.number}
-            <button onClick={ServerCommunicator.deletePerson(person.id)}>Delete</button>
+            <button onClick={() => ServerCommunicator.deletePerson(person.id)}>Delete</button>
             </li>
             )}
         </ul>

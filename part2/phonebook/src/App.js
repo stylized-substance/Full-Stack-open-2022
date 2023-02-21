@@ -78,7 +78,7 @@ const App = () => {
           handleNameChange={handleNameChange}
           newNumber={newNumber}
           handleNumberChange={handleNumberChange}
-        />     
+        />
       <h2>Persons</h2>
         <PersonsList personsToDisplay={personsToDisplay} />
     </div>
