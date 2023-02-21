@@ -28,14 +28,17 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-
-    if (persons.map(person => person.name.toLowerCase()).includes(newName.toLowerCase())) {
+    /*const nameArray = persons.map(person => person.name)
+    const namesToUpperCase = nameArray.map((name) => name.toUpperCase())
+    console.log(nameArray);*/
+    if (persons.map(person => person.name).includes(newName)) {
       alert(`"${newName}" already exists in phonebook`);
     } else {
       ServerCommunicator
-        .createPerson(newName)
+        .createPerson(nameObject)
         .then(response => {
         setPersonsToDisplay(personsToDisplay.concat(response))
+        console.log(response);
       })
       setNewName('')
       setNewNumber('')
@@ -76,7 +79,6 @@ const App = () => {
       <div>debug: {newName}</div>
       <div>debug: {newNumber}</div>
       <div>debug: filtertext =  {filterText}</div>
-
       <h2>Phonebook</h2>
       <h3>Filter by name: </h3>
         <FilterForm filterText={filterText} handleFilterTextChange={handleFilterTextChange} />
