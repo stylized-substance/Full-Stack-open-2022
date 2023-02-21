@@ -45,7 +45,8 @@ const App = () => {
   }
 
   const deletePerson = (id, name) => {
-    ServerCommunicator
+    if (window.confirm(`Delete ${name}?`)) {
+      ServerCommunicator
       .deletePerson(id)
       .then(response => {
         console.log(response, `deleted ${name}`)
@@ -56,7 +57,8 @@ const App = () => {
         setPersonsToDisplay(response)
       })
       })
-    }
+      }
+    } 
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
