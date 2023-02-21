@@ -12,7 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
-
+  
   useEffect(() => {
     ServerCommunicator
       .getPersons()
@@ -28,16 +28,28 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
+
+    const thisPerson = persons.filter(person => person.name === nameObject.name)
    
     if (persons.map(person => person.name).includes(newName)) {
-      alert(`"${newName}" already exists in phonebook`);
+      if (window.confirm(`"${newName}" already exists in phonebook, update number?`)) {
+        ServerCommunicator
+          .updatePerson(thisPerson[0].id, nameObject)
+          .then(response => { 
+            ServerCommunicator
+              .getPersons()
+              .then(response => {
+                setPersons(response)
+                setPersonsToDisplay(response)
+              })
+          })
+      }
     } else {
       ServerCommunicator
         .createPerson(nameObject)
         .then(response => {
-        setPersonsToDisplay(personsToDisplay.concat(response))
-        console.log(response);
-      })
+          setPersonsToDisplay(personsToDisplay.concat(response))
+        })
       setNewName('')
       setNewNumber('')
     }
@@ -48,13 +60,12 @@ const App = () => {
       ServerCommunicator
       .deletePerson(id)
       .then(response => {
-        console.log(response, `deleted ${name}`)
         ServerCommunicator
-      .getPersons()
-      .then(response => {
-        setPersons(response)
-        setPersonsToDisplay(response)
-      })
+        .getPersons()
+        .then(response => {
+          setPersons(response)
+          setPersonsToDisplay(response)
+        })
       })
       }
     } 
