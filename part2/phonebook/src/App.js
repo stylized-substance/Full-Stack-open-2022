@@ -27,8 +27,6 @@ const App = () => {
     const nameObject = {
       name: newName,
       number: newNumber,
-      important: Math.random() < 0.5,
-      //id: persons.length + 1,
     }
 
     if (persons.map(person => person.name.toLowerCase()).includes(newName.toLowerCase())) {
