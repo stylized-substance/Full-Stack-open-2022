@@ -1,13 +1,13 @@
 import React from 'react'
 import ServerCommunicator from '../services/ServerCommunicator'
 
-const PersonsList = ({ personsToDisplay }) => {
+const PersonsList = ({ personsToDisplay, deletePerson }) => {
     return (
         <ul>
             {personsToDisplay.map(person =>
             <li key={person.id}>
-                {person.name} {person.number}
-            <button onClick={() => ServerCommunicator.deletePerson(person.id)}>Delete</button>
+                {person.name} {person.number} {""}
+                <button onClick={() => deletePerson(person.id, person.name)}>Delete</button>
             </li>
             )}
         </ul>

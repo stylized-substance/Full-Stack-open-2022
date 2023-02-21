@@ -14,16 +14,13 @@ const App = () => {
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
 
   useEffect(() => {
-    console.log('effect');
     ServerCommunicator
       .getPersons()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response)
         setPersonsToDisplay(response)
       })
   }, [])
-  console.log('render', personsToDisplay.length, 'persons');
 
   const addName = (event) => {
     event.preventDefault()
@@ -40,14 +37,26 @@ const App = () => {
       ServerCommunicator
         .createPerson(newName)
         .then(response => {
-        console.log(response)
         setPersonsToDisplay(personsToDisplay.concat(response))
-        console.log(personsToDisplay);
       })
       setNewName('')
       setNewNumber('')
     }
   }
+
+  const deletePerson = (id, name) => {
+    ServerCommunicator
+      .deletePerson(id)
+      .then(response => {
+        console.log(response, `deleted ${name}`)
+        ServerCommunicator
+      .getPersons()
+      .then(response => {
+        setPersons(response)
+        setPersonsToDisplay(response)
+      })
+      })
+    }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -80,7 +89,7 @@ const App = () => {
           handleNumberChange={handleNumberChange}
         />
       <h2>Persons</h2>
-        <PersonsList personsToDisplay={personsToDisplay} />
+        <PersonsList personsToDisplay={personsToDisplay} deletePerson={deletePerson} />
     </div>
   )
 }
