@@ -13,7 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
-  const [notificationMessage, setNotificationMessage] = useState('test message')
+  const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
 
   useEffect(() => {
@@ -52,8 +52,14 @@ const App = () => {
         .createPerson(nameObject)
         .then(response => {
           setPersonsToDisplay(personsToDisplay.concat(response))
-        })
+          setNotificationMessage(`Added ${newName} to phonebook`)
+          setNotificationType('success')
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+          })
     }
+    
     setNewName('')
     setNewNumber('')
     return (
@@ -91,9 +97,6 @@ const App = () => {
 
   return (
     <div>
-      <div>debug: {newName}</div>
-      <div>debug: {newNumber}</div>
-      <div>debug: filtertext =  {filterText}</div>
       <h2>Phonebook</h2>
       <Notification message={notificationMessage} notificationType={notificationType} />
       <h3>Filter by name: </h3>

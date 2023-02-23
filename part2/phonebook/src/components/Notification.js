@@ -1,5 +1,4 @@
 const Notification = ({ message, notificationType }) => {
-    console.log(`${message}, ${notificationType}`);
     const successStyle = {
         color: 'green',
         background: 'lightgrey',
