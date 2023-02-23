@@ -38,7 +38,12 @@ const App = () => {
       if (window.confirm(`"${newName}" already exists in phonebook, update number?`)) {
         ServerCommunicator
           .updatePerson(thisPerson[0].id, nameObject)
-          .then(response => { 
+          .then(response => {
+            setNotificationMessage(`Updated number for ${response.name}`)
+            setNotificationType('success')
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000) 
             ServerCommunicator
               .getPersons()
               .then(response => {
@@ -52,7 +57,7 @@ const App = () => {
         .createPerson(nameObject)
         .then(response => {
           setPersonsToDisplay(personsToDisplay.concat(response))
-          setNotificationMessage(`Added ${newName} to phonebook`)
+          setNotificationMessage(`Added ${response.name} to phonebook`)
           setNotificationType('success')
           setTimeout(() => {
             setNotificationMessage(null)
