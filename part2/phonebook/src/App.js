@@ -5,6 +5,7 @@ import PersonsList from './components/PersonsList'
 import PersonForm from './components/PersonForm'
 import FilterForm from './components/FilterForm'
 import ServerCommunicator from './services/ServerCommunicator';
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,7 +13,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
-  
+  const [notificationMessage, setNotificationMessage] = useState('test message')
+
   useEffect(() => {
     ServerCommunicator
       .getPersons()
@@ -89,6 +91,7 @@ const App = () => {
       <div>debug: {newNumber}</div>
       <div>debug: filtertext =  {filterText}</div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <h3>Filter by name: </h3>
         <FilterForm filterText={filterText} handleFilterTextChange={handleFilterTextChange} />
       <h3>Add new</h3>
