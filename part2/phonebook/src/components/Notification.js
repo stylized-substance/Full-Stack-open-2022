@@ -1,4 +1,5 @@
-const Notification = ({ message }) => {
+const Notification = ({ message, notificationType }) => {
+    console.log(`${message}, ${notificationType}`);
     const successStyle = {
         color: 'green',
         background: 'lightgrey',
@@ -23,11 +24,23 @@ const Notification = ({ message }) => {
         return null
     }
 
+    let notificationStyle
+
+    if(notificationType === 'success') {
+        notificationStyle = successStyle
+    }
+
+    if(notificationType === 'error') {
+        notificationStyle = errorStyle
+    }
+
     return (
-        <div style={errorStyle} className='notification'>
+        <div style={notificationStyle}>
             {message}
         </div>
     )
 }
+
+
 
 export default Notification

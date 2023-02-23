@@ -14,6 +14,7 @@ const App = () => {
   const [filterText, setFilterText] = useState('')
   const [personsToDisplay, setPersonsToDisplay] = useState(persons)
   const [notificationMessage, setNotificationMessage] = useState('test message')
+  const [notificationType, setNotificationType] = useState(null)
 
   useEffect(() => {
     ServerCommunicator
@@ -52,9 +53,12 @@ const App = () => {
         .then(response => {
           setPersonsToDisplay(personsToDisplay.concat(response))
         })
-      setNewName('')
-      setNewNumber('')
     }
+    setNewName('')
+    setNewNumber('')
+    return (
+      <Notification message={notificationMessage} notificationType={notificationType}/>
+    )
   }
 
   const deletePerson = (id, name) => {
@@ -91,7 +95,7 @@ const App = () => {
       <div>debug: {newNumber}</div>
       <div>debug: filtertext =  {filterText}</div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} notificationType={notificationType} />
       <h3>Filter by name: </h3>
         <FilterForm filterText={filterText} handleFilterTextChange={handleFilterTextChange} />
       <h3>Add new</h3>
