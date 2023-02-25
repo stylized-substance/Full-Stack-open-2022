@@ -51,6 +51,13 @@ const App = () => {
                 setPersonsToDisplay(response)
               })
           })
+          .catch(error => {
+            setNotificationMessage(`${newName} has already been deleted from server`)
+            setNotificationType('error')
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
+          })
       }
     } else {
       ServerCommunicator
