@@ -57,6 +57,12 @@ const App = () => {
             setTimeout(() => {
               setNotificationMessage(null)
             }, 5000)
+            ServerCommunicator
+              .getPersons()
+              .then(response => {
+                setPersons(response)
+                setPersonsToDisplay(response)
+              })
           })
       }
     } else {
