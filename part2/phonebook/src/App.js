@@ -12,19 +12,22 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
-  const [personsToDisplay, setPersonsToDisplay] = useState(persons)
+  const [personsToDisplay, setPersonsToDisplay] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
 
+  const [logMessageCount, setLogMessageCount] = useState(0)
+
   useEffect(() => {
+    setLogMessageCount(logMessageCount + 1)
+    console.log(`updating person list, index: ${logMessageCount}`);
     ServerCommunicator
       .getPersons()
       .then(response => {
         setPersons(response)
-        setPersonsToDisplay(response)
       })
-  }, [])
-
+  }, [notificationMessage])
+  
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
@@ -39,17 +42,16 @@ const App = () => {
         ServerCommunicator
           .updatePerson(thisPerson[0].id, nameObject)
           .then(response => {
+            ServerCommunicator
+              .getPersons()
+              .then(response => {
+              setPersons(response)
+              })
             setNotificationMessage(`Updated number for ${response.name}`)
             setNotificationType('success')
             setTimeout(() => {
               setNotificationMessage(null)
             }, 5000) 
-            ServerCommunicator
-              .getPersons()
-              .then(response => {
-                setPersons(response)
-                setPersonsToDisplay(response)
-              })
           })
           .catch(error => {
             setNotificationMessage(`${newName} has already been deleted from server`)
@@ -57,19 +59,13 @@ const App = () => {
             setTimeout(() => {
               setNotificationMessage(null)
             }, 5000)
-            ServerCommunicator
-              .getPersons()
-              .then(response => {
-                setPersons(response)
-                setPersonsToDisplay(response)
-              })
           })
       }
     } else {
       ServerCommunicator
         .createPerson(nameObject)
         .then(response => {
-          setPersonsToDisplay(personsToDisplay.concat(response))
+          setPersons(persons.concat(response))
           setNotificationMessage(`Added ${response.name} to phonebook`)
           setNotificationType('success')
           setTimeout(() => {
@@ -88,17 +84,12 @@ const App = () => {
   const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       ServerCommunicator
-      .deletePerson(id)
-      .then(response => {
-        ServerCommunicator
-        .getPersons()
-        .then(response => {
-          setPersons(response)
-          setPersonsToDisplay(response)
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
         })
-      })
       }
-    } 
+    }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -110,7 +101,7 @@ const App = () => {
 
   const handleFilterTextChange = (event) => {
     setFilterText(event.target.value)
-    setPersonsToDisplay(persons.filter(person => person.name.toLowerCase().includes(event.target.value)))
+    setPersons(persons.filter(person => person.name.toLowerCase().includes(event.target.value)))
   }
 
   return (
@@ -128,7 +119,7 @@ const App = () => {
           handleNumberChange={handleNumberChange}
         />
       <h2>Persons</h2>
-        <PersonsList personsToDisplay={personsToDisplay} deletePerson={deletePerson} />
+        <PersonsList persons={persons} deletePerson={deletePerson} />
     </div>
   )
 }
