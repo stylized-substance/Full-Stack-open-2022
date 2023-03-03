@@ -8,16 +8,29 @@ const App = () => {
   const [countries, setCountries] = useState(null)
 
   useEffect(() => {
+    console.log('effect running');
     axios.get('https://restcountries.com/v3.1/all')
       .then(response => {
         setCountries(response.data)
       })
   }, [])
-  
-  console.log(countries);
-  
+
   const handleSearchChange = (event) => {
     setSearchText(event.target.value)
+  }
+
+  const CountryNamesList = ({countries}) => {
+    if(countries != null) {
+      return (
+        <ul>
+          {countries.map(country =>
+          <li>
+            {country.name.common}
+          </li>
+          )}
+        </ul>
+      )
+    }
   }
 
   return (
@@ -28,6 +41,7 @@ const App = () => {
       <form>
         <input value={searchText} onChange={handleSearchChange} />
       </form>
+      <CountryNamesList countries={countries} />
     </div>
   )
 }
