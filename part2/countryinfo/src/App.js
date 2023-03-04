@@ -17,6 +17,7 @@ const App = () => {
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value)
+    setallCountryData(allCountryData.filter(country => country.name.common.toLowerCase().includes(event.target.value)))
   }
 
   const CountryList = ({ allCountryData }) => {
