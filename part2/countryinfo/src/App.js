@@ -7,11 +7,19 @@ const App = () => {
   const [searchText, setSearchText] = useState('')
   const [allCountryData, setallCountryData] = useState(null)
 
+  let id = 0
+  const IncrementId = () => {
+    return id++
+  }
+
   useEffect(() => {
     console.log('effect running');
     axios.get('https://restcountries.com/v3.1/all')
       .then(response => {
-        setallCountryData(response.data)
+        const idsAdded = response.data.map(country => ({
+          ...country, id: IncrementId()
+        }))
+        setallCountryData(idsAdded)
       })
   }, [])
 
@@ -25,17 +33,31 @@ const App = () => {
       return null
     }
 
-    const countryCommonNames = allCountryData.map(country => country.name.common).sort()
+    console.log(allCountryData.length);
 
-    return (
-      <ul>
-        {countryCommonNames.map((country, index) =>
-          <li key={index}>
-            {country} {index}
-          </li>
-        )}
-      </ul>
-    )
+    if (allCountryData.length > 10) {
+      return (
+        <p>
+          Too many matches, write a more specific query
+        </p>
+      )      
+    }
+
+    allCountryData.sort(function (a, b) {
+      return a.name.common.localeCompare(b.name.common)
+    })
+
+    if (allCountryData.length >= 1 && allCountryData.length <= 10) {
+      return (
+        <ul>
+          {allCountryData.map((country) =>
+            <li key={country.id}>
+              {country.name.common} {country.id}
+            </li>
+          )}
+        </ul>
+      )
+    }
   }
 
   return (
