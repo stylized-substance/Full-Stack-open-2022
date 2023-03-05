@@ -5,7 +5,9 @@ import axios from 'axios'
 
 const App = () => {
   const [searchText, setSearchText] = useState('')
-  const [allCountryData, setallCountryData] = useState(null)
+  const [allCountryData, setAllCountryData] = useState(null)
+  const [countriesToShow, setCountriesToShow] = useState(null)
+
 
   let id = 0
   const IncrementId = () => {
@@ -13,29 +15,29 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log('effect running');
     axios.get('https://restcountries.com/v3.1/all')
       .then(response => {
         const idsAdded = response.data.map(country => ({
           ...country, id: IncrementId()
         }))
-        setallCountryData(idsAdded)
+        setAllCountryData(idsAdded)
+        setCountriesToShow(idsAdded)
       })
   }, [])
 
   const handleSearchChange = (event) => {
+    console.log('input change:', event);
     setSearchText(event.target.value)
-    setallCountryData(allCountryData.filter(country => country.name.common.toLowerCase().includes(event.target.value)))
+    setCountriesToShow(countriesToShow.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
+    // setCountriesToShow(allCountryData)
   }
 
-  const CountryList = ({ allCountryData }) => {
-    if (allCountryData === null) {
+  const CountryList = ({ countriesToShow }) => {
+    if (countriesToShow === null) {
       return null
     }
 
-    console.log(allCountryData.length);
-
-    if (allCountryData.length > 10) {
+    if (countriesToShow.length > 10) {
       return (
         <p>
           Too many matches, write a more specific query
@@ -43,14 +45,14 @@ const App = () => {
       )      
     }
 
-    allCountryData.sort(function (a, b) {
+    countriesToShow.sort(function (a, b) {
       return a.name.common.localeCompare(b.name.common)
     })
 
-    if (allCountryData.length >= 1 && allCountryData.length <= 10) {
+    if (countriesToShow.length >= 1 && countriesToShow.length <= 10) {
       return (
         <ul>
-          {allCountryData.map((country) =>
+          {countriesToShow.map((country) =>
             <li key={country.id}>
               {country.name.common} {country.id}
             </li>
@@ -68,7 +70,7 @@ const App = () => {
       <form>
         <input value={searchText} onChange={handleSearchChange} />
       </form>
-      <CountryList allCountryData={allCountryData} />
+      <CountryList countriesToShow={countriesToShow} />
     </div>
   )
 }
