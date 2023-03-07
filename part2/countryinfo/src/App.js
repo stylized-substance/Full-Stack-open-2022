@@ -32,10 +32,6 @@ const App = () => {
     console.log('event.target.value:', event.target.value, 'searchText:', searchText);
     setSearchText(event.target.value)
     setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
-    // if (event.nativeEvent.inputType === 'deleteContentBackward' || event.nativeEvent.inputType === 'deleteContentForward') {
-    //   setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
-    // }
-    // setCountriesToShow(allCountryData)
   }
 
   return (
