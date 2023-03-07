@@ -5,7 +5,7 @@ const WeatherData = ({ country} ) => {
     const [weatherData, setWeatherData] = useState(null)
 
     const weatherAPIKey = 'ad0533cd7466b6d00153e73297374f28'
-    const weatherAPICall = `https://api.openweathermap.org/data/2.5/weather?lat=${country.latlng[0]}&lon=${country.latlng[1]}&appid=${weatherAPIKey}`
+    const weatherAPICall = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${weatherAPIKey}`
 
     useEffect(() => {
         axios.get(`${weatherAPICall}`)
@@ -15,9 +15,13 @@ const WeatherData = ({ country} ) => {
         }, [])
         console.log(weatherData)
 
-    return (
-        <div>Temperature: {weatherData.main.temp}</div>
-    )
+        // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+    
+    if (weatherData != null) {
+        return (
+            <div>Temperature: {weatherData.main.temp}</div>
+        )
+    }
 }
 
 export default WeatherData
