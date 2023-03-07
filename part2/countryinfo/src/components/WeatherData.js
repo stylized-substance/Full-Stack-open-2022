@@ -15,11 +15,13 @@ const WeatherData = ({ country} ) => {
         }, [])
         console.log(weatherData)
 
-        // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-    
     if (weatherData != null) {
         return (
-            <div>Temperature: {weatherData.main.temp}</div>
+            <div>
+                Temperature: {weatherData.main.temp} celsius
+                <br></br>
+                Wind speed: {weatherData.wind.speed} m/s
+            </div>
         )
     }
 }
