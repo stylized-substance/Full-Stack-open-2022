@@ -69,7 +69,7 @@ const CountryList = ({ countriesToShow, setCountriesToShow }) => {
                 </ul>
                 <img src={flagURL} alt='Flag image'/>
                 <h2>
-                  Weather in {country.capital}
+                  Weather in {country.capital[0]}
                 </h2>
                 <WeatherData country={country} />
             </div>
