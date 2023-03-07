@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import CountryList from './components/CountryList'
 
 
 const App = () => {
@@ -36,40 +37,6 @@ const App = () => {
     //   setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
     // }
     // setCountriesToShow(allCountryData)
-  }
-
-  const CountryList = ({ countriesToShow }) => {
-    if (countriesToShow === null) {
-      return (
-        <p>
-          Country data not yet loaded
-        </p>
-      )
-    }
-
-    if (countriesToShow.length > 10) {
-      return (
-        <p>
-          Too many matches, write a more specific query
-        </p>
-      )      
-    }
-
-    countriesToShow.sort(function (a, b) {
-      return a.name.common.localeCompare(b.name.common)
-    })
-
-    if (countriesToShow.length >= 1 && countriesToShow.length <= 10) {
-      return (
-        <ul>
-          {countriesToShow.map((country) =>
-            <li key={country.id}>
-              {country.name.common} {country.id}
-            </li>
-          )}
-        </ul>
-      )
-    }
   }
 
   return (
