@@ -1,4 +1,5 @@
 import axios from "axios"
+import WeatherData from './WeatherData'
 
 const CountryList = ({ countriesToShow, setCountriesToShow }) => {
 
@@ -67,6 +68,7 @@ const CountryList = ({ countriesToShow, setCountriesToShow }) => {
                   {languageList}
                 </ul>
                 <img src={flagURL} alt='Flag image'/>
+                <WeatherData country={country} />
             </div>
         )
     }

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import CountryList from './components/CountryList'
 
-
 const App = () => {
   const [searchText, setSearchText] = useState('')
   const [allCountryData, setAllCountryData] = useState(null)
