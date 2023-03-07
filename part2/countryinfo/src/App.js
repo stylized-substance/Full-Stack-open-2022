@@ -23,18 +23,28 @@ const App = () => {
         setAllCountryData(idsAdded)
         setCountriesToShow(idsAdded)
       })
+      .catch(function (error) {
+        console.log(error.toJSON());
+      });
   }, [])
 
   const handleSearchChange = (event) => {
-    console.log('input change:', event);
+    console.log('event.target.value:', event.target.value, 'searchText:', searchText);
     setSearchText(event.target.value)
-    setCountriesToShow(countriesToShow.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
+    setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
+    // if (event.nativeEvent.inputType === 'deleteContentBackward' || event.nativeEvent.inputType === 'deleteContentForward') {
+    //   setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
+    // }
     // setCountriesToShow(allCountryData)
   }
 
   const CountryList = ({ countriesToShow }) => {
     if (countriesToShow === null) {
-      return null
+      return (
+        <p>
+          Country data not yet loaded
+        </p>
+      )
     }
 
     if (countriesToShow.length > 10) {
