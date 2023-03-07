@@ -19,7 +19,7 @@ const CountryList = ({ countriesToShow }) => {
       return a.name.common.localeCompare(b.name.common)
     })
 
-    if (countriesToShow.length >= 1 && countriesToShow.length <= 10) {
+    if (countriesToShow.length > 1 && countriesToShow.length <= 10) {
       return (
         <ul>
           {countriesToShow.map((country) =>
@@ -29,6 +29,26 @@ const CountryList = ({ countriesToShow }) => {
           )}
         </ul>
       )
+    }
+
+    if (countriesToShow.length === 1) {
+        const country = countriesToShow[0]
+        console.log(country);
+        console.log(Object.keys(country.langueages));
+        return (
+            <div>
+                <h2>
+                    {country.name.common}
+                </h2>
+                <b>Capital:</b> {country.capital}
+                <br></br>
+                <b>Area:</b> {country.area}
+                <hr></hr>
+                <b>Languages:</b>
+                {country.languages.fin}
+                
+            </div>
+        )
     }
   }
 
