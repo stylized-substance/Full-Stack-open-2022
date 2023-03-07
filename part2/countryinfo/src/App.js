@@ -47,7 +47,7 @@ const App = () => {
       <form>
         <input value={searchText} onChange={handleSearchChange} />
       </form>
-      <CountryList countriesToShow={countriesToShow} />
+      <CountryList countriesToShow={countriesToShow} setCountriesToShow={setCountriesToShow}/>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-const CountryList = ({ countriesToShow }) => {
+const CountryList = ({ countriesToShow, setCountriesToShow }) => {
     if (countriesToShow === null) {
       return (
         <p>
@@ -24,7 +24,8 @@ const CountryList = ({ countriesToShow }) => {
         <ul>
           {countriesToShow.map((country) =>
             <li key={country.id}>
-              {country.name.common} {country.id}
+              {country.name.common} &nbsp;
+              <button onClick={() => setCountriesToShow([country])}>Show</button>
             </li>
           )}
         </ul>
