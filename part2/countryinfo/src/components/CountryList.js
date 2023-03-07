@@ -1,4 +1,7 @@
+import axios from "axios"
+
 const CountryList = ({ countriesToShow, setCountriesToShow }) => {
+
     if (countriesToShow === null) {
       return (
         <p>

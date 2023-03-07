@@ -9,7 +9,6 @@ const App = () => {
   const [allCountryData, setAllCountryData] = useState(null)
   const [countriesToShow, setCountriesToShow] = useState(null)
 
-
   let id = 0
   const IncrementId = () => {
     return id++
@@ -47,7 +46,7 @@ const App = () => {
       <form>
         <input value={searchText} onChange={handleSearchChange} />
       </form>
-      <CountryList countriesToShow={countriesToShow} setCountriesToShow={setCountriesToShow}/>
+      <CountryList countriesToShow={countriesToShow} setCountriesToShow={setCountriesToShow} />
     </div>
   )
 }
