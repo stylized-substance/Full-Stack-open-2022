@@ -68,6 +68,7 @@ const CountryList = ({ countriesToShow, setCountriesToShow }) => {
                   {languageList}
                 </ul>
                 <img src={flagURL} alt='Flag image'/>
+                <hr></hr>
                 <h2>
                   Weather in {country.capital[0]}
                 </h2>

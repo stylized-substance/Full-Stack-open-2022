@@ -13,11 +13,17 @@ const WeatherData = ({ country} ) => {
                 setWeatherData(response.data)
             })
         }, [])
+        
         console.log(weatherData)
 
+        
     if (weatherData != null) {
+        const weatherIconURL = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
+        
         return (
             <div>
+                <img src={weatherIconURL}/>
+                <br></br>
                 Temperature: {weatherData.main.temp} celsius
                 <br></br>
                 Wind speed: {weatherData.wind.speed} m/s
