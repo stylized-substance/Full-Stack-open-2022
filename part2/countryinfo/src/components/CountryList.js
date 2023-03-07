@@ -33,8 +33,13 @@ const CountryList = ({ countriesToShow }) => {
 
     if (countriesToShow.length === 1) {
         const country = countriesToShow[0]
-        console.log(country);
-        console.log(Object.keys(country.langueages));
+        const languageValues = Object.values(country.languages)
+        const languageList = languageValues.map(value =>
+          <li>
+            {value}
+          </li>
+        )
+
         return (
             <div>
                 <h2>
@@ -45,8 +50,9 @@ const CountryList = ({ countriesToShow }) => {
                 <b>Area:</b> {country.area}
                 <hr></hr>
                 <b>Languages:</b>
-                {country.languages.fin}
-                
+                <ul>
+                  {languageList}
+                </ul>
             </div>
         )
     }
