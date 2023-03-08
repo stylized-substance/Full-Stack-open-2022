@@ -19,7 +19,7 @@ const WeatherData = ({ country} ) => {
         
         return (
             <div>
-                <img src={weatherIconURL}/>
+                <img src={weatherIconURL} alt='Weather icon'/>
                 <br></br>
                 Temperature: {weatherData.main.temp} celsius
                 <br></br>
