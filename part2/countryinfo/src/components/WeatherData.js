@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 const WeatherData = ({ country} ) => {
     const [weatherData, setWeatherData] = useState(null)
 
-    const weatherAPIKey = 'ad0533cd7466b6d00153e73297374f28'
+    const weatherAPIKey = process.env.REACT_APP_API_KEY
     const weatherAPICall = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&units=metric&appid=${weatherAPIKey}`
 
     useEffect(() => {
