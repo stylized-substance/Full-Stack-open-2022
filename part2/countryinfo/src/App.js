@@ -28,7 +28,6 @@ const App = () => {
   }, [])
 
   const handleSearchChange = (event) => {
-    console.log('event.target.value:', event.target.value, 'searchText:', searchText);
     setSearchText(event.target.value)
     setCountriesToShow(allCountryData.filter(country => country.name.common.toLowerCase().includes(searchText.toLowerCase())))
   }

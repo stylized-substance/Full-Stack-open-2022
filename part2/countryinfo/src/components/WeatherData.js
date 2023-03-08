@@ -14,9 +14,6 @@ const WeatherData = ({ country} ) => {
             })
         }, [])
         
-        console.log(weatherData)
-
-        
     if (weatherData != null) {
         const weatherIconURL = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
         
