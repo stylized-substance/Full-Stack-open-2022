@@ -1,5 +1,4 @@
 import React from 'react'
-import ServerCommunicator from '../services/ServerCommunicator'
 
 const PersonsList = ({ personsToDisplay, deletePerson }) => {
     if (personsToDisplay != null) {

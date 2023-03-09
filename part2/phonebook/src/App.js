@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonsList from './components/PersonsList'
 import PersonForm from './components/PersonForm'
 import FilterForm from './components/FilterForm'
@@ -16,11 +15,7 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
 
-  const [logMessageCount, setLogMessageCount] = useState(0)
-
-
   useEffect(() => {
-    setLogMessageCount(logMessageCount + 1)
     ServerCommunicator
       .getPersons()
       .then(response => {
@@ -87,7 +82,7 @@ const App = () => {
       ServerCommunicator
         .deletePerson(id)
         .then(() => {
-          setPersons(persons.filter(person => person.id !== id))
+          setPersonsToDisplay(persons.filter(person => person.id !== id))
         })
     }
   }
