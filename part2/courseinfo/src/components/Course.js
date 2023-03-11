@@ -4,8 +4,8 @@ const Course = ({ header, courses }) => {
   return (
     <div>
       <Header content={header} />
-      {courses.map(course =>
-        <Content name={course.name} parts={course.parts} />
+      {courses.map((course) =>
+        <Content name={course.name} parts={course.parts} key={course.id} />
       )}
     </div>
   )
@@ -27,20 +27,22 @@ const Content = ({ name, parts }) => {
       <h2>
         {name}
       </h2>
-      {parts.map(part =>
-        <Part name={part.name} exercises={part.exercises} />
-      )}
+      <ul>
+        {parts.map((part) =>
+          <Part name={part.name} exercises={part.exercises} key={part.id} />
+        )}
+      </ul>
       <b>Total number of exercises </b>
       {parts.reduce((accumulator, obj) => accumulator + obj.exercises, 0)}
     </div>
   )
 }
 
-const Part = ({ name, exercises }) => {
+const Part = ({ name, exercises}) => {
   return (
-    <p>
+    <li>
       {name} {exercises}
-    </p>
+    </li>
   )
 }
 
