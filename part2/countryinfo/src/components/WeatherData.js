@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState, useEffect } from 'react'
 
-const WeatherData = ({ country} ) => {
+const WeatherData = ({ country }) => {
     const [weatherData, setWeatherData] = useState(null)
 
     const weatherAPIKey = process.env.REACT_APP_API_KEY
@@ -12,14 +12,14 @@ const WeatherData = ({ country} ) => {
             .then(response => {
                 setWeatherData(response.data)
             })
-        }, [])
-        
+    }, [])
+
     if (weatherData != null) {
         const weatherIconURL = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
-        
+
         return (
             <div>
-                <img src={weatherIconURL} alt='Weather icon'/>
+                <img src={weatherIconURL} alt='Weather icon' />
                 <br></br>
                 Temperature: {weatherData.main.temp} celsius
                 <br></br>
