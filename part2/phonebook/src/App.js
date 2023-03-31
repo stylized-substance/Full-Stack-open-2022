@@ -68,6 +68,13 @@ const App = () => {
             setNotificationMessage(null)
           }, 5000)
         })
+        .catch(error => {
+          setNotificationMessage(`Person name is shorter than minimum allowed (3 characters)`)
+          setNotificationType('error')
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+        })
     }
 
     setNewName('')
