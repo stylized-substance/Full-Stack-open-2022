@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
@@ -15,8 +16,12 @@ const Blog = mongoose.model('Blog', blogSchema)
 const mongoUrl = 'mongodb://localhost/bloglist'
 mongoose.connect(mongoUrl)
 
-app.use(cors())
+// Create body token for morgan
+morgan.token('body', (req) => JSON.stringify(req.body));
+
 app.use(express.json())
+app.use(morgan(':method :url :status :response-time ms :body'));
+app.use(cors())
 
 app.get('/api/blogs', (request, response) => {
   Blog
