@@ -10,8 +10,8 @@ mongoose.connect(url)
   .then(() => {
     console.log('Connected to MongoDB');
   })
-  .catch((error) => {
-    console.log('Error connecting to MongoDB');
+  .catch(() => {
+    console.error('Error connecting to MongoDB');
   });
 
 const blogSchema = new mongoose.Schema({
