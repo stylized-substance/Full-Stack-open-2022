@@ -1,13 +1,16 @@
 require('dotenv').config();
-const config = require('.utils/config')
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const morgan = require('morgan');
-const blogsRouter = ('./controllers/blogs');
-const Blog = require('./models/blog');
-const logger = require('./utils/logger');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const cors = require('cors');
+const express = require('express');
+const config = require('./utils/config');
+
+const app = express();
+
+const blogsRouter = require('./controllers/blogs');
+const logger = require('./utils/logger');
+const Blog = require('./models/blog');
+
 mongoose.set('strictQuery', false);
 
 logger.info('Connecting to', config.MONGODB_URI);
@@ -23,9 +26,9 @@ mongoose.connect(config.MONGODB_URI)
 app.use(cors());
 app.use(express.static('build'));
 app.use(express.json());
-app.use('/api/blogs, blogsRouter')
+app.use('/api/blogs', blogsRouter);
 
-module.exports = app
+module.exports = app;
 
 // // Create body token for morgan
 // morgan.token('body', (req) => JSON.stringify(req.body));
