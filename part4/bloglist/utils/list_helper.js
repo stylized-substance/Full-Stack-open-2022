@@ -9,4 +9,5 @@ const favoriteBlog = (blogs) => blogs.reduce(
 module.exports = {
   dummy,
   totalLikes,
+  favoriteBlog
 };
