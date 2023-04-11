@@ -95,6 +95,14 @@ describe('most liked blog', () => {
   test('most liked blog is === mostLikedBlog', () => {
     const result = listHelper.favoriteBlog(listWithSixBlogs);
     expect(result[0]).toEqual(mostLikedBlog);
-    console.log(result[1]);
+    // console.log(result[1]);
+  });
+
+  describe('most frequent author', () => {
+    test('most frequent author is', () => {
+      const result = listHelper.mostBlogs(listWithSixBlogs);
+      console.log(result);
+      // expect(result).toBeTruthy;
+    });
   });
 });

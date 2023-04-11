@@ -12,8 +12,16 @@ const favoriteBlog = (blogs) => {
   return [mostLikedBlog, mostLikedBlogFiltered];
 };
 
+const mostBlogs = (inputBlogs) => {
+  const { author } = _.maxBy(inputBlogs, 'author');
+  const blogsCount = _.countBy(inputBlogs, 'author');
+  const blogs = _.max(Object.values(blogsCount));
+  return { author, blogs };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
