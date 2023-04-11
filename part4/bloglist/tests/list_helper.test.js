@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const listHelper = require('../utils/list_helper');
 
 const listWithSixBlogs = [
@@ -70,17 +71,16 @@ describe('total number of likes', () => {
     },
   ];
 
-
   test('when list has only one blog, likes === likes of that', () => {
     const result = listHelper.totalLikes(listWithOneBlog);
     expect(result).toBe(5);
   });
-  
+
   test('when list has six blogs, likes === sum of all likes', () => {
     const result = listHelper.totalLikes(listWithSixBlogs);
     expect(result).toBe(36);
   });
-})
+});
 
 describe('most liked blog', () => {
   const mostLikedBlog = {
@@ -90,10 +90,11 @@ describe('most liked blog', () => {
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
     __v: 0,
-  }
+  };
 
   test('most liked blog is === mostLikedBlog', () => {
     const result = listHelper.favoriteBlog(listWithSixBlogs);
     expect(result).toEqual(mostLikedBlog);
-  })
+    console.log(_.pick(result, ['title', 'author', 'likes']));
+  });
 });
