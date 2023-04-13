@@ -46,37 +46,37 @@ test('the first note is test1', async () => {
 });
 
 test('all blogs are returned', async () => {
-  const response = await api.get('/api/blogs')
+  const response = await api.get('/api/blogs');
 
-  expect(response.body).toHaveLength(initialBlogs.length)
+  expect(response.body).toHaveLength(initialBlogs.length);
 });
 
 test('a specific blog is within the returned blogs', async () => {
-  const response = await api.get('/api/blogs')
+  const response = await api.get('/api/blogs');
 
-  const contents = response.body.map(r => r.title)
+  const contents = response.body.map((r) => r.title);
   expect(contents).toContain(
     'test1',
-  )
-})
+  );
+});
 
 test('a blog can be added', async () => {
   const newBlog = {
     title: 'testblog',
-  }
+  };
 
   await api
     .post('/api/blogs')
     .send(newBlog)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
+    .expect('Content-Type', /application\/json/);
 
-  const response = await api.get('/api/blogs')
+  const response = await api.get('/api/blogs');
 
-  const title = response.body.map(r => r.title)
+  const title = response.body.map((r) => r.title);
 
-  expect(response.body).toHaveLength(initialBlogs.length + 1)
+  expect(response.body).toHaveLength(initialBlogs.length + 1);
   expect(title).toContain(
-    'testblog'
-  )
-})
+    'testblog',
+  );
+});
