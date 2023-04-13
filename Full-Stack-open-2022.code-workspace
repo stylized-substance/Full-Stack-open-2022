@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../Full-Stack-open-2022-part3"
 		}
 	],
 	"settings": {}
