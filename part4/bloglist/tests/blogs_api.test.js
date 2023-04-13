@@ -14,3 +14,15 @@ test('blogs are returned as json', async () => {
 afterAll(async () => {
   await mongoose.connection.close();
 });
+
+test('there are two blogs', async () => {
+  const response = await api.get('/api/blogs');
+
+  expect(response.body).toHaveLength(2);
+});
+
+test('the first note contains the word test', async () => {
+  const response = await api.get('/api/blogs');
+
+  expect(response.body[0].title).toBe('test');
+});
