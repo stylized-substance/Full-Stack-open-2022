@@ -80,3 +80,18 @@ test('a blog can be added', async () => {
     'testblog',
   );
 });
+
+test('blog without title is not added', async () => {
+  const newBlog = {
+    dummy: '',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const response = await api.get('/api/notes')
+
+  expect(response.body).toHaveLength(initialBlogs.length)
+})
