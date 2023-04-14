@@ -16,6 +16,10 @@ beforeEach(async () => {
   await blogObject.save();
 });
 
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
 test('all blogs are returned as json', async () => {
   const response = await api
     .get('/api/blogs')
@@ -24,9 +28,13 @@ test('all blogs are returned as json', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
-afterAll(async () => {
-  await mongoose.connection.close();
-});
+test('blog posts unique ID is named id', async () => {
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+  console.log(response.body)
+  expect(response.body[0].id).toBeDefined()
+})
 
 test('there are two blogs', async () => {
   const response = await api.get('/api/blogs');
