@@ -9,5 +9,13 @@ content-Type: application/json
 }
 
 ###
+POST http://localhost:3003/api/blogs
+content-Type: application/json
+
+{
+  "dummy": "true"
+}
+
+###
 
 GET http://localhost:3003/api/blogs
