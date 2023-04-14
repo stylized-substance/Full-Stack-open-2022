@@ -22,11 +22,12 @@ beforeEach(async () => {
   await blogObject.save();
 });
 
-test('blogs are returned as json', async () => {
-  await api
+test('all blogs are returned as json', async () => {
+  const response = await api
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/);
+  expect(response.body).toHaveLength(initialBlogs.length);
 });
 
 afterAll(async () => {
@@ -84,14 +85,14 @@ test('a blog can be added', async () => {
 test('blog without title is not added', async () => {
   const newBlog = {
     dummy: '',
-  }
+  };
 
   await api
     .post('/api/blogs')
     .send(newBlog)
-    .expect(400)
+    .expect(400);
 
-  const response = await api.get('/api/notes')
+  const response = await api.get('/api/notes');
 
-  expect(response.body).toHaveLength(initialBlogs.length)
-})
+  expect(response.body).toHaveLength(initialBlogs.length);
+});

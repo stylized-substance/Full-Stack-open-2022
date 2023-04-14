@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const express = require('express');
 const config = require('./utils/config');
+require('express-async-errors')
 
 const app = express();
 
