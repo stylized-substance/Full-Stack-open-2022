@@ -33,13 +33,9 @@ test('blog posts unique ID is named id', async () => {
     .get('/api/blogs')
     .expect(200)
   const body = response.body
-  console.log(body)
-  response.body[0].id = undefined
-  console.log(body)
   body.forEach(object => {
-    expect(object.id).toBeDefined
+    expect(object.id).toBeDefined()
   })
-  // expect(response.body.id).toBeDefined()
 })
 
 test('there are two blogs', async () => {
