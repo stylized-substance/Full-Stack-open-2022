@@ -31,12 +31,12 @@ test('all blogs are returned as json', async () => {
 test('blog posts unique ID is named id', async () => {
   const response = await api
     .get('/api/blogs')
-    .expect(200)
-  const body = response.body
-  body.forEach(object => {
-    expect(object.id).toBeDefined()
-  })
-})
+    .expect(200);
+  const { body } = response;
+  body.forEach((object) => {
+    expect(object.id).toBeDefined();
+  });
+});
 
 test('there are two blogs', async () => {
   const response = await api.get('/api/blogs');
@@ -72,7 +72,7 @@ test('a valid blog can be added', async () => {
     url: 'testblogURL',
     likes: 99,
   };
-  console.log(newBlog)
+  console.log(newBlog);
 
   await api
     .post('/api/blogs')
@@ -80,12 +80,12 @@ test('a valid blog can be added', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/);
 
-  const blogsAtEnd = await helper.blogsInDb()
+  const blogsAtEnd = await helper.blogsInDb();
   // blogsAtEnd.forEach(element => console.log(element))
   // console.log(`blogsAtEnd: ${blogsAtEnd[0]}`)
   // console.log(typeof(blogsAtEnd))
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
-  const titles = blogsAtEnd.map(r => r.title);
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+  const titles = blogsAtEnd.map((r) => r.title);
   expect(titles).toContain(
     'testblogtitle',
   );
@@ -101,8 +101,19 @@ test('blog without title is not added', async () => {
     .send(newBlog)
     .expect(400);
 
-  const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test('a blog can be deleted by Id', async () => {
+  const response = await api
+    .get('/api/blogs');
+  const id = response.body[0].id;
+
+  await api
+    .delete(`/api/blogs/${id}`)
+    .expect(204);
+
 });
 
 // TODO: 4.11*: Blog list tests, step4
