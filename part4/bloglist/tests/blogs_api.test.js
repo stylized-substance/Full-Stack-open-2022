@@ -104,3 +104,6 @@ test('blog without title is not added', async () => {
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 });
+
+// TODO: 4.11*: Blog list tests, step4
+// TODO: 4.12*: Blog list tests, step5
