@@ -113,8 +113,19 @@ test('a blog can be deleted by Id', async () => {
   await api
     .delete(`/api/blogs/${id}`)
     .expect(204);
-
 });
+
+test('blog likes can be updated by  Id', async () => {
+  const response = await api
+    .get('/api/blogs');
+  const id = response.body[0].id;
+
+  const updateResponse = await api
+    .put(`/api/blogs/${id}`)
+    .expect(200);
+
+  console.log(updateResponse.body)
+})
 
 // TODO: 4.11*: Blog list tests, step4
 // TODO: 4.12*: Blog list tests, step5
