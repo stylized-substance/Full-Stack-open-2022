@@ -12,7 +12,6 @@ blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
   const blog = new Blog({ title: body.title })
-  console.log(blog.title)
 
   if (blog.title === undefined) {
     response.status(400).send('blog title missing')

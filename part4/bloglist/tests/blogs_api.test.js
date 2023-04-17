@@ -72,6 +72,7 @@ test('a valid blog can be added', async () => {
     url: 'testblogURL',
     likes: 99,
   };
+  console.log(newBlog)
 
   await api
     .post('/api/blogs')
@@ -80,6 +81,8 @@ test('a valid blog can be added', async () => {
     .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogsInDb()
+  console.log(`blogsAtEnd: ${blogsAtEnd}`)
+  console.log(typeof(blogsAtEnd))
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
   // const titles = blogsAtEnd.map(r => r.title);
   // expect(titles).toContain(
