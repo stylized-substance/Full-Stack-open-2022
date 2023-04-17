@@ -21,6 +21,9 @@ const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs
   // return blogs.map((blog) => blog.toJSON());
+  // return JSON.stringify(blogs)
+  // return Object.keys(blogs).map(blog => [blog.title, blog[blog.title]]);
+
 };
 
 module.exports = {

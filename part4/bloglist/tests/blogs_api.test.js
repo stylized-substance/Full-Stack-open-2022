@@ -81,13 +81,14 @@ test('a valid blog can be added', async () => {
     .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogsInDb()
-  console.log(`blogsAtEnd: ${blogsAtEnd}`)
-  console.log(typeof(blogsAtEnd))
+  // blogsAtEnd.forEach(element => console.log(element))
+  // console.log(`blogsAtEnd: ${blogsAtEnd[0]}`)
+  // console.log(typeof(blogsAtEnd))
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
-  // const titles = blogsAtEnd.map(r => r.title);
-  // expect(titles).toContain(
-  //   'testblog',
-  // );
+  const titles = blogsAtEnd.map(r => r.title);
+  expect(titles).toContain(
+    'testblogtitle',
+  );
 });
 
 test('blog without title is not added', async () => {
