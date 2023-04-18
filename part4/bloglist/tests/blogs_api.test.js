@@ -2,68 +2,59 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
 const helper = require('./test_helper');
-
 const api = supertest(app);
 const Blog = require('../models/blog');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-
   let blogObject = new Blog(helper.initialBlogs[0]);
   await blogObject.save();
-
   blogObject = new Blog(helper.initialBlogs[1]);
   await blogObject.save();
 });
 
-afterAll(async () => {
-  await mongoose.connection.close();
-});
-
-test('all blogs are returned as json', async () => {
-  const response = await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-  expect(response.body).toHaveLength(helper.initialBlogs.length);
-});
-
-test('blog posts unique ID is named id', async () => {
-  const response = await api
-    .get('/api/blogs')
-    .expect(200);
-  const { body } = response;
-  body.forEach((object) => {
-    expect(object.id).toBeDefined();
+describe('when there are blogs saved initially', () => {
+  test('all blogs are returned as json', async () => {
+    const response = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+    expect(response.body).toHaveLength(helper.initialBlogs.length);
   });
-});
 
-test('there are two blogs', async () => {
-  const response = await api.get('/api/blogs');
+  test('blog posts unique ID is named id', async () => {
+    const response = await api
+      .get('/api/blogs')
+      .expect(200);
+    const { body } = response;
+    body.forEach((object) => {
+      expect(object.id).toBeDefined();
+    });
+  });
+  
+  test('there are two blogs', async () => {
+    const response = await api.get('/api/blogs');
+  
+    expect(response.body).toHaveLength(2);
+  });
+  
+  test('the first blog is test1', async () => {
+    const response = await api.get('/api/blogs');
+  
+    expect(response.body[0].title).toBe('test1');
+  });
+  
+  test('a blog titled test1 is within the returned blogs', async () => {
+    const response = await api.get('/api/blogs');
+  
+    const contents = response.body.map((r) => r.title);
+    expect(contents).toContain(
+      'test1',
+    );
+  });
+})
 
-  expect(response.body).toHaveLength(2);
-});
 
-test('the first blog is test1', async () => {
-  const response = await api.get('/api/blogs');
-
-  expect(response.body[0].title).toBe('test1');
-});
-
-// test('all blogs are returned', async () => {
-//   const response = await api.get('/api/blogs');
-
-//   expect(response.body).toHaveLength(initialBlogs.length);
-// });
-
-test('a specific blog is within the returned blogs', async () => {
-  const response = await api.get('/api/blogs');
-
-  const contents = response.body.map((r) => r.title);
-  expect(contents).toContain(
-    'test1',
-  );
-});
 
 test('a valid blog can be added', async () => {
   const newBlog = {
@@ -72,7 +63,6 @@ test('a valid blog can be added', async () => {
     url: 'testblogURL',
     likes: 99,
   };
-  console.log(newBlog);
 
   await api
     .post('/api/blogs')
@@ -123,13 +113,12 @@ test('blog likes can be updated by Id', async () => {
   const updateResponse = await api
     .put(`/api/blogs/${id}`)
     .expect(200);
-
-  console.log(updateResponse.body)
 })
 
 test('missing likes property defaults to 0', async () => {
   const newBlog = {
     title: "testTitle",
+    url: "testUrl"
   }
 
   const postResponse = await api
@@ -161,3 +150,7 @@ test('missing url property gets response 400', async () => {
     .send(newBlog)
     .expect(400)
 })
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
