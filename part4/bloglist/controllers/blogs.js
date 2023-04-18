@@ -18,6 +18,8 @@ blogsRouter.post('/', async (request, response) => {
 
   if (body.title === undefined) {
     response.status(400).send('blog title missing')
+  } else if (body.url === undefined) {
+    response.status(400).send('blog url missing')
   } else {
     const savedBlog = await blog.save()
     response.status(201).json(savedBlog)

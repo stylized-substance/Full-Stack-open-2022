@@ -151,4 +151,13 @@ test('missing blog title gets response 400', async () => {
     .expect(400)
 })
 
-// TODO: 4.12*: Blog list tests, step5
+test('missing url property gets response 400', async () => {
+  const newBlog = {
+    title: "testTitle",
+  }
+
+  const postResponse = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
