@@ -140,4 +140,15 @@ test('missing likes property defaults to 0', async () => {
   expect(postResponse.body.likes === 0)  
 })
 
+test('missing blog title gets response 400', async () => {
+  const newBlog = {
+    likes: 10
+  }
+
+  const postResponse = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 // TODO: 4.12*: Blog list tests, step5
