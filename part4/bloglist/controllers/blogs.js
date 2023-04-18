@@ -7,11 +7,15 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  //const blog = new Blog(request.body);
-
   const body = request.body
+  console.log(response)
 
-  const blog = new Blog({ title: body.title })
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+  })
 
   if (blog.title === undefined) {
     response.status(400).send('blog title missing')
@@ -19,6 +23,9 @@ blogsRouter.post('/', async (request, response) => {
     const savedBlog = await blog.save()
     response.status(201).json(savedBlog)
   }
+
+  // const savedBlog = await blog.save()
+  // response.status(201).json(savedBlog)
 
   // blog
   //   .save()

@@ -13,7 +13,7 @@ POST http://localhost:3003/api/blogs
 content-Type: application/json
 
 {
-  "title": "newBlogLikesMissing",
+  "title": "newBlogLikesMissing"
 }
 
 ###
@@ -21,7 +21,7 @@ POST http://localhost:3003/api/blogs
 content-Type: application/json
 
 {
-  "likes": "10"
+  "likes": 10
 }
 
 ###
