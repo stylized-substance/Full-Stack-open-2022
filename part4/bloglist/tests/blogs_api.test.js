@@ -115,7 +115,7 @@ test('a blog can be deleted by Id', async () => {
     .expect(204);
 });
 
-test('blog likes can be updated by  Id', async () => {
+test('blog likes can be updated by Id', async () => {
   const response = await api
     .get('/api/blogs');
   const id = response.body[0].id;
@@ -127,5 +127,17 @@ test('blog likes can be updated by  Id', async () => {
   console.log(updateResponse.body)
 })
 
-// TODO: 4.11*: Blog list tests, step4
+test('missing likes property defaults to 0', async () => {
+  const newBlog = {
+    title: "testTitle",
+  }
+
+  const postResponse = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  expect(postResponse.body.likes === 0)  
+})
+
 // TODO: 4.12*: Blog list tests, step5
