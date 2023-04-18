@@ -13,7 +13,25 @@ POST http://localhost:3003/api/blogs
 content-Type: application/json
 
 {
-  "dummy": "true"
+  "title": "newBlogLikesMissing",
+}
+
+###
+POST http://localhost:3003/api/blogs
+content-Type: application/json
+
+{
+  "likes": "10"
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+content-Type: application/json
+
+{
+  "title": "newBlogTitle",
+  "likes": 44
 }
 
 ###
