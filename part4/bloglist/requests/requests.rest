@@ -60,3 +60,25 @@ content-Type: application/json
   "name": "superuser",
   "password": "secretpassword"
 }
+
+###
+
+POST http://localhost:3003/api/users
+content-Type: application/json
+
+{
+  "username": "passwordtooshort",
+  "name": "superuser",
+  "password": "a"
+}
+
+###
+
+POST http://localhost:3003/api/users
+content-Type: application/json
+
+{
+  "username": "a",
+  "name": "superuser",
+  "password": "usernametooshort"
+}
