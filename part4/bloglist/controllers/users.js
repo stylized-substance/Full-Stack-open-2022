@@ -20,6 +20,12 @@ usersRouter.post('/', async (request, response) => {
     return;
   }
 
+  const userExists = await User.findOne({ username });
+  if (userExists.username === username) {
+    response.status(400).send('username is already taken');
+    return;
+  }
+
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
