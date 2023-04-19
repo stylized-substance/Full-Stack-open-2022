@@ -190,7 +190,6 @@ describe('when there is initially one user in db', () => {
 
   test('creation fails if username is already taken', async () => {
     const usersAtStart = await helper.usersInDb();
-    console.log(usersAtStart);
 
     const newUser = {
       username: 'root',
@@ -205,7 +204,7 @@ describe('when there is initially one user in db', () => {
       .expect('Content-Type', /application\/json/);
 
     console.log(result.body);
-    expect(result.body.error).toContain('expected `username` to be unique')
+    expect(result.body.error).toContain('username is already taken')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
