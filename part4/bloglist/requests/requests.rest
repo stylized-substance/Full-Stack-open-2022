@@ -45,3 +45,18 @@ DELETE http://localhost:3003/api/blogs/642d35a99fc0a34826c8eeda
 ###
 
 PUT http://localhost:3003/api/blogs/642c0c37d4f1016524786672
+
+###
+
+GET http://localhost:3003/api/users
+
+###
+
+POST http://localhost:3003/api/users
+content-Type: application/json
+
+{
+  "username": "root",
+  "name": "superuser",
+  "password": "secretpassword"
+}
