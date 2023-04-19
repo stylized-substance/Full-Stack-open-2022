@@ -82,3 +82,12 @@ content-Type: application/json
   "name": "superuser",
   "password": "usernametooshort"
 }
+
+###
+
+POST http://localhost:3003/api/users
+content-Type: application/json
+
+{
+  "password": "usernamemissing"
+}
