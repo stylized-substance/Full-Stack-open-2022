@@ -9,7 +9,7 @@ require('express-async-errors')
 const app = express();
 
 const blogsRouter = require('./controllers/blogs');
-const usersRouter = require('../controllers/users')
+const usersRouter = require('./controllers/users')
 const logger = require('./utils/logger');
 const Blog = require('./models/blog');
 
