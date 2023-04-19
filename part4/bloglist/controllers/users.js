@@ -15,6 +15,11 @@ usersRouter.post('/', async (request, response) => {
     return;
   }
 
+  if (!username || username.length < 3) {
+    response.status(400).send('username must be at least 3 characters long');
+    return;
+  }
+
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
