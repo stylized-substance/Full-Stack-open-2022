@@ -21,23 +21,24 @@ usersRouter.post('/', async (request, response) => {
   }
 
   const userExists = await User.findOne({ username });
-  if (userExists.username === username) {
+  if (!userExists) {
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const user = new User({
+      username,
+      name,
+      passwordHash,
+    });
+
+    const savedUser = await user.save();
+
+    response.status(201).json(savedUser);
+  } else if (userExists.username === username) {
     response.status(400).json({ error: "username is already taken" });
     return;
   }
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
-
-  const user = new User({
-    username,
-    name,
-    passwordHash,
-  });
-
-  const savedUser = await user.save();
-
-  response.status(201).json(savedUser);
 });
 
 module.exports = usersRouter;
