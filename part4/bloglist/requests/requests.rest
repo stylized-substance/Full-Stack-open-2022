@@ -18,7 +18,7 @@ content-Type: application/json
   "author": "testauthor",
   "url": "testurl",
   "likes": "10",
-  "userId": "asd123"
+  "userId": "41224d776a326fb40f000001"
 }
 
 ###
