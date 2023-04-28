@@ -11,7 +11,6 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   const user = await User.findOne()
 
-  // TODO: Implement this according to part 4 chapter populate
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -19,6 +18,9 @@ blogsRouter.post('/', async (request, response, next) => {
     likes: body.likes,
     user: user._id
   })
+
+  blog.populate('user')
+  console.log('blog after populate:', blog)
 
   if (body.title === undefined) {
     response.status(400).send('blog title missing')
