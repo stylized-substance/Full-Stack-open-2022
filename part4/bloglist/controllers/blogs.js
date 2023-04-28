@@ -3,7 +3,7 @@ const Blog = require('../models/blog');
 const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user')
   response.json(blogs)
 });
 
@@ -11,6 +11,7 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   const user = await User.findOne()
 
+  // TODO: Implement this according to part 4 chapter populate
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -25,7 +26,6 @@ blogsRouter.post('/', async (request, response, next) => {
     response.status(400).send('blog url missing')
   } else {
     const savedBlog = await blog.save()
-    console.log(savedBlog);
     try {
       user.blogs = await user.blogs.concat(savedBlog._id)
       await user.save()
