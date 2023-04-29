@@ -28,13 +28,9 @@ blogsRouter.post('/', async (request, response, next) => {
     response.status(400).send('blog url missing')
   } else {
     const savedBlog = await blog.save()
-    try {
-      user.blogs = await user.blogs.concat(savedBlog._id)
-      await user.save()
-      response.status(201).json(savedBlog)
-    } catch (exception) {
-      next(exception)
-    }
+    user.blogs = await user.blogs.concat(savedBlog._id)
+    await user.save()
+    response.status(201).json(savedBlog)
   }
 });
 
