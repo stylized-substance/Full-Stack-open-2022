@@ -115,3 +115,23 @@ content-Type: application/json
 {
   "password": "usernamemissing"
 }
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "logintestuser",
+  "password": "testpassword"
+}
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "superuser"
+}
