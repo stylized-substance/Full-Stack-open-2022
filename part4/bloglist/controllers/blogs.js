@@ -50,6 +50,21 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
+  if (request.token === undefined) {
+    return response.status(401).json({ error: 'Authorization header missing' })
+  }
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const blog = await Blog.findById(request.params.id)
+  const blogCreatorId = blog.user.toString()
+  
+  if (decodedToken.id !== blogCreatorId) {
+    return response.status(401).json({ error: 'you are not the blogs creator' })
+  }
+
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
 })

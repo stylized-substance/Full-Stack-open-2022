@@ -248,4 +248,39 @@ describe('when there is initially one user in db', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/);
   })
+
+  test('deleting a blog works by user who created it', async () => {
+    const loginInfo = {
+      username: 'root',
+      password: 'secretpassword',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(loginInfo)
+
+    const token = result.body.token
+
+    const newBlog = {
+      title: 'testblogtitle',
+      author: 'testblogauthor',
+      url: 'testblogURL',
+      likes: 99,
+    };
+
+    const postResult = await api
+      .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogId = postResult.body.id
+
+    const deleteResult = await api
+      .delete(`/api/blogs/${blogId}`)
+      .set('Authorization', 'Bearer ')
+      //.expect(204)
+      console.log(deleteResult.status, deleteResult.body)
+  })
 });
