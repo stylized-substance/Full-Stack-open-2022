@@ -209,4 +209,18 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
   });
+
+  test('logging in fails with wrong password', async () => {
+
+    const loginInfo = {
+      username: 'root',
+      password: 'wrongpassword',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(loginInfo)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+  })
 });
