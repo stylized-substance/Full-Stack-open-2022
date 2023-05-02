@@ -18,11 +18,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-  const authorizationHeader = request.headers.authorization
-  if (authorizationHeader === undefined) {
+  if (request.token === undefined) {
     return response.status(401).json({ error: 'Authorization header missing' })
   }
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
