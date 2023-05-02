@@ -18,6 +18,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
+  const authorizationHeader = request.headers.authorization
+  if (authorizationHeader === undefined) {
+    return response.status(401).json({ error: 'Authorization header missing' })
+  }
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
@@ -33,8 +37,7 @@ blogsRouter.post('/', async (request, response) => {
   })
 
   blog.populate('user')
-  console.log('blog after populate:', blog)
-
+  
   if (body.title === undefined) {
     response.status(400).send('blog title missing')
   } else if (body.url === undefined) {

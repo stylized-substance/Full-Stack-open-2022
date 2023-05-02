@@ -203,24 +203,49 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
 
-    console.log(result.body);
-    expect(result.body.error).toContain('username is already taken')
+    expect(result.body.error).toContain('username is already taken');
 
-    const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toEqual(usersAtStart)
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
   });
 
   test('logging in fails with wrong password', async () => {
-
     const loginInfo = {
       username: 'root',
       password: 'wrongpassword',
-    }
+    };
 
     const result = await api
       .post('/api/login')
       .send(loginInfo)
       .expect(401)
-      .expect('Content-Type', /application\/json/)
+      .expect('Content-Type', /application\/json/);
+  });
+
+  test('posting a blog works after logging in', async () => {
+    const loginInfo = {
+      username: 'root',
+      password: 'secretpassword',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(loginInfo)
+
+    const token = result.body.token
+
+    const newBlog = {
+      title: 'testblogtitle',
+      author: 'testblogauthor',
+      url: 'testblogURL',
+      likes: 99,
+    };
+
+    const postResult = await api
+      .post('/api/blogs')
+      .set('Authorization', 'Bearer ' + token)
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
   })
 });
