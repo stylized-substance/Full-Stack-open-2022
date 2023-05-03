@@ -150,6 +150,8 @@ test('missing url property gets response 400', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400);
+
+  console.log(postResponse)
 });
 
 afterAll(async () => {
@@ -260,6 +262,7 @@ describe('when there is initially one user in db', () => {
       .send(loginInfo)
 
     const token = result.body.token
+    const badToken = 'asd123'
 
     const newBlog = {
       title: 'testblogtitle',
@@ -279,7 +282,7 @@ describe('when there is initially one user in db', () => {
 
     const deleteResult = await api
       .delete(`/api/blogs/${blogId}`)
-      .set('Authorization', 'Bearer ')
+      .set('Authorization', 'Bearer ' + token)
       //.expect(204)
       console.log(deleteResult.status, deleteResult.body)
   })

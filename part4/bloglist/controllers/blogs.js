@@ -64,7 +64,6 @@ blogsRouter.delete('/:id', async (request, response) => {
   if (decodedToken.id !== blogCreatorId) {
     return response.status(401).json({ error: 'you are not the blogs creator' })
   }
-
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
 })
