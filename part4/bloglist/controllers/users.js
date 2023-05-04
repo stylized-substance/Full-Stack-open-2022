@@ -9,6 +9,7 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body;
+  console.log(request.body)
 
   if (!password || password.length < 3) {
     response.status(400).json({ error: 'password must be at least 3 characters long' });
@@ -35,6 +36,7 @@ usersRouter.post('/', async (request, response) => {
     });
 
     const savedUser = await user.save();
+    console.log(savedUser)
 
     response.status(201).json(savedUser);
   }

@@ -175,7 +175,7 @@ describe('when there are initially two users in db', () => {
       const passwordHash = await bcrypt.hash(user.password, 10);
       const userObject = new User({ username: user.username, passwordHash });
       await userObject.save();
-      console.log('added user:', userObject)
+      // console.log('added user:', userObject)
     }
   });
 
@@ -300,16 +300,19 @@ describe('when there are initially two users in db', () => {
     })
 
     test('deleting a blog doesnt work if deleting user is not the creator', async () => {
-      const loginInfo = {
-        username: 'wronguser',
-        password: 'secretpassword2',
+
+      // Login as a user and post a blog
+
+      let loginInfo = {
+        username: 'root',
+        password: 'secretpassword',
       }
 
-      const result = await api
+      let result = await api
         .post('/api/login')
         .send(loginInfo)
 
-      const token = result.body.token
+      let token = result.body.token
 
       const newBlog = {
         title: 'testblogtitle',
@@ -322,16 +325,30 @@ describe('when there are initially two users in db', () => {
         .post('/api/blogs')
         .set('Authorization', 'Bearer ' + token)
         .send(newBlog)
-        .expect(204)
         .expect('Content-Type', /application\/json/);
-
+        
       const blogId = postResult.body.id
+      
+      console.log('posted a blog as root', postResult.body)
+
+      // Login as another user and try to delete previous users's blog
+
+      loginInfo = {
+        username: 'wronguser',
+        password: 'secretpassword',
+      }
+
+      result = await api
+        .post('/api/login')
+        .send(loginInfo)
+
+      token = result.body.token
 
       const deleteResult = await api
         .delete(`/api/blogs/${blogId}`)
         .set('Authorization', 'Bearer ' + token)
-        //.expect(204)
-        console.log(deleteResult.status, deleteResult.body)
+        .expect(401)
+        console.log('deleteresult', deleteResult.status, deleteResult.body)
     })
   })
 });
