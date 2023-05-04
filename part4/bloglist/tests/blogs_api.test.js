@@ -8,6 +8,109 @@ const Blog = require('../models/blog');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
+describe('misc tests', () => {
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'testblogtitle',
+      author: 'testblogauthor',
+      url: 'testblogURL',
+      likes: 99,
+    };
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    // blogsAtEnd.forEach(element => console.log(element))
+    // console.log(`blogsAtEnd: ${blogsAtEnd[0]}`)
+    // console.log(typeof(blogsAtEnd))
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+    const titles = blogsAtEnd.map((r) => r.title);
+    expect(titles).toContain(
+      'testblogtitle',
+    );
+  });
+
+  test('blog without title is not added', async () => {
+    const newBlog = {
+      dummy: true,
+    };
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  });
+
+  test('a blog can be deleted by Id', async () => {
+    const response = await api
+      .get('/api/blogs');
+    const { id } = response.body[0];
+
+    await api
+      .delete(`/api/blogs/${id}`)
+      .expect(204);
+  });
+
+  test('blog likes can be updated by Id', async () => {
+    const response = await api
+      .get('/api/blogs');
+    const { id } = response.body[0];
+
+    const updateResponse = await api
+      .put(`/api/blogs/${id}`)
+      .expect(200);
+  });
+
+  test('missing likes property defaults to 0', async () => {
+    const newBlog = {
+      title: 'testTitle',
+      url: 'testUrl',
+    };
+
+    const postResponse = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201);
+
+    expect(postResponse.body.likes === 0);
+  });
+
+  test('missing blog title gets response 400', async () => {
+    const newBlog = {
+      likes: 10,
+    };
+
+    const postResponse = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400);
+  });
+
+  test('missing url property gets response 400', async () => {
+    const newBlog = {
+      title: 'testTitle',
+    };
+
+    const postResponse = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400);
+
+    console.log(postResponse)
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+});
+
 describe('when there are blogs saved initially', () => {
   beforeEach(async () => {
     const usersInDb = await User.find({})
@@ -58,107 +161,6 @@ describe('when there are blogs saved initially', () => {
       'test1',
     );
   });
-});
-
-test('a valid blog can be added', async () => {
-  const newBlog = {
-    title: 'testblogtitle',
-    author: 'testblogauthor',
-    url: 'testblogURL',
-    likes: 99,
-  };
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/);
-
-  const blogsAtEnd = await helper.blogsInDb();
-  // blogsAtEnd.forEach(element => console.log(element))
-  // console.log(`blogsAtEnd: ${blogsAtEnd[0]}`)
-  // console.log(typeof(blogsAtEnd))
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
-  const titles = blogsAtEnd.map((r) => r.title);
-  expect(titles).toContain(
-    'testblogtitle',
-  );
-});
-
-test('blog without title is not added', async () => {
-  const newBlog = {
-    dummy: true,
-  };
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400);
-
-  const blogsAtEnd = await helper.blogsInDb();
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
-});
-
-test('a blog can be deleted by Id', async () => {
-  const response = await api
-    .get('/api/blogs');
-  const { id } = response.body[0];
-
-  await api
-    .delete(`/api/blogs/${id}`)
-    .expect(204);
-});
-
-test('blog likes can be updated by Id', async () => {
-  const response = await api
-    .get('/api/blogs');
-  const { id } = response.body[0];
-
-  const updateResponse = await api
-    .put(`/api/blogs/${id}`)
-    .expect(200);
-});
-
-test('missing likes property defaults to 0', async () => {
-  const newBlog = {
-    title: 'testTitle',
-    url: 'testUrl',
-  };
-
-  const postResponse = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201);
-
-  expect(postResponse.body.likes === 0);
-});
-
-test('missing blog title gets response 400', async () => {
-  const newBlog = {
-    likes: 10,
-  };
-
-  const postResponse = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400);
-});
-
-test('missing url property gets response 400', async () => {
-  const newBlog = {
-    title: 'testTitle',
-  };
-
-  const postResponse = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400);
-
-  console.log(postResponse)
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
 });
 
 describe('when there are initially two users in db', () => {
