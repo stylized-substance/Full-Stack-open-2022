@@ -7,7 +7,6 @@ const userExtractor = require('../utils/userExtractor')
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user')
   response.json(blogs)
-  console.log('getrouter:', blogs)
 });
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
@@ -26,9 +25,9 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   blog.populate('user')
   
   if (body.title === undefined) {
-    response.status(400).send('blog title missing')
+    response.status(400).json('blog title missing')
   } else if (body.url === undefined) {
-    response.status(400).send('blog url missing')
+    response.status(400).json('blog url missing')
   } else {
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)

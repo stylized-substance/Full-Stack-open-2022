@@ -1,12 +1,25 @@
 const Blog = require('../models/blog');
 const User = require('../models/user')
 
+const newBlog = {
+  title: 'testblogtitle',
+  author: 'testblogauthor',
+  url: 'testblogURL',
+  likes: 99,
+};
+
 const initialBlogs = [
   {
-    title: 'test1',
+    title: 'testblogtitle',
+    author: 'testblogauthor',
+    url: 'testblogURL',
+    likes: 99,
   },
   {
-    title: 'test2',
+    title: 'testblogtitle2',
+    author: 'testblogauthor2',
+    url: 'testblogURL2',
+    likes: 99,
   },
 ];
 
