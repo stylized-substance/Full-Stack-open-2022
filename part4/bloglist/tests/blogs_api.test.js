@@ -171,12 +171,12 @@ describe('when there are initially two users in db', () => {
       password: 'secretpassword',
     }]
 
-    users.forEach(async (user) => {
+    for await (user of users) {
       const passwordHash = await bcrypt.hash(user.password, 10);
       const userObject = new User({ username: user.username, passwordHash });
       await userObject.save();
       console.log('added user:', userObject)
-    })
+    }
   });
 
   test('creation succeeds with a fresh username', async () => {
