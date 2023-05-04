@@ -287,15 +287,14 @@ describe('when there are initially two users in db', () => {
         .post('/api/blogs')
         .set('Authorization', 'Bearer ' + token)
         .send(newBlog)
-      console.log(postResult.body)
 
       const blogId = postResult.body.id
 
       const deleteResult = await api
         .delete(`/api/blogs/${blogId}`)
         .set('Authorization', 'Bearer ' + token)
-        //.expect(204)
-        // console.log(deleteResult.error)
+        .expect(204)
+        console.log(deleteResult)
     })
 
     test('deleting a blog doesnt work if deleting user is not the creator', async () => {

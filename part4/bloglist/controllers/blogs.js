@@ -3,32 +3,15 @@ const Blog = require('../models/blog');
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-const getTokenFrom = (request) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user')
   response.json(blogs)
 });
 
 blogsRouter.post('/', async (request, response) => {
-  // const body = request.body
-  // if (request.token === undefined) {
-  //   return response.status(401).json({ error: 'Authorization header missing' })
-  // }
-  // const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  // if (!decodedToken.id) {
-  //   return response.status(401).json({ error: 'token invalid' })
-  // }
+  const body = request.body
 
   const user = await User.findById(request.user)
-
-  console.log(user)
 
   const blog = new Blog({
     title: body.title,
@@ -53,18 +36,10 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-  // if (request.token === undefined) {
-  //   return response.status(401).json({ error: 'Authorization header missing' })
-  // }
-  // const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  // if (!decodedToken.id) {
-  //   return response.status(401).json({ error: 'token invalid' })
-  // }
-
   const blog = await Blog.findById(request.params.id)
   const blogCreatorId = blog.user.toString()
   
-  if (decodedToken.id !== blogCreatorId) {
+  if (request.user !== blogCreatorId) {
     return response.status(401).json({ error: 'you are not the blogs creator' })
   }
   await Blog.findByIdAndRemove(request.params.id)
