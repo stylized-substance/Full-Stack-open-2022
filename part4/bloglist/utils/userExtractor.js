@@ -1,5 +1,6 @@
+const jwt = require('jsonwebtoken')
+
 const userExtractor = async (request, response, next) => {
-  const body = request.body
   if (request.token === undefined) {
     return response.status(401).json({ error: 'Authorization header missing' })
   }
@@ -10,10 +11,8 @@ const userExtractor = async (request, response, next) => {
     return response.status(401).json({ error: 'token invalid' })
   }
 
-  const user = await User.findById(decodedToken.id)
-
-  request.user = user
-
+  request.user = decodedToken.id
+  
   next()
 }
 

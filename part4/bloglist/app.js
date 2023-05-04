@@ -12,6 +12,7 @@ const blogsRouter = require('./controllers/blogs');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login')
 const tokenExtractor = require('./utils/tokenExtractor')
+const userExtractor = require('./utils/userExtractor')
 const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler')
 const Blog = require('./models/blog');
@@ -32,8 +33,8 @@ app.use(cors());
 app.use(express.static('build'));
 app.use(express.json());
 app.use(tokenExtractor);
-app.use('/api/blogs', blogsRouter);
-app.use('/api/users', usersRouter)
+app.use('/api/blogs', userExtractor, blogsRouter);
+app.use('/api/users', userExtractor, usersRouter)
 app.use('/api/login', loginRouter);
 app.use(errorHandler)
 

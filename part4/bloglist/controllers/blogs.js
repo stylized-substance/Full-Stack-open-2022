@@ -17,15 +17,18 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const body = request.body
-  if (request.token === undefined) {
-    return response.status(401).json({ error: 'Authorization header missing' })
-  }
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  // const body = request.body
+  // if (request.token === undefined) {
+  //   return response.status(401).json({ error: 'Authorization header missing' })
+  // }
+  // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  // if (!decodedToken.id) {
+  //   return response.status(401).json({ error: 'token invalid' })
+  // }
+
+  const user = await User.findById(request.user)
+
+  console.log(user)
 
   const blog = new Blog({
     title: body.title,
@@ -50,13 +53,13 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-  if (request.token === undefined) {
-    return response.status(401).json({ error: 'Authorization header missing' })
-  }
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
+  // if (request.token === undefined) {
+  //   return response.status(401).json({ error: 'Authorization header missing' })
+  // }
+  // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  // if (!decodedToken.id) {
+  //   return response.status(401).json({ error: 'token invalid' })
+  // }
 
   const blog = await Blog.findById(request.params.id)
   const blogCreatorId = blog.user.toString()
