@@ -92,10 +92,10 @@ describe('most liked blog', () => {
     __v: 0,
   };
 
-  test('most liked blog is === mostLikedBlog', () => {
+  test('most liked blog is mostLikedBlog', () => {
     const result = listHelper.favoriteBlog(listWithSixBlogs);
     expect(result[0]).toEqual(mostLikedBlog);
-    // console.log(result[1]);
+    console.log(result)
   });
 });
 
@@ -108,10 +108,10 @@ describe('most frequent author', () => {
 });
 
 // TODO 4.7*: helper functions and unit tests, step5
-// describe('blog with most likes', () => {
-//   test('blog with most likes is', () => {
-//     const result = listHelper.mostLikes(listWithSixBlogs);
-//     console.log(result);
-//     // expect(result).toBeTruthy;
-//   });
-// });
+describe('blog with most likes', () => {
+  test('blog with most likes is', () => {
+    const result = listHelper.mostLikes(listWithSixBlogs);
+    console.log(result);
+    // expect(result).toBeTruthy;
+  });
+});

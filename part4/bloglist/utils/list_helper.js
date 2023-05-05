@@ -20,10 +20,17 @@ const mostBlogs = (inputBlogs) => {
 };
 
 // TODO 4.7*: helper functions and unit tests, step5
-// const mostLikes = (inputBlogs) => {
-//   const author = _.sumBy(inputBlogs, 'likes')
+const mostLikes = (inputBlogs) => {
+  const authorsAndLikes = _.forEach(inputBlogs, function(blog) {
+    const filteredBlog = _.pick(blog, ['author', 'likes'])
+    console.log(filteredBlog)
+  })
+  return authorsAndLikes
+}
+
+// const author = _.sumBy(inputBlogs, 'likes')
 //   return author
-// }
+
 
 
 module.exports = {
@@ -31,5 +38,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
-  // mostLikes,
+  mostLikes,
 };
