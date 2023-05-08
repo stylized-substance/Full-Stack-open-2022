@@ -169,10 +169,9 @@ describe('misc tests', () => {
         .get('/api/blogs');
       const { id } = response.body[0];
 
-      const updateResponse = await api
+      await api
         .put(`/api/blogs/${id}`)
         .expect(200);
-      (updateResponse)
     });
   });
 });
@@ -281,7 +280,6 @@ describe('when there are initially two users in db', () => {
   });
 
   describe('a blog can be deleted by ID (only by the user who added the blog)', () => {
-
     test('deleting a blog works by user who created it', async () => {
       const loginInfo = {
         username: 'root',
