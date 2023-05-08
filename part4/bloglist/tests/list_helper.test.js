@@ -102,8 +102,7 @@ describe('most liked blog', () => {
 describe('most frequent author', () => {
   test('most frequent author is', () => {
     const result = listHelper.mostBlogs(listWithSixBlogs);
-    console.log(result);
-    // expect(result).toBeTruthy;
+    expect(result.author).toEqual('Robert C. Martin')
   });
 });
 
