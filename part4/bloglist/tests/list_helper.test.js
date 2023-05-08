@@ -107,7 +107,6 @@ describe('most frequent author', () => {
   });
 });
 
-// TODO 4.7*: helper functions and unit tests, step5
 describe('blog with most likes', () => {
   test('blog with most likes is', () => {
     const result = listHelper.mostLikes(listWithSixBlogs);
