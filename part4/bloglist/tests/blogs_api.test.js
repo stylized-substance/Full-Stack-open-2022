@@ -176,12 +176,9 @@ describe('misc tests', () => {
       const putResponse = await api
         .put(`/api/blogs/${id}`)
         .send(update)
-        .expect(200);
-
-      const blogsAtEnd = helper.blogsInDb()
-      console.log(blogsAtEnd);
-
-      console.log(putResponse.body);
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+      expect(putResponse.body.likes).toEqual(update.likes)
     });
   });
 });
