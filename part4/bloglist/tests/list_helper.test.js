@@ -100,16 +100,16 @@ describe('most liked blog', () => {
 });
 
 describe('most frequent author', () => {
-  test('most frequent author is', () => {
+  test('most frequent author is correctly returned', () => {
     const result = listHelper.mostBlogs(listWithSixBlogs);
     expect(result.author).toEqual('Robert C. Martin')
   });
 });
 
 describe('blog with most likes', () => {
-  test('blog with most likes is', () => {
+  test('blog with most likes is correctly returned', () => {
     const result = listHelper.mostLikes(listWithSixBlogs);
     console.log(result);
-    // expect(result).toBeTruthy;
+    expect(result.author).toEqual('Edsger W. Dijkstra');
   });
 });
