@@ -169,9 +169,19 @@ describe('misc tests', () => {
         .get('/api/blogs');
       const { id } = response.body[0];
 
-      await api
+      const update = {
+        likes: 100,
+      }
+
+      const putResponse = await api
         .put(`/api/blogs/${id}`)
+        .send(update)
         .expect(200);
+
+      const blogsAtEnd = helper.blogsInDb()
+      console.log(blogsAtEnd);
+
+      console.log(putResponse.body);
     });
   });
 });
