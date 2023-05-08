@@ -19,16 +19,6 @@ const mostBlogs = (inputBlogs) => {
   return { author, blogs };
 };
 
-// TODO 4.7*: helper functions and unit tests, step5
-// const mostLikes = (inputBlogs) => {
-//   let authorsAndLikes = new Array()
-//   _.forEach(inputBlogs, function(blog) {
-//     const filteredBlog = _.pick(blog, ['author', 'likes'])
-//     authorsAndLikes.push(filteredBlog)
-//   })
-//   return authorsAndLikes
-// }
-
 const mostLikes = (inputBlogs) => {
   const result = _(inputBlogs)
     .groupBy('author')
