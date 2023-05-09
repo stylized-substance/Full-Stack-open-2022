@@ -5,6 +5,8 @@ import blogService from './services/blogs'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -12,12 +14,38 @@ const App = () => {
     )  
   }, [])
 
+  const handleLogin = (event) => {
+    event.prevenDefault()
+    console.log('logging in with credentials:', username, password)
+  }
+
   if (user === null) {
     return (
       <div>
         <h2>
           Log in to application
         </h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+          <input
+          type="text"
+          value={username}
+          name="Username"
+          //onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            //onChange={({ targer }) => setPassword(target.value)}
+            />
+        </div>
+        <button type="submit">login</button>
+      </form>
       </div>
     )
   }
