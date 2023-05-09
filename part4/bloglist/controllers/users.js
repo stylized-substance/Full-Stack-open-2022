@@ -21,7 +21,6 @@ usersRouter.post('/', async (request, response) => {
   }
 
   const userExists = await User.findOne({ username });
-  ('userExists:', userExists);
   if (userExists != null) {
     response.status(400).json({ error: 'username is already taken' });
   } else {
