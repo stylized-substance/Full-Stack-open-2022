@@ -127,6 +127,7 @@ describe('misc tests', () => {
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/);
+      console.log(response.body)
       expect(response.body).toHaveLength(helper.initialBlogs.length);
     });
 
@@ -344,7 +345,9 @@ describe('when there are initially two users in db', () => {
         .post('/api/blogs')
         .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
+        .expect(201)
         .expect('Content-Type', /application\/json/);
+      expect(postResult.body.user.username).toEqual(loginInfo.username)
 
       const blogId = postResult.body.id;
 
