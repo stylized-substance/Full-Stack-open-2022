@@ -127,7 +127,6 @@ describe('misc tests', () => {
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/);
-      console.log(response.body)
       expect(response.body).toHaveLength(helper.initialBlogs.length);
     });
 
@@ -286,6 +285,21 @@ describe('when there are initially two users in db', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/);
   });
+
+  test('posting a blog fails without login', async () => {
+    const newBlog = {
+      title: 'testblogtitle',
+      author: 'testblogauthor',
+      url: 'testblogURL',
+      likes: 99,
+    };
+
+    const postResult = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/);
+  })
 
   describe('a blog can be deleted by ID (only by the user who added the blog)', () => {
     test('deleting a blog works by user who created it', async () => {
