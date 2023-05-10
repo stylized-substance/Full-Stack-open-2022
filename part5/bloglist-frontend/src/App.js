@@ -80,7 +80,14 @@ const App = () => {
   return (
     <div>
       {user === null && loginForm()}
-      {user !== null && blogsDisplay()}
+
+      {user !== null &&
+      <div>
+        <p>
+          {user.name} logged in
+        </p>
+        {blogsDisplay()}
+      </div>}
     </div>
   )
 }
