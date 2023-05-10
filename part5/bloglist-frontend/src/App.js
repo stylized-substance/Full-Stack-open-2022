@@ -16,15 +16,19 @@ const App = () => {
     )  
   }, [])
 
+  console.log(user)
+  console.log(username, password)
+
   const handleLogin = async (event) => {
-    event.prevenDefault()
-    console.log('logging in with credentials:', username, password)
+    event.preventDefault()
+    console.log('logging in with credentials:')
 
     try {
-      const user = await loginService.login({
+      const loginResult = await loginService.login({
         username, password,
       })
-      setUser(user)
+      console.log(loginResult)
+      setUser(loginResult)
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -36,30 +40,32 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <h2>
-          Log in to application
-        </h2>
-        username
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
+    <div>
+      <h2>
+        Log in to application
+      </h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          username
           <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
           />
-      </div>
-      <button type="submit">login</button>
-    </form>
+        </div>
+        <div>
+          password
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+            />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </div>
   )
 
   const blogsDisplay = () => (
@@ -77,7 +83,6 @@ const App = () => {
       {user !== null && blogsDisplay()}
     </div>
   )
-  console.log(user)  
 }
 
 export default App
