@@ -16,18 +16,14 @@ const App = () => {
     )  
   }, [])
 
-  console.log(user)
-  console.log(username, password)
-
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with credentials:')
+    console.log('logging in with credentials:', username, password)
 
     try {
       const loginResult = await loginService.login({
         username, password,
       })
-      console.log(loginResult)
       setUser(loginResult)
       setUsername('')
       setPassword('')
@@ -79,15 +75,15 @@ const App = () => {
 
   return (
     <div>
-      {user === null && loginForm()}
-
-      {user !== null &&
+      {!user && loginForm()}
+      {user &&
       <div>
         <p>
           {user.name} logged in
         </p>
         {blogsDisplay()}
-      </div>}
+      </div>
+      }
     </div>
   )
 }
