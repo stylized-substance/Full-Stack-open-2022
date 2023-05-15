@@ -24,6 +24,12 @@ const App = () => {
       const loginResult = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedOnUser', JSON.stringify(loginResult)
+      )
+
+      blogService.setToken(loginResult.token)
       setUser(loginResult)
       setUsername('')
       setPassword('')
