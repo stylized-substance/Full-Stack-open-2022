@@ -78,7 +78,7 @@ const App = () => {
     setAuthor('')
     setUrl('')
 
-    setNotificationMessage(`Added blog ${createResult.title}`)
+    setNotificationMessage(`Added blog titled "${createResult.title}" `)
       setNotificationType('success')
       setTimeout(() => {
         setNotificationMessage(null)
