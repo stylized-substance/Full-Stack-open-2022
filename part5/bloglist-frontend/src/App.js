@@ -50,6 +50,12 @@ const App = () => {
     }
   }
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedOnUser')
+    setUser(null)
+  }
+
   const loginForm = () => (
     <div>
       <h2>
@@ -74,7 +80,7 @@ const App = () => {
             onChange={({ target }) => setPassword(target.value)}
             />
         </div>
-        <button type="submit">login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   )
@@ -96,6 +102,7 @@ const App = () => {
         <p>
           {user.name} logged in
         </p>
+        <button onClick={handleLogout}>Logout</button>
         {blogsDisplay()}
       </div>
       }
