@@ -32,7 +32,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with credentials:', username, password)
 
     try {
       const loginResult = await loginService.login({
@@ -48,7 +47,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotificationMessage('Wrong credentials')
+      setNotificationMessage('Invalid credentials')
       setNotificationType('error')
       setTimeout(() => {
         setNotificationMessage(null)
@@ -74,9 +73,17 @@ const App = () => {
 
     const createResult = await blogService.create(newBlog)
     setBlogs(blogs.concat(createResult))
+    
     setTitle('')
     setAuthor('')
     setUrl('')
+
+    setNotificationMessage(`Added blog ${createResult.title}`)
+      setNotificationType('success')
+      setTimeout(() => {
+        setNotificationMessage(null)
+        setNotificationType(null)
+      }, 5000)
   }
 
   const loginForm = () => (
