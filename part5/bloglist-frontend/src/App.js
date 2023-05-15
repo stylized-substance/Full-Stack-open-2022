@@ -16,6 +16,15 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedOnUserJSON = window.localStorage.getItem('loggedOnUser')
+    if (loggedOnUserJSON) {
+      const user = JSON.parse(loggedOnUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with credentials:', username, password)
