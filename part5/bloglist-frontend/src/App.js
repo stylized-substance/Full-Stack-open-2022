@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import CreateForm from './components/CreateForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -115,44 +116,6 @@ const App = () => {
     </div>
   )
 
-  const createForm = () =>  (
-    <div>
-      <h2>
-        Create a new blog
-      </h2>
-      <form onSubmit={handleCreate}>
-        <div>
-          Title
-          <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          Author
-          <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          Url
-          <input
-          type="text"
-          value={url}
-          name="Url"
-          onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  )
-
   const blogsDisplay = () => (
     <div>
       <h2>blogs</h2>
@@ -172,7 +135,15 @@ const App = () => {
           {user.name} logged in
         </p>
         <button onClick={handleLogout}>Logout</button>
-        {createForm()}
+        <CreateForm
+          title={title}
+          author={author}
+          url={url}
+          handleCreate={handleCreate}
+          handleTitleChange={({ target }) => setTitle(target.value)}
+          handleAuthorChange={({ target }) => setAuthor(target.value)}
+          handleUrlChange={({ target }) => setUrl(target.value)}
+        />
         {blogsDisplay()}
       </div>
       }
