@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -14,6 +14,14 @@ const App = () => {
   
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
+
+  const createFormRef = useRef()
+
+  const blogForm = () => (
+    <Togglable buttonLabel="Create blog" ref={createFormRef}>
+      <CreateForm createBlog={createBlog} />
+    </Togglable>
+  )
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
