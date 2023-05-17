@@ -71,11 +71,12 @@ const App = () => {
   }
 
   const createBlog = (blogObject) => {
+    createFormRef.current.toggleVisibility()
     blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-      })
+    .create(blogObject)
+    .then(returnedBlog => {
+      setBlogs(blogs.concat(returnedBlog))
+    })
   }
 
   const loginForm = () => (
@@ -126,10 +127,7 @@ const App = () => {
           {user.name} logged in
         </p>
         <button onClick={handleLogout}>Logout</button>
-        <Togglable buttonLabel="Create blog">
-          <CreateForm createBlog={createBlog} />
-        </Togglable>
-
+        {blogForm()}
         {blogsDisplay()}
       </div>
       }
