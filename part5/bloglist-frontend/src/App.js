@@ -24,9 +24,10 @@ const App = () => {
   )
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then((blogs) => {
       setBlogs( blogs )
-    )  
+      console.log(blogs)
+    })  
   }, [])
 
   useEffect(() => {

@@ -27,8 +27,10 @@ const Blog = ({ blog }) => {
         <br/>
         {blog.url}
         <br/>
-        {blog.likes}
-        
+        Likes: {blog.likes}
+        <br/>
+        {/*{blog.user}*/}
+
         <button onClick={toggleVisibility}>
           Less
         </button>
