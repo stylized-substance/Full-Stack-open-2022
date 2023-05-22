@@ -34,6 +34,7 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>
           Less
         </button>
+        <button >Like</button>
       </div>
 
       <div style={hideWhenVisible}>
@@ -41,6 +42,7 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>
           More
         </button>
+        <button >Like</button>
       </div>
     </div>
   )
