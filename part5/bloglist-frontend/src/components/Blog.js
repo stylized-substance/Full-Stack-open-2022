@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LikeButton from './LikeButton'
 
 const Blog = ({ blog }) => {
   const [visible, setVisible] = useState(false)
@@ -34,7 +35,7 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>
           Less
         </button>
-        <button >Like</button>
+        <LikeButton id={blog.id} />
       </div>
 
       <div style={hideWhenVisible}>
@@ -42,7 +43,6 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>
           More
         </button>
-        <button >Like</button>
       </div>
     </div>
   )

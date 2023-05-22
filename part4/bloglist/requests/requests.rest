@@ -61,11 +61,7 @@ PUT http://localhost:3003/api/blogs/6464ba8f23d53b2f5530bc9f
 content-Type: application/json
 
 {
-  "id": "6464ba8f23d53b2f5530bc9f",
-  "title": "Title1",
-  "author": "Author1",
-  "url": "URL1",
-  "likes": "10"
+  "likes": "30"
 }
 
 ###
