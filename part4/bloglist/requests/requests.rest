@@ -57,7 +57,16 @@ DELETE http://localhost:3003/api/blogs/642d35a99fc0a34826c8eeda
 
 ###
 
-PUT http://localhost:3003/api/blogs/642c0c37d4f1016524786672
+PUT http://localhost:3003/api/blogs/6464ba8f23d53b2f5530bc9f
+content-Type: application/json
+
+{
+  "id": "6464ba8f23d53b2f5530bc9f",
+  "title": "Title1",
+  "author": "Author1",
+  "url": "URL1",
+  "likes": "10"
+}
 
 ###
 
