@@ -53,6 +53,10 @@ GET http://localhost:3003/api/blogs
 
 ###
 
+GET http://localhost:3003/api/blogs/6464ba8f23d53b2f5530bc9f
+
+###
+
 DELETE http://localhost:3003/api/blogs/642d35a99fc0a34826c8eeda
 
 ###

@@ -1,7 +1,18 @@
+import blogService from '../services/blogs'
+
 const LikeButton = ({ id }) => {
 
   const handleLike = async (id) => {
-    console.log(id)
+    try {
+      const oldLikes = async (id) => {
+      await blogService.getOne(id)
+      }
+    } catch (exception) {
+      console.log(exception)
+    }
+    //console.log(oldLikes)
+    //const updatedBlog = await blogService.update(id)
+    //console.log(id)
   }
 
   return (

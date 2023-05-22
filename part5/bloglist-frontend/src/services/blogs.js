@@ -8,8 +8,14 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-  const request = await axios.get(baseUrl)
-  return request.data
+  const response = await axios.get(baseUrl)
+  return response.data
+}
+
+const getOne = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  console.log('response')
+  return response.data
 }
 
 const create = async newObject => {
@@ -27,4 +33,4 @@ const update = (id, newObject) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken }
+export default { getAll, getOne, create, update, setToken }
