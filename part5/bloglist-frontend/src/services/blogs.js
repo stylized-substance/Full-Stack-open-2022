@@ -14,7 +14,6 @@ const getAll = async () => {
 
 const getOne = async (id) => {
   const response = await axios.get(`${baseUrl}/${id}`)
-  console.log('response')
   return response.data
 }
 
@@ -27,9 +26,9 @@ const create = async newObject => {
   return response.data
 }
 
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+const update = async (id, newObject) => {
+  const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  return response.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
