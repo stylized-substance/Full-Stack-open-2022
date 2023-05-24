@@ -86,6 +86,11 @@ const App = () => {
       })
     }
 
+  const handleRemove = (id) => {
+    blogService.remove(id)
+      .then(setblogsNeedReload(true))
+  }
+
   const createBlog = (blogObject) => {
     createFormRef.current.toggleVisibility()
     blogService
@@ -130,7 +135,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {sortedByLikes.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />
       )}
     </div>
   )
