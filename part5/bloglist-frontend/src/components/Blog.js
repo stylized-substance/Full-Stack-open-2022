@@ -47,7 +47,6 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
         <br/>
         Likes: {blog.likes}
         <br/>
-        {blog.user.name}
 
         <button onClick={toggleVisibility}>
           Less
