@@ -81,7 +81,6 @@ const App = () => {
         }
         blogService.update(id, updateObject)
           .then((result) => {
-            console.log('result', result)
             setblogsNeedReload(true)
           })
       })
