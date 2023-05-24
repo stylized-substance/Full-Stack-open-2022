@@ -132,12 +132,14 @@ const App = () => {
   )
   
   const sortedByLikes = blogs.sort((a, b) => a.likes - b.likes)
+  console.log(sortedByLikes)
+  console.log(user)
 
   const blogsDisplay = () => (
     <div>
       <h2>blogs</h2>
       {sortedByLikes.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} user={user.username}/>
       )}
     </div>
   )
