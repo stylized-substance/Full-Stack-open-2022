@@ -11,7 +11,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  
+  const [blogsNeedReload, setblogsNeedReload] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
 
@@ -25,10 +25,11 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
+      console.log('Getting blogs..')
       setBlogs( blogs )
-      console.log(blogs)
-    })  
-  }, [])
+      setblogsNeedReload(false)
+    })
+  }, [blogsNeedReload])
 
   useEffect(() => {
     const loggedOnUserJSON = window.localStorage.getItem('loggedOnUser')
@@ -70,6 +71,21 @@ const App = () => {
     window.localStorage.removeItem('loggedOnUser')
     setUser(null)
   }
+
+  const handleLike = (id) => {
+    blogService.getOne(id)
+      .then((blog) => {
+        const newLikes = blog.likes + 1
+        const updateObject = {
+          likes: newLikes
+        }
+        blogService.update(id, updateObject)
+          .then((result) => {
+            console.log('result', result)
+            setblogsNeedReload(true)
+          })
+      })
+    }
 
   const createBlog = (blogObject) => {
     createFormRef.current.toggleVisibility()
@@ -113,7 +129,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
       )}
     </div>
   )

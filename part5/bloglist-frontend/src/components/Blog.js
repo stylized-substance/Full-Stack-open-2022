@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import LikeButton from './LikeButton'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -17,6 +16,14 @@ const Blog = ({ blog }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+  
+  const LikeButton = ({ id, handleLike }) => {
+    return (
+      <button onClick={() => handleLike(id)}>
+        Like
+      </button>
+    )
   }
   
   return (
@@ -35,7 +42,7 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>
           Less
         </button>
-        <LikeButton id={blog.id} />
+        <LikeButton id={blog.id} handleLike={handleLike} />
       </div>
 
       <div style={hideWhenVisible}>
