@@ -16,6 +16,6 @@ test('renders content', () => {
   render(<Blog blog={blog} />)
 
   const element = screen.getByText('TestTitle')
-  screen.debug()
+  screen.debug(element)
   expect(element).toBeDefined()
 })
