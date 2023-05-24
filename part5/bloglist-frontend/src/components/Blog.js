@@ -17,7 +17,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  
+
   const LikeButton = ({ id, handleLike }) => {
     return (
       <button onClick={() => handleLike(id)}>
@@ -28,14 +28,14 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
 
   const RemoveButton = ({ id, handleRemove, title }) => {
     if (blog.user.username === user) {
-    return (
-      <button onClick={() => handleRemove(id, title)}>
+      return (
+        <button onClick={() => handleRemove(id, title)}>
         Remove
-      </button>
-    )
+        </button>
+      )
     }
   }
-  
+
   return (
     <div style={blogStyle}>
       <div style={showWhenVisible}>

@@ -80,11 +80,11 @@ const App = () => {
           likes: newLikes
         }
         blogService.update(id, updateObject)
-          .then((result) => {
+          .then(() => {
             setblogsNeedReload(true)
           })
       })
-    }
+  }
 
   const handleRemove = (id, title) => {
     if (window.confirm('Remove blog ' + title + '?')) {
@@ -96,10 +96,10 @@ const App = () => {
   const createBlog = (blogObject) => {
     createFormRef.current.toggleVisibility()
     blogService
-    .create(blogObject)
-    .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-    })
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
   }
 
   const loginForm = () => (
@@ -111,26 +111,26 @@ const App = () => {
         <div>
           username
           <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
-            />
+          />
         </div>
         <button type="submit">Login</button>
       </form>
     </div>
   )
-  
+
   const sortedByLikes = blogs.sort((a, b) => a.likes - b.likes)
 
   const blogsDisplay = () => (
