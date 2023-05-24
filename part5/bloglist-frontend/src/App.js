@@ -132,8 +132,6 @@ const App = () => {
   )
   
   const sortedByLikes = blogs.sort((a, b) => a.likes - b.likes)
-  console.log(sortedByLikes)
-  console.log(user)
 
   const blogsDisplay = () => (
     <div>
