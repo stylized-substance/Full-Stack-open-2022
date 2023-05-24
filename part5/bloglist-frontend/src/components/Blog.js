@@ -26,9 +26,9 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
     )
   }
 
-  const RemoveButton = ({ id, handleRemove }) => {
+  const RemoveButton = ({ id, handleRemove, title }) => {
     return (
-      <button onClick={() => handleRemove(id)}>
+      <button onClick={() => handleRemove(id, title)}>
         Remove
       </button>
     )
@@ -51,7 +51,7 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
           Less
         </button>
         <LikeButton id={blog.id} handleLike={handleLike} />
-        <RemoveButton id={blog.id} handleRemove={handleRemove} />
+        <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
       </div>
 
       <div style={hideWhenVisible}>

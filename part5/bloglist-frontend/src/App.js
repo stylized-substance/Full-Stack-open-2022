@@ -86,9 +86,11 @@ const App = () => {
       })
     }
 
-  const handleRemove = (id) => {
-    blogService.remove(id)
-      .then(setblogsNeedReload(true))
+  const handleRemove = (id, title) => {
+    if (window.confirm('Remove blog ' + title + '?')) {
+      blogService.remove(id)
+        .then(setblogsNeedReload(true))
+    }
   }
 
   const createBlog = (blogObject) => {
