@@ -39,30 +39,41 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   return (
     <div style={blogStyle}>
       <div style={showWhenVisible}>
-        <div>{
-          blog.title}
+        <div className="title">
+          {blog.title}
         </div>
-        <div>
+        <div className="author">
           {blog.author}
         </div>
-        <div>
+        <div className="url">
           {blog.url}
         </div>
-        <div>
+        <div className="likes">
           Likes: {blog.likes}
         </div>
-        <button onClick={toggleVisibility}>
-          Less
-        </button>
-        <LikeButton id={blog.id} handleLike={handleLike} />
-        <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
+        <div>
+          <button onClick={toggleVisibility}>
+            Less
+          </button>
+        </div>
+        <div>
+          <LikeButton id={blog.id} handleLike={handleLike} />
+          <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
+        </div>
       </div>
 
       <div style={hideWhenVisible}>
-        {blog.title} {blog.author}
-        <button onClick={toggleVisibility}>
-          More
-        </button>
+        <div className="title">
+          {blog.title}
+        </div>
+        <div className="author">
+          {blog.author}
+        </div>
+        <div>
+          <button onClick={toggleVisibility}>
+            More
+          </button>
+        </div>
       </div>
     </div>
   )
