@@ -27,3 +27,27 @@ test('title and author are rendered, but not url and likes', () => {
   expect(url).not.toBeInTheDocument()
   expect(likes).not.toBeInTheDocument()
 })
+
+test('url and likes are shown after pressing more-button', async () => {
+  const blog = {
+    title: 'TestTitle',
+    author: 'TestAuthor',
+    url: 'TestUrl',
+    likes: 1,
+    user: {
+      username: 'TestUser'
+    }
+  }
+
+  const { container } = render(<Blog blog={blog} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('More')
+  await user.click(button)
+
+  const url = container.querySelector('.url')
+  const likes = container.querySelector('.likes')
+  
+  expect(url).toBeInTheDocument()
+  expect(likes).toBeInTheDocument()
+})
