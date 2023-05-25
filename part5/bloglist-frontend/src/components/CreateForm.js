@@ -26,7 +26,7 @@ const CreateForm = ({ createBlog }) => {
       <form onSubmit={addBlog}>
         <div>
           Title
-          <input
+          <input id="title-input"
             type="text"
             value={title}
             name="Title"
@@ -51,7 +51,7 @@ const CreateForm = ({ createBlog }) => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-button">Submit</button>
       </form>
     </div>
   )

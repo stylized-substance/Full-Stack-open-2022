@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import CreateForm from './CreateForm'
 
 test('title and author are rendered, but not url and likes', () => {
   const blog = {
@@ -78,4 +79,20 @@ test('clicking like twice calls event handler twice', async () => {
 
   expect(mockHandler.mock.calls).toHaveLength(2)
 
+})
+
+test('CreateForm calls event handler with right details when blog is created', async () => {
+  const createBlog = jest.fn()
+  const user = userEvent.setup()
+
+  const { container } = render(<CreateForm createBlog={createBlog} />)
+
+  const input = container.querySelector('#title-input')
+  const submitButton = container.querySelector('#submit-button')
+
+  await user.type(input, 'testing..')
+  await user.click(submitButton)
+
+  expect(createBlog.mock.calls).toHaveLength(1)
+  expect(createBlog.mock.calls[0][0].content).toBe('testing..')
 })
