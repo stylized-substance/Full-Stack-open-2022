@@ -3,8 +3,8 @@ import { useState } from 'react'
 const Blog = ({ blog, handleLike, handleRemove, user }) => {
   const [visible, setVisible] = useState(false)
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  // const hideWhenVisible = { display: visible ? 'none' : '' }
+  // const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -37,44 +37,39 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div style={showWhenVisible}>
-        <div className="title">
-          {blog.title}
-        </div>
-        <div className="author">
-          {blog.author}
-        </div>
-        <div className="url">
-          {blog.url}
-        </div>
-        <div className="likes">
-          Likes: {blog.likes}
-        </div>
-        <div>
-          <button onClick={toggleVisibility}>
-            Less
-          </button>
-        </div>
-        <div>
-          <LikeButton id={blog.id} handleLike={handleLike} />
-          <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
-        </div>
+    <div className="blog" style={blogStyle}>
+      <div className="title">
+        {blog.title}
       </div>
-
-      <div style={hideWhenVisible}>
-        <div className="title">
-          {blog.title}
-        </div>
-        <div className="author">
-          {blog.author}
-        </div>
+      <div className="author">
+        {blog.author}
+      </div>
+      {!visible && (
         <div>
           <button onClick={toggleVisibility}>
             More
           </button>
         </div>
-      </div>
+      )}
+      {visible && (
+        <div className="moreinfo">
+          <div className="url">
+            {blog.url}
+          </div>
+          <div className="likes">
+          Likes: {blog.likes}
+          </div>
+          <div>
+            <button onClick={toggleVisibility}>
+              Less
+            </button>
+          </div>
+          <div>
+            <LikeButton id={blog.id} handleLike={handleLike} />
+            <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

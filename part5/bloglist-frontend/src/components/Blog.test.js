@@ -1,9 +1,10 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-test('renders content', () => {
+test('title and author are rendered, but not url and likes', () => {
   const blog = {
     title: 'TestTitle',
     author: 'TestAuthor',
@@ -21,22 +22,8 @@ test('renders content', () => {
   const url = container.querySelector('.url')
   const likes = container.querySelector('.likes')
 
-  expect(title).toHaveTextContent('TestTitle')
-  expect(author).toHaveTextContent('TestAuthor')
-  expect(url).not.toBeIntheDocument()
-  expect(likes).not.toBeIntheDocument()
-
-  // const elements = [
-  // "const title = screen.getByText('TestTitle')",
-  // "const author = screen.getByText('TestAuthor')'",
-  // "const url = screen.getByText('TestUrl')",
-  // "const likes = screen.getByText('1')"
-  // ]
-  
-  // screen.debug()
-
-  // elements.forEach((element => expect(element).toBeDefined()))
-  
-
-
+  expect(title).toHaveTextContent(blog.title)
+  expect(author).toHaveTextContent(blog.author)
+  expect(url).not.toBeInTheDocument()
+  expect(likes).not.toBeInTheDocument()
 })
