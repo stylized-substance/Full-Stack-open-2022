@@ -51,3 +51,31 @@ test('url and likes are shown after pressing more-button', async () => {
   expect(url).toBeInTheDocument()
   expect(likes).toBeInTheDocument()
 })
+
+test('clicking like twice calls event handler twice', async () => {
+  const blog = {
+    title: 'TestTitle',
+    author: 'TestAuthor',
+    url: 'TestUrl',
+    likes: 1,
+    user: {
+      username: 'TestUser'
+    }
+  }
+
+  const mockHandler = jest.fn()
+
+  render(<Blog blog={blog} handleLike={mockHandler} />)
+
+  const user = userEvent.setup()
+
+  const moreButton = screen.getByText('More')
+  await user.click(moreButton)
+
+  const likeButton = screen.getByText('Like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+})
