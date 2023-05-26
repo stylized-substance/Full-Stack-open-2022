@@ -25,21 +25,21 @@ const Notification = ({ message, notificationType }) => {
     return null
   }
 
-  let notificationStyle
-
-  if(notificationType === 'success') {
-    notificationStyle = successStyle
+  if (notificationType === 'success') {
+    return (
+      <div style={successStyle} className="success">
+        {message}
+      </div>
+    )
   }
 
-  if(notificationType === 'error') {
-    notificationStyle = errorStyle
+  if (notificationType === 'error') {
+    return (
+      <div style={errorStyle} className="error">
+        {message}
+      </div>
+    )
   }
-
-  return (
-    <div style={notificationStyle}>
-      {message}
-    </div>
-  )
 }
 
 Notification.propTypes = {

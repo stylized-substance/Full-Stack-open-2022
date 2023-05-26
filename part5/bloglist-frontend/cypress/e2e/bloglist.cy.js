@@ -10,19 +10,30 @@ describe('bloglist app', function() {
     cy.visit('http://localhost:3000')
   })
   
-  it.only('login form is shown by default', function() {
+  it('login form is shown by default', function() {
     cy.contains('Log in to application')
     cy.get('#username-input')
     cy.get('#password-input')
     cy.get('#login-button')
   })
 
-  it('user can login', function() {
-    cy.get('#username-input').type('root')
-    cy.get('#password-input').type('secretpassword')
-    cy.get('#login-button').click()
+  describe('login', function() {
+    it('works with correct credentials', function () {
+      cy.get('#username-input').type('root')
+      cy.get('#password-input').type('secretpassword')
+      cy.get('#login-button').click()
     
     cy.contains('superuser logged in')
+    })
+
+    it.only('fails with wrong credentials', function() {
+      cy.get('#username-input').type('root')
+      cy.get('#password-input').type('wrongpassword')
+      cy.get('#login-button').click()
+      
+      cy.get('.error').contains('Invalid credentials')
+      cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+    })
   })
 
   describe('when logged in', function() {
