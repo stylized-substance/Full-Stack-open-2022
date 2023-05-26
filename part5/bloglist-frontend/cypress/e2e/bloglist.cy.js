@@ -10,8 +10,11 @@ describe('bloglist app', function() {
     cy.visit('http://localhost:3000')
   })
   
-  it('front page opens', function() {
+  it.only('login form is shown by default', function() {
     cy.contains('Log in to application')
+    cy.contains('#username-input')
+    cy.contains('#password-input')
+    cy.contains('#login-button')
   })
 
   it('user can login', function() {
