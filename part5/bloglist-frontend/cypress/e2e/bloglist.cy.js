@@ -1,5 +1,12 @@
 describe('bloglist app', function() {
   beforeEach(function() {
+    cy.request('POST', 'http://localhost:3000/api/testing/reset')
+    const user = {
+      name: 'superuser',
+      username: 'root',
+      password: 'secretpassword'
+    }
+    cy.request('POST', 'http://localhost:3000/api/users/', user)
     cy.visit('http://localhost:3000')
   })
   

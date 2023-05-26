@@ -15,7 +15,6 @@ const tokenExtractor = require('./utils/tokenExtractor')
 const logger = require('./utils/logger');
 const errorHandler = require('./utils/errorHandler')
 const Blog = require('./models/blog');
-
 mongoose.set('strictQuery', false);
 
 logger.info('Connecting to', config.MONGODB_URI);
