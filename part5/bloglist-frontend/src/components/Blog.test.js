@@ -87,12 +87,19 @@ test('CreateForm calls event handler with right details when blog is created', a
 
   const { container } = render(<CreateForm createBlog={createBlog} />)
 
-  const input = container.querySelector('#title-input')
-  const submitButton = container.querySelector('#submit-button')
+  const titleInput = container.querySelector('#title-input')
+  const authorInput = container.querySelector('#author-input')
+  const urlInput = container.querySelector('#url-input')
+    const submitButton = container.querySelector('#submit-button')
 
-  await user.type(input, 'testing..')
+  await user.type(titleInput, 'testing title..')
+  await user.type(authorInput, 'testing author..')
+  await user.type(urlInput, 'testing url..')
+
   await user.click(submitButton)
 
   expect(createBlog.mock.calls).toHaveLength(1)
-  expect(createBlog.mock.calls[0][0].content).toBe('testing..')
+  expect(createBlog.mock.calls[0][0].title).toBe('testing title..')
+  expect(createBlog.mock.calls[0][0].author).toBe('testing author..')
+  expect(createBlog.mock.calls[0][0].url).toBe('testing url..')
 })

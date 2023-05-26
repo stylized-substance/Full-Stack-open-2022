@@ -35,7 +35,7 @@ const CreateForm = ({ createBlog }) => {
         </div>
         <div>
           Author
-          <input
+          <input id="author-input"
             type="text"
             value={author}
             name="Author"
@@ -44,7 +44,7 @@ const CreateForm = ({ createBlog }) => {
         </div>
         <div>
           Url
-          <input
+          <input id="url-input"
             type="text"
             value={url}
             name="Url"
