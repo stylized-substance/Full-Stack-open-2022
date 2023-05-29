@@ -42,8 +42,21 @@ describe('bloglist app', function() {
         username: 'root',
         password: 'secretpassword'
       }).then(response => {
+        console.log(response.headers)
         localStorage.setItem('loggedOnUser', JSON.stringify(response.body))
         cy.visit('http://localhost:3000')
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: {
+            title: 'testblogtitle',
+            author: 'testblogauthor',
+            url: 'testblogurl'
+          },
+          headers: {
+            bearer: response.body.token
+          }
+        })
       })
     })
 

@@ -16,6 +16,7 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
+  console.log(request.headers)
 
   const user = await User.findById(request.user)
 
