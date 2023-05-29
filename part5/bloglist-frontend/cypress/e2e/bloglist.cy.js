@@ -54,10 +54,10 @@ describe('bloglist app', function() {
       cy.contains('testing title')
     })
 
-    // it.only('user can like posts', function() {
-    //   // cy.get('.more-button')
-    //   cy.get('.more-button').eq(0).click()
-    //   cy.get('.like-button').first()
-    // })
+    it.only('user can like posts', function() {
+      // cy.get('.more-button')
+      cy.get('.more-button').eq(0).click()
+      cy.get('.like-button').first().click()
+    })
   })
 })
