@@ -17,7 +17,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
 
   const LikeButton = ({ id, handleLike }) => {
     return (
-      <button onClick={() => handleLike(id)}>
+      <button onClick={() => handleLike(id)} className="like-button">
         Like
       </button>
     )
@@ -43,7 +43,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
       </div>
       {!visible && (
         <div>
-          <button onClick={toggleVisibility}>
+          <button onClick={toggleVisibility} className="more-button">
             More
           </button>
         </div>
