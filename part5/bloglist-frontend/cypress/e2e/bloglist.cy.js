@@ -6,7 +6,13 @@ describe('bloglist app', function() {
       username: 'root',
       password: 'secretpassword'
     }
+    const user2 = {
+      name: 'anotheruser',
+      username: 'toor',
+      password: 'anotherpassword'
+    }
     cy.request('POST', 'http://localhost:3000/api/users/', user)
+    cy.request('POST', 'http://localhost:3000/api/users/', user2)
     cy.visit('http://localhost:3000')
   })
 
@@ -77,6 +83,20 @@ describe('bloglist app', function() {
       cy.get('.more-button').first().click()
       cy.get('.remove-button').click()
       cy.get('.blog').should('not.exist')
+    })
+    
+    it('blog remove button is visible to the blog creator', function() {
+      cy.get('.more-button').first().click()
+      cy.get('.remove-button').should('be.visible')
+    })
+
+    it.only('blog remove button is not visible if not logged on as blog creator', function() {
+      cy.get('#logout-button').click()
+      cy.get('#username-input').type('toor')
+      cy.get('#password-input').type('anotherpassword')
+      cy.get('#login-button').click()
+      cy.get('.more-button').first().click()
+      cy.get('.remove-button').should('not.exist')
     })
   })
 })
