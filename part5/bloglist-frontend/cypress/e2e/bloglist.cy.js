@@ -54,9 +54,36 @@ describe('bloglist app', function() {
           method: 'POST',
           url: 'http://localhost:3003/api/blogs',
           body: {
-            'title': 'testblogtitle',
+            'title': 'least likes',
             'author': 'testblogauthor',
-            'url': 'testblogurl'
+            'url': 'testblogurl',
+            'likes': 1
+          },
+          'auth': {
+            'bearer': response.body.token
+          }
+        })
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: {
+            'title': 'second most likes',
+            'author': 'testblogauthor',
+            'url': 'testblogurl',
+            'likes': 2
+          },
+          'auth': {
+            'bearer': response.body.token
+          }
+        })
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: {
+            'title': 'most likes',
+            'author': 'testblogauthor',
+            'url': 'testblogurl',
+            'likes': 3
           },
           'auth': {
             'bearer': response.body.token
@@ -76,7 +103,7 @@ describe('bloglist app', function() {
     it('user can like posts', function() {
       cy.get('.more-button').first().click()
       cy.get('.like-button').first().click()
-      cy.get('.likes').should('contain', 1)
+      cy.get('.likes').should('contain', 2)
     })
 
     it('user can remove a blog', function() {
@@ -90,13 +117,22 @@ describe('bloglist app', function() {
       cy.get('.remove-button').should('be.visible')
     })
 
-    it.only('blog remove button is not visible if not logged on as blog creator', function() {
+    it('blog remove button is not visible if not logged on as blog creator', function() {
       cy.get('#logout-button').click()
       cy.get('#username-input').type('toor')
       cy.get('#password-input').type('anotherpassword')
       cy.get('#login-button').click()
       cy.get('.more-button').first().click()
       cy.get('.remove-button').should('not.exist')
+    })
+
+    it.only('blogs are sorted by number of likes', function() {
+      cy.get('.more-button').first().click()
+      cy.get('.more-button').first().click()
+      cy.get('.more-button').first().click()
+      cy.get('.blog').eq(0).should('contain', 'least likes')
+      cy.get('.blog').eq(1).should('contain', 'second most likes')
+      cy.get('.blog').eq(2).should('contain', 'most likes')
     })
   })
 })
