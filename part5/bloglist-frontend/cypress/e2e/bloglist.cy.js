@@ -42,7 +42,7 @@ describe('bloglist app', function() {
     })
   })
 
-  describe.only('when logged in', function() {
+  describe('when logged in', function() {
     beforeEach(function() {
       cy.request('POST', 'http://localhost:3003/api/login', {
         username: 'root',
@@ -103,15 +103,15 @@ describe('bloglist app', function() {
     it('user can like posts', function() {
       cy.get('.more-button').first().click()
       cy.get('.like-button').first().click()
-      cy.get('.likes').should('contain', 2)
+      cy.get('.likes').should('contain', 4)
     })
 
     it('user can remove a blog', function() {
       cy.get('.more-button').first().click()
       cy.get('.remove-button').click()
-      cy.get('.blog').should('not.exist')
+      cy.get('.blog').first().should('not.contain', 'least likes')
     })
-    
+
     it('blog remove button is visible to the blog creator', function() {
       cy.get('.more-button').first().click()
       cy.get('.remove-button').should('be.visible')
@@ -126,13 +126,13 @@ describe('bloglist app', function() {
       cy.get('.remove-button').should('not.exist')
     })
 
-    it.only('blogs are sorted by number of likes', function() {
+    it('blogs are sorted by number of likes', function() {
       cy.get('.more-button').first().click()
       cy.get('.more-button').first().click()
       cy.get('.more-button').first().click()
-      cy.get('.blog').eq(0).should('contain', 'least likes')
+      cy.get('.blog').eq(0).should('contain', 'most likes')
       cy.get('.blog').eq(1).should('contain', 'second most likes')
-      cy.get('.blog').eq(2).should('contain', 'most likes')
+      cy.get('.blog').eq(2).should('contain', 'least likes')
     })
   })
 })

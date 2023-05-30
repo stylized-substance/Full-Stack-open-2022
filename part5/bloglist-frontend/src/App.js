@@ -72,7 +72,7 @@ const App = () => {
     setUser(null)
   }
 
-  const handleLike = (id) => {
+  const handleLike = (id, title) => {
     blogService.getOne(id)
       .then((blog) => {
         const newLikes = blog.likes + 1
@@ -83,13 +83,27 @@ const App = () => {
           .then(() => {
             setblogsNeedReload(true)
           })
+        setNotificationMessage(`Liked blog ${title}`)
+        setNotificationType('success')
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setNotificationType(null)
+        }, 5000)
       })
   }
 
   const handleRemove = (id, title) => {
     if (window.confirm('Remove blog ' + title + '?')) {
       blogService.remove(id)
-        .then(setblogsNeedReload(true))
+        .then(() => {
+          setNotificationMessage(`Removed blog ${title}`)
+          setNotificationType('success')
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationType(null)
+          }, 5000)
+          setblogsNeedReload(true)
+        })
     }
   }
 
@@ -99,6 +113,12 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
+        setNotificationMessage(`Added blog ${returnedBlog.title}`)
+        setNotificationType('success')
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setNotificationType(null)
+        }, 5000)
       })
   }
 
@@ -137,11 +157,11 @@ const App = () => {
     </div>
   )
 
-  const sortedByLikes = blogs.sort((a, b) => a.likes - b.likes)
+  const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
 
   const blogsDisplay = () => (
     <div id="blogs-display">
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       {sortedByLikes.map(blog =>
         <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} user={user.username}/>
       )}

@@ -48,7 +48,7 @@ test('url and likes are shown after pressing more-button', async () => {
 
   const url = container.querySelector('.url')
   const likes = container.querySelector('.likes')
-  
+
   expect(url).toBeInTheDocument()
   expect(likes).toBeInTheDocument()
 })
@@ -90,7 +90,7 @@ test('CreateForm calls event handler with right details when blog is created', a
   const titleInput = container.querySelector('#title-input')
   const authorInput = container.querySelector('#author-input')
   const urlInput = container.querySelector('#url-input')
-    const submitButton = container.querySelector('#submit-button')
+  const submitButton = container.querySelector('#submit-button')
 
   await user.type(titleInput, 'testing title..')
   await user.type(authorInput, 'testing author..')

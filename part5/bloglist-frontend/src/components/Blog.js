@@ -15,9 +15,9 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     marginBottom: 5
   }
 
-  const LikeButton = ({ id, handleLike }) => {
+  const LikeButton = ({ id, handleLike, title }) => {
     return (
-      <button onClick={() => handleLike(id)} className="like-button">
+      <button onClick={() => handleLike(id, title)} className="like-button">
         Like
       </button>
     )
@@ -32,7 +32,6 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
       )
     }
   }
-
   return (
     <div className="blog" style={blogStyle}>
       <div className="title">
@@ -54,7 +53,10 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
             {blog.url}
           </div>
           <div className="likes">
-          Likes: {blog.likes}
+            Likes: {blog.likes}
+          </div>
+          <div>
+            Added by: {blog.user.name}
           </div>
           <div>
             <button onClick={toggleVisibility}>
@@ -62,7 +64,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
             </button>
           </div>
           <div>
-            <LikeButton id={blog.id} handleLike={handleLike} />
+            <LikeButton id={blog.id} handleLike={handleLike} title={blog.title} />
             <RemoveButton id={blog.id} handleRemove={handleRemove} title={blog.title} />
           </div>
         </div>

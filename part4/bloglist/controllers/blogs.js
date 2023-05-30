@@ -16,7 +16,6 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
-  console.log(request.headers)
 
   const user = await User.findById(request.user)
 
@@ -55,7 +54,6 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, { returnDocument: 'after' })
-  console.log('updatedblog', updatedBlog)
   response.status(200).json(updatedBlog)
 })
 
