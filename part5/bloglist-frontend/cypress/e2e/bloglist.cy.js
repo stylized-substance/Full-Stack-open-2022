@@ -42,22 +42,22 @@ describe('bloglist app', function() {
         username: 'root',
         password: 'secretpassword'
       }).then(response => {
-        console.log(response.headers)
+        cy.log(response.headers)
         localStorage.setItem('loggedOnUser', JSON.stringify(response.body))
-        cy.visit('http://localhost:3000')
         cy.request({
           method: 'POST',
           url: 'http://localhost:3003/api/blogs',
           body: {
-            title: 'testblogtitle',
-            author: 'testblogauthor',
-            url: 'testblogurl'
+            'title': 'testblogtitle',
+            'author': 'testblogauthor',
+            'url': 'testblogurl'
           },
-          headers: {
-            bearer: response.body.token
+          'auth': {
+            'bearer': response.body.token
           }
         })
       })
+      cy.visit('http://localhost:3000')
     })
 
     it('a new blog can be created', function() {
@@ -68,9 +68,9 @@ describe('bloglist app', function() {
     })
 
     it.only('user can like posts', function() {
-      // cy.get('.more-button')
       cy.get('.more-button').eq(0).click()
       cy.get('.like-button').first().click()
+      cy.get('.likes').should('contain', 1)
     })
   })
 })
