@@ -67,10 +67,16 @@ describe('bloglist app', function() {
       cy.contains('testing title')
     })
 
-    it.only('user can like posts', function() {
-      cy.get('.more-button').eq(0).click()
+    it('user can like posts', function() {
+      cy.get('.more-button').first().click()
       cy.get('.like-button').first().click()
       cy.get('.likes').should('contain', 1)
+    })
+
+    it('user can remove a blog', function() {
+      cy.get('.more-button').first().click()
+      cy.get('.remove-button').click()
+      cy.get('.blog').should('not.exist')
     })
   })
 })
