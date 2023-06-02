@@ -22,8 +22,32 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
+  
+  switch (action.type) {
+    case "VOTE": {
+      const { id } = action.payload.id
+      const anecdoteToVote = state.find(anecdote => anecdote.id === action.payload.id)
+      console.log('anecdoteToVote:',anecdoteToVote)
+      const anecdoteAfterVoting = {
+        ...anecdoteToVote,
+        votes: anecdoteToVote.votes + 1
+      }
+      console.log('anecdoteAfterVoting', anecdoteAfterVoting)
+      return state.map(anecdote => anecdote.id !== anecdoteToVote.id ? anecdote : anecdoteAfterVoting)
+      //return anecdoteAfterVoting
+    }
+    default:
+      return state
+  }
+}
 
-  return state
+export const voteAction = (id) => {
+  return {
+    type: 'VOTE',
+    payload: {
+      id: id
+    }
+  }
 }
 
 export default reducer
