@@ -14,4 +14,4 @@ export const filterChange = filter => {
   }
 }
 
-export default filterReduceer
+export default filterReducer
