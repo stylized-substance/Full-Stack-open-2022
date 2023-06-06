@@ -6,3 +6,12 @@ const filterReducer = (state = '', action) => {
       return state
   }
 }
+
+export const filterChange = filter => {
+  return {
+    type: 'SET_FILTER',
+    payload: filter,
+  }
+}
+
+export default filterReduceer
