@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { current } from 'immer'
 
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -34,9 +35,7 @@ const anecdoteSlice = createSlice({
       })
     },
     voteAction(state, action) {
-      console.log(action.payload.votes++)
       const anecdoteToVote = [...state].find(anecdote => anecdote.id === action.payload)
-      anecdoteToVote.votes++
       const anecdoteAfterVoting = {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1
@@ -45,51 +44,6 @@ const anecdoteSlice = createSlice({
     }
   }
 })
-
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-
-  switch (action.type) {
-    case 'VOTE': {
-      const anecdoteToVote = state.find(anecdote => anecdote.id === action.payload.id)
-      const anecdoteAfterVoting = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
-      }
-      return state.map(anecdote => anecdote.id !== anecdoteToVote.id ? anecdote : anecdoteAfterVoting)
-    }
-    case 'ADD': {
-      return [
-        ...state,
-        action.payload
-      ]
-    }
-    default:
-      return state
-  }
-}
-
-// export const voteAction = (id) => {
-//   return {
-//     type: 'VOTE',
-//     payload: {
-//       id: id
-//     }
-//   }
-// }
-
-// export const addNew = (content) => {
-//   console.log('addnew function content:', content)
-//   return {
-//     type: 'ADD',
-//     payload: {
-//       content: content,
-//       id: getId(),
-//       votes: 0
-//     }
-//   }
-// }
 
 export const { addNew, voteAction } = anecdoteSlice.actions
 
