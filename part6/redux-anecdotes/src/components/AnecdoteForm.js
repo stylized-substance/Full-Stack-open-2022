@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { addNew } from '../reducers/anecdoteReducer'
+import { showNotification, hideNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -7,8 +8,8 @@ const AnecdoteForm = () => {
   const add = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    console.log('add new anecdote:', content)
     dispatch(addNew(content))
+    // dispatch(showNotification(content))
     event.target.anecdote.value = ''
   }
 
