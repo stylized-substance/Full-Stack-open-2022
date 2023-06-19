@@ -4,12 +4,10 @@ import { Provider } from 'react-redux'
 import App from './App'
 import store from './store'
 import anecdotes from './services/anecdotes'
-import anecdoteReducer, { appendAnecdote } from './reducers/anecdoteReducer'
+import anecdoteReducer, { setAnecdotes } from './reducers/anecdoteReducer'
 
 anecdotes.getAll().then(anecdotes =>
-  anecdotes.forEach(anecdote => {
-    store.dispatch(appendAnecdote(anecdote))
-  })
+  store.dispatch(setAnecdotes(anecdotes))
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
