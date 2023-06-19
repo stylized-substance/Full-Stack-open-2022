@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import App from './App'
 import store from './store'
-import anecdotes from './services/anecdotes'
+import anecdoteService from './services/anecdoteService'
 import anecdoteReducer, { setAnecdotes } from './reducers/anecdoteReducer'
 
-anecdotes.getAll().then(anecdotes =>
+anecdoteService.getAll().then(anecdotes =>
   store.dispatch(setAnecdotes(anecdotes))
 )
 
