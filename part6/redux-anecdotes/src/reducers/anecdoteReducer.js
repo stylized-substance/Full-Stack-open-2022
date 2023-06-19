@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { current } from 'immer'
 import anecdoteService from '../services/anecdoteService'
 
 const anecdotesAtStart = [
@@ -21,7 +20,6 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
