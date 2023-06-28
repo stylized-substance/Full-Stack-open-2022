@@ -14,7 +14,6 @@ const createNew = async (content) => {
 }
 
 const vote = async (content) => {
-  console.log(('vote', content));
   const object = {
     ...content,
     votes: content.votes + 1
