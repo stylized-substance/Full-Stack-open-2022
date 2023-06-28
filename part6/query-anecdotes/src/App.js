@@ -33,8 +33,6 @@ const App = () => {
     const votedAnecdote = {...anecdote, votes: anecdote.votes + 1}
     voteAnecdoteMutation.mutate({ votedAnecdote })
   }
-  
-  
 
   // const anecdotes = [
   //   {
