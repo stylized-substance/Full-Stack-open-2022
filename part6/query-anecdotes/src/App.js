@@ -1,7 +1,7 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
-import { useQuery } from 'react-query'
-import { getAnecdotes } from './requests'
+import { useQuery, useMutation } from 'react-query'
+import { getAnecdotes, createAnecdote } from './requests'
 
 const App = () => {
 
@@ -17,10 +17,19 @@ const App = () => {
   //   },
   // ]
 
-  const result = useQuery('anecdotes', getAnecdotes)
+  const result = useQuery('anecdotes', getAnecdotes,
+  {
+    retry: 2
+  }
+  )
+  console.log(result)
 
   if ( result.isLoading ) {
-    return <div>loading anedotes...</div>
+    return <div>Loading anecdotes...</div>
+  }
+
+  if ( result.isError ) {
+    return <div>Service not available</div>
   }
 
   const anecdotes = result.data
