@@ -1,5 +1,7 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import { useQuery } from 'react-query'
+import axios from 'axios'
 
 const App = () => {
 
@@ -7,13 +9,26 @@ const App = () => {
     console.log('vote')
   }
 
-  const anecdotes = [
-    {
-      "content": "If it hurts, do it more often",
-      "id": "47145",
-      "votes": 0
-    },
-  ]
+  // const anecdotes = [
+  //   {
+  //     "content": "If it hurts, do it more often",
+  //     "id": "47145",
+  //     "votes": 0
+  //   },
+  // ]
+
+  const result = useQuery(
+    'anecdotes',
+    () => axios.get('http://localhost:3001/anecdotes')
+      .then(res => res.data)
+  )
+  console.log('result', result)
+
+  if ( result.isLoading ) {
+    return <div>loading anedotes...</div>
+  }
+
+  const anecdotes = result.data
 
   return (
     <div>
