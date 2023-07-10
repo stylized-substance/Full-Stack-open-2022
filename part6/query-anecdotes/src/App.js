@@ -1,6 +1,7 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import NotificationContext from './NotificationContext'
+import { useNotificationValue } from './NotificationContext'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getAnecdotes, createAnecdote } from './requests'
 import { voteAnecdote } from './requests'
@@ -9,6 +10,7 @@ import { useContext } from "react"
 
 const App = () => {
   console.log(useContext(NotificationContext));
+  console.log('NotificationValue', useNotificationValue())
 
   const queryClient = useQueryClient()
   const voteAnecdoteMutation = useMutation(voteAnecdote, {
