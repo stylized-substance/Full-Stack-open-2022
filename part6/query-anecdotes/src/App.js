@@ -2,6 +2,7 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import NotificationContext from './NotificationContext'
 import { useNotificationValue } from './NotificationContext'
+import { useNotificationDispatch } from './NotificationContext'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getAnecdotes, createAnecdote } from './requests'
 import { voteAnecdote } from './requests'
@@ -9,10 +10,8 @@ import { useContext } from "react"
 
 
 const App = () => {
-  console.log(useContext(NotificationContext));
-  console.log('NotificationValue', useNotificationValue())
-
   const queryClient = useQueryClient()
+  const notificationDispatch = useNotificationDispatch()
   const voteAnecdoteMutation = useMutation(voteAnecdote, {
     onSuccess: () => {
       queryClient.invalidateQueries('anecdotes')
@@ -39,16 +38,12 @@ const App = () => {
   const handleVote = async (anecdote) => {
     const votedAnecdote = {...anecdote, votes: anecdote.votes + 1}
     voteAnecdoteMutation.mutate({ votedAnecdote })
+    console.log(anecdote)
+    notificationDispatch({type:'VOTE', payload: anecdote.content})
+    setTimeout(() => {
+      notificationDispatch({type: 'RESET'})
+    }, 5000)
   }
-
-  // const anecdotes = [
-  //   {
-  //     "content": "If it hurts, do it more often",
-  //     "id": "47145",
-  //     "votes": 0
-  //   },
-  // ]
-
 
   return (
     <div>
