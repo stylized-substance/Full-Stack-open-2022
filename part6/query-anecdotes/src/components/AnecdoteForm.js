@@ -6,9 +6,12 @@ const AnecdoteForm = () => {
   const queryClient = useQueryClient()
   const notificationDispatch = useNotificationDispatch()
   const newAnecdoteMutation = useMutation(createAnecdote, {
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries('anecdotes')
     },
+    onError: (error) => {
+      notificationDispatch({type: 'ERROR'})
+    }
   })
 
   const onCreate = async (event) => {
@@ -16,7 +19,8 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     console.log('new anecdote', content)
-    newAnecdoteMutation.mutate({ content })
+    const result = newAnecdoteMutation.mutate({ content })
+    console.log('result', result);
     notificationDispatch({type: 'CREATE', payload: content})
     setTimeout(() => {
       notificationDispatch({type: 'RESET'})
