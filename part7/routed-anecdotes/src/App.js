@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, useParams
 } from 'react-router-dom'
 
 const Menu = ({anecdotes}) => {
@@ -12,16 +12,43 @@ const Menu = ({anecdotes}) => {
     <div>
       <Router>
         <div>
-          <Link style={padding} to='/'>anecdotes</Link>
+          <Link style={padding} to='/anecdotes'>anecdotes</Link>
           <Link style={padding} to='/create'>create new</Link>
           <Link style={padding} to='/about'>about</Link>
         </div>
         <Routes>
           <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
+          <Route path='/anecdotes' element={<AnecdoteList anecdotes={anecdotes} />} />
+          <Route path='/anecdotes/:id' element={<Anecdote anecdotes={anecdotes} />} />
           <Route path='/create' element={<CreateNew />} />
           <Route path='/about' element={<About />} />
         </Routes>
       </Router>
+    </div>
+  )
+}
+
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id
+  const anecdote = anecdotes.find(anecdote => anecdote.id === Number(id))
+  const url = anecdote.info
+  return (
+    <div>
+      <h2>
+        {anecdote.content} by {anecdote.author}
+      </h2>
+      <div>
+        Has {anecdote.votes} votes
+      </div>
+      <br />
+      <div>
+        For more info see
+        <br />
+        <a href={url}>
+          {url}
+        </a>
+      </div>
+      <br />
     </div>
   )
 }
@@ -31,7 +58,13 @@ const AnecdoteList = ({ anecdotes }) => {
     <div>
       <h2>Anecdotes</h2>
         <ul>
-          {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+          {anecdotes.map(anecdote => 
+            <li key={anecdote.id}>
+              <Link to={`/anecdotes/${anecdote.id}`}>
+                {anecdote.content}
+              </Link>
+            </li>
+          )}
         </ul>
     </div>
   )
@@ -115,6 +148,8 @@ const App = () => {
       id: 2
     }
   ])
+
+  console.log(anecdotes);
 
   const [notification, setNotification] = useState('')
 
