@@ -149,7 +149,6 @@ const App = () => {
     }
   ])
 
-  console.log(anecdotes);
 
   const [notification, setNotification] = useState('')
 
