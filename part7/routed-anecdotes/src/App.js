@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useField } from './hooks/index'
 import {
   BrowserRouter as Router,
   Routes, Route, Link, useParams, useNavigate
@@ -93,9 +94,9 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const [content, setContent] = useField('content')
+  const [author, setAuthor] = useField('author')
+  const [info, setInfo] = useField('info')
 
   const navigate = useNavigate()
 
