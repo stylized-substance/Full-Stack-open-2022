@@ -111,11 +111,17 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
-  const reset = () => {
-    content.reset()
-    author.reset()
-    info.reset()
+  const resetFields = () => {
+    contentReset()
+    authorReset()
+    infoReset()
   }
+
+  const { reset: contentReset, ...contentNoReset } = content
+  const { reset: authorReset, ...authorNoReset } = author
+  const { reset: infoReset, ...infoNoReset } = info
+
+  console.log('contentReset:', contentReset, 'contentNoReset', contentNoReset);
 
   return (
     <div>
@@ -123,19 +129,19 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...contentNoReset} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...authorNoReset} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...infoNoReset} />
         </div>
         <button>create</button>
       </form>
-      <button onClick={reset}>reset</button>
+      <button onClick={resetFields}>reset</button>
     </div>
   )
 }
