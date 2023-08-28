@@ -21,7 +21,8 @@ const useResource = (baseUrl) => {
   // ...
 
   const create = (resource) => {
-    // ...
+    resource.id = (Math.round(Math.random() * 100))
+    setResources(resources.concat(resource))
   }
 
   const service = {
@@ -38,8 +39,11 @@ const App = () => {
   const name = useField('text')
   const number = useField('text')
 
-  const [notes, noteService] = useResource('http://localhost:3005/notes')
-  const [persons, personService] = useResource('http://localhost:3005/persons')
+  const [notes, noteService] = useResource('')
+  const [persons, personService] = useResource('')
+
+  console.log('App component notes:', notes)
+  console.log('App component persons:', persons)
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
