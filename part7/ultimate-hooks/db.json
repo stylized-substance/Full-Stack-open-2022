@@ -1,0 +1,8 @@
+{
+  "notes": [
+    { "id": 1, "content": "testcontent" }
+  ],
+  "persons": [
+    { "id": 1, "name": "testname", "number": 123 }
+  ]
+}
