@@ -8,21 +8,33 @@ const useField = (type) => {
     setValue(event.target.value)
   }
 
+  const reset = () => setValue('')
+
   return {
     type,
     value,
-    onChange
+    onChange,
+    reset
   }
 }
 
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
-
-  // ...
+  const createId = Math.floor(Math.random() * 1000)
+  
+  useEffect(() => {
+    axios.get(baseUrl)
+      .then(response => {
+        setResources(resources.concat(response.data))
+      })
+    }, [])
 
   const create = (resource) => {
     resource.id = (Math.round(Math.random() * 100))
     setResources(resources.concat(resource))
+    resource = { ...resource, id: createId }
+    axios.post(baseUrl, resource)
+      .then(setResources(resources.concat(resource)))
   }
 
   const service = {
@@ -45,14 +57,18 @@ const App = () => {
   console.log('App component notes:', notes)
   console.log('App component persons:', persons)
 
+
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
+    content.reset()
   }
  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
-    personService.create({ name: name.value, number: number.value})
+    personService.create({ name: name.value, number: number.value })
+    name.reset()
+    number.reset()
   }
 
   return (
@@ -74,5 +90,6 @@ const App = () => {
     </div>
   )
 }
+
 
 export default App
