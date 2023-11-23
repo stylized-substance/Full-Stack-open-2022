@@ -1,25 +1,29 @@
-const notificationReducer = (state = [], action) => {
+const initialState = []
+
+const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
   case 'update':
     return [...state, action.payload]
   case 'reset':
-    state = null
+    return initialState
+  default:
     return state
   }
 }
 
-export const updateNotification = (content) => {
+export const updateNotification = (content, notificationType) => {
   return {
     type: 'update',
     payload: {
-      content
+      content,
+      notificationType
     }
   }
 }
 
 export const resetNotification = () => {
   return {
-    type: 'reset'
+    type: 'reset',
   }
 }
 

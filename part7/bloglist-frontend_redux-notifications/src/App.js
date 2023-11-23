@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -41,14 +42,12 @@ const App = () => {
 
   const dispatch = useDispatch()
   //dispatch(updateNotification('asd'))
-  const notification = useSelector(state => state)
-  console.log(notification)
-  console.log(resetNotification)
+  //const notification = useSelector(state => state)
+  console.log(useSelector(state => state))
 
 
 
   //
-
 
   const blogForm = () => (
     <Togglable buttonLabel="Create blog" ref={createFormRef}>
@@ -116,9 +115,11 @@ const App = () => {
           .then(() => {
             setblogsNeedReload(true)
           })
+        dispatch(updateNotification(`Liked blog ${title}`, 'success'))
         setNotificationMessage(`Liked blog ${title}`)
         setNotificationType('success')
         setTimeout(() => {
+          dispatch(resetNotification())
           setNotificationMessage(null)
           setNotificationType(null)
         }, 5000)
