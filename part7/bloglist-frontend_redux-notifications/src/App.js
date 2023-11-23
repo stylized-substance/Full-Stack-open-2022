@@ -5,6 +5,8 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
+import { updateNotification, resetNotification } from './reducers/notificationReducer'
+import { useSelector, useDispatch } from 'react-redux'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -16,6 +18,37 @@ const App = () => {
   const [notificationType, setNotificationType] = useState(null)
 
   const createFormRef = useRef()
+
+  // Redux testing
+
+  // const notificationReducer = (state = [], action) => {
+  //   switch (action.type) {
+  //   case 'update':
+  //     return [...state, action.payload]
+  //   case 'reset':
+  //     state = null
+  //     return state
+  //   }
+  // }
+  //const store = createStore(notificationReducer)
+
+  // store.dispatch({ type: 'update', payload: 'asd' })
+  // store.dispatch({ type: 'update', payload: 'fgh' })
+
+  // console.log(store.getState())
+  // store.dispatch({ type: 'reset' })
+  // console.log(store.getState())
+
+  const dispatch = useDispatch()
+  //dispatch(updateNotification('asd'))
+  const notification = useSelector(state => state)
+  console.log(notification)
+  console.log(resetNotification)
+
+
+
+  //
+
 
   const blogForm = () => (
     <Togglable buttonLabel="Create blog" ref={createFormRef}>
