@@ -15,8 +15,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
-  const [notificationMessage, setNotificationMessage] = useState(null)
-  const [notificationType, setNotificationType] = useState(null)
+  //const [notificationMessage, setNotificationMessage] = useState(null)
+  //const [notificationType, setNotificationType] = useState(null)
 
   const createFormRef = useRef()
 
@@ -44,6 +44,9 @@ const App = () => {
   //dispatch(updateNotification('asd'))
   //const notification = useSelector(state => state)
   console.log(useSelector(state => state))
+  const notificationState = useSelector(state => state)
+  const notificationMessage = notificationState.content
+  const notificationType = notificationState.type
 
 
 
@@ -116,8 +119,8 @@ const App = () => {
             setblogsNeedReload(true)
           })
         dispatch(updateNotification(`Liked blog ${title}`, 'success'))
-        setNotificationMessage(`Liked blog ${title}`)
-        setNotificationType('success')
+        //setNotificationMessage(`Liked blog ${title}`)
+        //setNotificationType('success')
         setTimeout(() => {
           dispatch(resetNotification())
           setNotificationMessage(null)
