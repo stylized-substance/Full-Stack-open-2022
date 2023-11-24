@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-const Notification = ({ message, notificationType }) => {
+const Notification = () => {
+  const notificationState = useSelector(state => state.notification)
+  const message = notificationState.content
+  const notificationType = notificationState.type
+
   const successStyle = {
     color: 'green',
     background: 'lightgrey',

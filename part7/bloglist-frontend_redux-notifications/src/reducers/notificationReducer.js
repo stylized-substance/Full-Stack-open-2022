@@ -1,30 +1,17 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialState = {}
 
-const notificationReducer = (state = initialState, action) => {
-  switch (action.type) {
-  case 'update':
-    return action.payload
-  case 'reset':
-    return initialState
-  default:
-    return state
-  }
-}
-
-export const updateNotification = (content, type) => {
-  return {
-    type: 'update',
-    payload: {
-      content,
-      type
+const notificationSlice = createSlice({
+  name: 'notification',
+  initialState,
+  reducers: {
+    updateNotification(state, action) {
+      return action.payload
     }
   }
-}
+})
 
-export const resetNotification = () => {
-  return {
-    type: 'reset',
-  }
-}
+export const { updateNotification } = notificationSlice.actions
 
-export default notificationReducer
+export default notificationSlice.reducer

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -6,8 +5,8 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
-import { updateNotification, resetNotification } from './reducers/notificationReducer'
-import { useSelector, useDispatch } from 'react-redux'
+import { updateNotification } from './reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,42 +14,10 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
-  //const [notificationMessage, setNotificationMessage] = useState(null)
-  //const [notificationType, setNotificationType] = useState(null)
 
   const createFormRef = useRef()
 
-  // Redux testing
-
-  // const notificationReducer = (state = [], action) => {
-  //   switch (action.type) {
-  //   case 'update':
-  //     return [...state, action.payload]
-  //   case 'reset':
-  //     state = null
-  //     return state
-  //   }
-  // }
-  //const store = createStore(notificationReducer)
-
-  // store.dispatch({ type: 'update', payload: 'asd' })
-  // store.dispatch({ type: 'update', payload: 'fgh' })
-
-  // console.log(store.getState())
-  // store.dispatch({ type: 'reset' })
-  // console.log(store.getState())
-
   const dispatch = useDispatch()
-  //dispatch(updateNotification('asd'))
-  //const notification = useSelector(state => state)
-  console.log(useSelector(state => state))
-  const notificationState = useSelector(state => state)
-  const notificationMessage = notificationState.content
-  const notificationType = notificationState.type
-
-
-
-  //
 
   const blogForm = () => (
     <Togglable buttonLabel="Create blog" ref={createFormRef}>
@@ -92,11 +59,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotificationMessage('Invalid credentials')
-      setNotificationType('error')
+      dispatch(updateNotification({ content: 'Invalid credentials', type: 'error' }))
       setTimeout(() => {
-        setNotificationMessage(null)
-        setNotificationType(null)
+        dispatch(updateNotification({}))
       }, 5000)
     }
   }
@@ -118,13 +83,9 @@ const App = () => {
           .then(() => {
             setblogsNeedReload(true)
           })
-        dispatch(updateNotification(`Liked blog ${title}`, 'success'))
-        //setNotificationMessage(`Liked blog ${title}`)
-        //setNotificationType('success')
+        dispatch(updateNotification({ content: `Liked blog ${title}`, type: 'success' }))
         setTimeout(() => {
-          dispatch(resetNotification())
-          setNotificationMessage(null)
-          setNotificationType(null)
+          dispatch(updateNotification({}))
         }, 5000)
       })
   }
@@ -133,11 +94,9 @@ const App = () => {
     if (window.confirm('Remove blog ' + title + '?')) {
       blogService.remove(id)
         .then(() => {
-          setNotificationMessage(`Removed blog ${title}`)
-          setNotificationType('success')
+          dispatch(updateNotification({ content: `Removed blog ${title}`, type: 'success' }))
           setTimeout(() => {
-            setNotificationMessage(null)
-            setNotificationType(null)
+            dispatch(updateNotification({}))
           }, 5000)
           setblogsNeedReload(true)
         })
@@ -150,11 +109,9 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setNotificationMessage(`Added blog ${returnedBlog.title}`)
-        setNotificationType('success')
+        dispatch(updateNotification({ content: `Added blog ${returnedBlog.title}`, type: 'success' }))
         setTimeout(() => {
-          setNotificationMessage(null)
-          setNotificationType(null)
+          dispatch(updateNotification({}))
         }, 5000)
       })
   }
@@ -207,7 +164,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={notificationMessage} notificationType={notificationType} />
+      <Notification />
       {!user && loginForm()}
       {user &&
       <div>
