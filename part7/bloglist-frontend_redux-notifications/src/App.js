@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then((blogs) => {
       console.log('Getting blogs..')
-      setBlogs( blogs )
+      setBlogs(blogs)
       setblogsNeedReload(false)
     })
   }, [blogsNeedReload])
@@ -47,19 +47,20 @@ const App = () => {
 
     try {
       const loginResult = await loginService.login({
-        username, password,
+        username,
+        password
       })
 
-      window.localStorage.setItem(
-        'loggedOnUser', JSON.stringify(loginResult)
-      )
+      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
 
       blogService.setToken(loginResult.token)
       setUser(loginResult)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      dispatch(updateNotification({ content: 'Invalid credentials', type: 'error' }))
+      dispatch(
+        updateNotification({ content: 'Invalid credentials', type: 'error' })
+      )
       setTimeout(() => {
         dispatch(updateNotification({}))
       }, 5000)
@@ -73,54 +74,59 @@ const App = () => {
   }
 
   const handleLike = (id, title) => {
-    blogService.getOne(id)
-      .then((blog) => {
-        const newLikes = blog.likes + 1
-        const updateObject = {
-          likes: newLikes
-        }
-        blogService.update(id, updateObject)
-          .then(() => {
-            setblogsNeedReload(true)
-          })
-        dispatch(updateNotification({ content: `Liked blog ${title}`, type: 'success' }))
-        setTimeout(() => {
-          dispatch(updateNotification({}))
-        }, 5000)
+    blogService.getOne(id).then((blog) => {
+      const newLikes = blog.likes + 1
+      const updateObject = {
+        likes: newLikes
+      }
+      blogService.update(id, updateObject).then(() => {
+        setblogsNeedReload(true)
       })
+      dispatch(
+        updateNotification({ content: `Liked blog ${title}`, type: 'success' })
+      )
+      setTimeout(() => {
+        dispatch(updateNotification({}))
+      }, 5000)
+    })
   }
 
   const handleRemove = (id, title) => {
     if (window.confirm('Remove blog ' + title + '?')) {
-      blogService.remove(id)
-        .then(() => {
-          dispatch(updateNotification({ content: `Removed blog ${title}`, type: 'success' }))
-          setTimeout(() => {
-            dispatch(updateNotification({}))
-          }, 5000)
-          setblogsNeedReload(true)
-        })
+      blogService.remove(id).then(() => {
+        dispatch(
+          updateNotification({
+            content: `Removed blog ${title}`,
+            type: 'success'
+          })
+        )
+        setTimeout(() => {
+          dispatch(updateNotification({}))
+        }, 5000)
+        setblogsNeedReload(true)
+      })
     }
   }
 
   const createBlog = (blogObject) => {
     createFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        dispatch(updateNotification({ content: `Added blog ${returnedBlog.title}`, type: 'success' }))
-        setTimeout(() => {
-          dispatch(updateNotification({}))
-        }, 5000)
-      })
+    blogService.create(blogObject).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog))
+      dispatch(
+        updateNotification({
+          content: `Added blog ${returnedBlog.title}`,
+          type: 'success'
+        })
+      )
+      setTimeout(() => {
+        dispatch(updateNotification({}))
+      }, 5000)
+    })
   }
 
   const loginForm = () => (
     <div>
-      <h2>
-        Log in to application
-      </h2>
+      <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
           username
@@ -142,10 +148,8 @@ const App = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button
-          type="submit"
-          id="login-button">
-            Login
+        <button type="submit" id="login-button">
+          Login
         </button>
       </form>
     </div>
@@ -156,9 +160,15 @@ const App = () => {
   const blogsDisplay = () => (
     <div id="blogs-display">
       <h2>Blogs</h2>
-      {sortedByLikes.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} user={user.username}/>
-      )}
+      {sortedByLikes.map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={handleLike}
+          handleRemove={handleRemove}
+          user={user.username}
+        />
+      ))}
     </div>
   )
 
@@ -166,16 +176,16 @@ const App = () => {
     <div>
       <Notification />
       {!user && loginForm()}
-      {user &&
-      <div>
-        <p>
-          {user.name} logged in
-        </p>
-        <button id="logout-button" onClick={handleLogout}>Logout</button>
-        {blogForm()}
-        {blogsDisplay()}
-      </div>
-      }
+      {user && (
+        <div>
+          <p>{user.name} logged in</p>
+          <button id="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+          {blogForm()}
+          {blogsDisplay()}
+        </div>
+      )}
     </div>
   )
 }

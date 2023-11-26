@@ -78,7 +78,6 @@ test('clicking like twice calls event handler twice', async () => {
   await user.click(likeButton)
 
   expect(mockHandler.mock.calls).toHaveLength(2)
-
 })
 
 test('CreateForm calls event handler with right details when blog is created', async () => {

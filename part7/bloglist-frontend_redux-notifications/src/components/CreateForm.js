@@ -10,7 +10,7 @@ const CreateForm = ({ createBlog }) => {
     createBlog({
       title: title,
       author: author,
-      url: url,
+      url: url
     })
 
     setTitle('')
@@ -20,13 +20,12 @@ const CreateForm = ({ createBlog }) => {
 
   return (
     <div>
-      <h2>
-        Create a new blog
-      </h2>
+      <h2>Create a new blog</h2>
       <form onSubmit={addBlog}>
         <div>
           Title
-          <input id="title-input"
+          <input
+            id="title-input"
             type="text"
             value={title}
             name="Title"
@@ -35,7 +34,8 @@ const CreateForm = ({ createBlog }) => {
         </div>
         <div>
           Author
-          <input id="author-input"
+          <input
+            id="author-input"
             type="text"
             value={author}
             name="Author"
@@ -44,14 +44,17 @@ const CreateForm = ({ createBlog }) => {
         </div>
         <div>
           Url
-          <input id="url-input"
+          <input
+            id="url-input"
             type="text"
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit" id="submit-button">Submit</button>
+        <button type="submit" id="submit-button">
+          Submit
+        </button>
       </form>
     </div>
   )
