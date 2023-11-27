@@ -6,16 +6,17 @@ import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import { updateNotification } from './reducers/notificationReducer'
+import { setBlogs, resetBlogs } from './reducers/blogReducer'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
-
   const createFormRef = useRef()
+  const blogs = useSelector((state => state.blogs))
 
   const dispatch = useDispatch()
 
@@ -27,8 +28,10 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
-      console.log('Getting blogs..')
-      setBlogs(blogs)
+      dispatch(resetBlogs())
+      blogs.forEach((blog) => {
+        dispatch(setBlogs(blog))
+      })
       setblogsNeedReload(false)
     })
   }, [blogsNeedReload])
@@ -80,7 +83,6 @@ const App = () => {
         likes: newLikes
       }
       blogService.update(id, updateObject).then(() => {
-        setblogsNeedReload(true)
       })
       dispatch(
         updateNotification({ content: `Liked blog ${title}`, type: 'success' })
@@ -88,6 +90,7 @@ const App = () => {
       setTimeout(() => {
         dispatch(updateNotification({}))
       }, 5000)
+      setblogsNeedReload(true)
     })
   }
 
@@ -111,7 +114,6 @@ const App = () => {
   const createBlog = (blogObject) => {
     createFormRef.current.toggleVisibility()
     blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog))
       dispatch(
         updateNotification({
           content: `Added blog ${returnedBlog.title}`,
@@ -121,6 +123,7 @@ const App = () => {
       setTimeout(() => {
         dispatch(updateNotification({}))
       }, 5000)
+      setblogsNeedReload(true)
     })
   }
 
@@ -155,12 +158,10 @@ const App = () => {
     </div>
   )
 
-  const sortedByLikes = blogs.sort((a, b) => b.likes - a.likes)
-
   const blogsDisplay = () => (
     <div id="blogs-display">
       <h2>Blogs</h2>
-      {sortedByLikes.map((blog) => (
+      {blogs.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
