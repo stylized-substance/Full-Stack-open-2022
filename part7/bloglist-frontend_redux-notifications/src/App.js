@@ -7,17 +7,18 @@ import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import { updateNotification } from './reducers/notificationReducer'
 import { setBlogs, resetBlogs } from './reducers/blogReducer'
+import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  //const [user, setUser] = useState(null)
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
   const createFormRef = useRef()
   const blogs = useSelector((state => state.blogs))
-
+  const user = useSelector((state => state.user))
   const dispatch = useDispatch()
 
   const blogForm = () => (
@@ -37,10 +38,10 @@ const App = () => {
   }, [blogsNeedReload])
 
   useEffect(() => {
-    const loggedOnUserJSON = window.localStorage.getItem('loggedOnUser')
-    if (loggedOnUserJSON) {
-      const user = JSON.parse(loggedOnUserJSON)
-      setUser(user)
+    //const loggedOnUserJSON = window.localStorage.getItem('loggedOnUser')
+    if (user) {
+      //const user = JSON.parse(loggedOnUserJSON)
+      //setUser(user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -54,10 +55,12 @@ const App = () => {
         password
       })
 
-      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
+      //window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
 
       blogService.setToken(loginResult.token)
-      setUser(loginResult)
+      //setUser(loginResult)
+      console.log(loginResult);
+      dispatch(setLoggedInUser(loginResult))
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -72,8 +75,8 @@ const App = () => {
 
   const handleLogout = (event) => {
     event.preventDefault()
-    window.localStorage.removeItem('loggedOnUser')
-    setUser(null)
+    //window.localStorage.removeItem('loggedOnUser')
+    dispatch(resetUser())
   }
 
   const handleLike = (id, title) => {
@@ -179,7 +182,7 @@ const App = () => {
       {!user && loginForm()}
       {user && (
         <div>
-          <p>{user.name} logged in</p>
+          <p>{user.username} logged in</p>
           <button id="logout-button" onClick={handleLogout}>
             Logout
           </button>
