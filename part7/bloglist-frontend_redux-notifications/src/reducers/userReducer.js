@@ -7,7 +7,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setLoggedInUser(state, action) {
-      console.log(action.payload)
       return action.payload
     },
     resetUser: () => initialState

@@ -14,7 +14,6 @@ import { useSelector } from 'react-redux'
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  //const [user, setUser] = useState(null)
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
   const createFormRef = useRef()
   const blogs = useSelector((state => state.blogs))
@@ -38,11 +37,10 @@ const App = () => {
   }, [blogsNeedReload])
 
   useEffect(() => {
-    //const loggedOnUserJSON = window.localStorage.getItem('loggedOnUser')
-    if (user) {
-      //const user = JSON.parse(loggedOnUserJSON)
-      //setUser(user)
-      blogService.setToken(user.token)
+    const loggedOnUserLocalStorage = JSON.parse(window.localStorage.getItem('loggedOnUser'))
+    if (loggedOnUserLocalStorage) {
+      dispatch(setLoggedInUser(loggedOnUserLocalStorage))
+      blogService.setToken(loggedOnUserLocalStorage.token)
     }
   }, [])
 
@@ -55,11 +53,9 @@ const App = () => {
         password
       })
 
-      //window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
+      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
 
       blogService.setToken(loginResult.token)
-      //setUser(loginResult)
-      console.log(loginResult);
       dispatch(setLoggedInUser(loginResult))
       setUsername('')
       setPassword('')
@@ -75,7 +71,7 @@ const App = () => {
 
   const handleLogout = (event) => {
     event.preventDefault()
-    //window.localStorage.removeItem('loggedOnUser')
+    window.localStorage.removeItem('loggedOnUser')
     dispatch(resetUser())
   }
 
