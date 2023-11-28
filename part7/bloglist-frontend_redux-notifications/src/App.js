@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import userService from './services/users'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
+import UserView from './components/UserView'
+
 import { updateNotification } from './reducers/notificationReducer'
 import { setBlogs, resetBlogs } from './reducers/blogReducer'
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
@@ -14,10 +17,17 @@ import { useSelector } from 'react-redux'
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [userInfo, setUserInfo] = useState([])
   const [blogsNeedReload, setblogsNeedReload] = useState(false)
   const createFormRef = useRef()
   const blogs = useSelector((state => state.blogs))
   const user = useSelector((state => state.user))
+  // const userInfo = async () => {
+  //   return await userService.getAll().data
+  // }
+  useEffect(() => {
+    userService.getAll().then((response) => {setUserInfo(response)})
+  }, [])
   const dispatch = useDispatch()
 
   const blogForm = () => (
@@ -184,6 +194,7 @@ const App = () => {
           </button>
           {blogForm()}
           {blogsDisplay()}
+          <UserView props={userInfo} />
         </div>
       )}
     </div>
