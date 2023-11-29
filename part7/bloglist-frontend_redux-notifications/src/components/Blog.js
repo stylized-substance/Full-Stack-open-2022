@@ -23,12 +23,12 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     )
   }
 
-  const RemoveButton = ({ id, handleRemove, title }) => {
+  const RemoveButton = ({ blog, handleRemove, title }) => {
     if (blog.user.username === user) {
       return (
         <button
           className="remove-button"
-          onClick={() => handleRemove(id, title)}
+          onClick={() => handleRemove(blog, title)}
         >
           Remove
         </button>
@@ -61,6 +61,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
               title={blog.title}
             />
             <RemoveButton
+              blog={blog}
               id={blog.id}
               handleRemove={handleRemove}
               title={blog.title}

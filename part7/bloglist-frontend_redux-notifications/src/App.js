@@ -9,7 +9,7 @@ import Togglable from './components/Togglable'
 import UserView from './components/UserView'
 
 import { updateNotification } from './reducers/notificationReducer'
-import { initializeBlogs, addBlog, likeBlog } from './reducers/blogReducer'
+import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -86,20 +86,18 @@ const App = () => {
     }, 5000)
   }
 
-  const handleRemove = (id, title) => {
+  const handleRemove = (blog, title) => {
     if (window.confirm('Remove blog ' + title + '?')) {
-      blogService.remove(id).then(() => {
-        dispatch(
-          updateNotification({
-            content: `Removed blog ${title}`,
-            type: 'success'
-          })
-        )
-        setTimeout(() => {
-          dispatch(updateNotification({}))
-        }, 5000)
-        //setblogsNeedReload(true)
-      })
+      dispatch(removeBlog(blog))
+      dispatch(
+        updateNotification({
+          content: `Removed blog ${title}`,
+          type: 'success'
+        })
+      )
+      setTimeout(() => {
+        dispatch(updateNotification({}))
+      }, 5000)
     }
   }
 
