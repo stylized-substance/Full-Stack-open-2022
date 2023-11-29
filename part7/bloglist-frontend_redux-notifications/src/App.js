@@ -31,12 +31,7 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [])
 
-  const blogForm = () => (
-    <Togglable buttonLabel="Create blog" ref={createFormRef}>
-      <CreateForm createBlog={createBlog} />
-    </Togglable>
-  )
-
+  
   useEffect(() => {
     const loggedOnUserLocalStorage = JSON.parse(window.localStorage.getItem('loggedOnUser'))
     if (loggedOnUserLocalStorage) {
@@ -44,10 +39,10 @@ const App = () => {
       blogService.setToken(loggedOnUserLocalStorage.token)
     }
   }, [])
-
+  
   const handleLogin = async (event) => {
     event.preventDefault()
-
+    
     try {
       const loginResult = await loginService.login({
         username,
@@ -55,7 +50,7 @@ const App = () => {
       })
 
       window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
-
+      
       blogService.setToken(loginResult.token)
       dispatch(setLoggedInUser(loginResult))
       setUsername('')
@@ -94,7 +89,7 @@ const App = () => {
           content: `Removed blog ${title}`,
           type: 'success'
         })
-      )
+        )
       setTimeout(() => {
         dispatch(updateNotification({}))
       }, 5000)
@@ -109,12 +104,12 @@ const App = () => {
         content: `Added blog ${blogObject.title}`,
         type: 'success'
       })
-    )
+      )
     setTimeout(() => {
       dispatch(updateNotification({}))
     }, 5000)
   }
-
+  
   const loginForm = () => (
     <div>
       <h2>Log in to application</h2>
@@ -145,6 +140,11 @@ const App = () => {
       </form>
     </div>
   )
+  const blogForm = () => (
+    <Togglable buttonLabel="Create blog" ref={createFormRef}>
+      <CreateForm createBlog={createBlog} />
+    </Togglable>
+  )
 
   const blogsDisplay = () => (
     <div id="blogs-display">
@@ -160,7 +160,7 @@ const App = () => {
       ))}
     </div>
   )
-
+  
   return (
     <div className="container">
       <Notification />
