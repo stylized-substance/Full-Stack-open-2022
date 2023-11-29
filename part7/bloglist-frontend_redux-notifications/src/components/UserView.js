@@ -1,34 +1,37 @@
-//import React from 'react'
+import Table from 'react-bootstrap/Table'
 
 const UserView = ({ props }) => {
-
-  const headerContainerStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-  }
-
-  const headerStyle = {
-    padding: '0px',
-    border: '1px solid #ccc',
-    borderRadius: '4px'
-  }
+  const usersMappedToTable = props.map((user) =>
+    <tr key={user.id}>
+      <td>
+        {user.username}
+      </td>
+      <td>
+        {user.blogs.length}
+      </td>
+    </tr>
+  )
 
   return (
-    <div>
-      <div style={headerContainerStyle}>
-        <div style={headerStyle}><h3>Users</h3></div>
-        <div style={headerStyle}><h3>Blogs created</h3></div>
-      </div>
-      <div id="user-info">
-        <div>
-          {props.map((user) => (
-            <li key={user.id}>
-              {user.username} {user.blogs.length}
-            </li>
-          ))}
-        </div>
-      </div>
-    </div>
+    <Table>
+      <thead>
+        <tr>
+          <th>
+            <h2>
+              User
+            </h2>
+          </th>
+          <th>
+            <h2>
+            Blogs created
+            </h2>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {usersMappedToTable}
+      </tbody>
+    </Table>
   )
 }
 

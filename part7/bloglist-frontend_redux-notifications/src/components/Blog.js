@@ -15,9 +15,9 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     marginBottom: 5
   }
 
-  const LikeButton = ({ id, handleLike, title }) => {
+  const LikeButton = ({ blog, handleLike, title }) => {
     return (
-      <button onClick={() => handleLike(id, title)} className="like-button">
+      <button onClick={() => handleLike(blog, title)} className="like-button">
         Like
       </button>
     )
@@ -56,7 +56,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
           </div>
           <div>
             <LikeButton
-              id={blog.id}
+              blog={blog}
               handleLike={handleLike}
               title={blog.title}
             />
