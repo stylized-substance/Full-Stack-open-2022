@@ -7,6 +7,7 @@ import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import UserView from './components/UserView'
+import SingleUserView from './components/SingleUserView'
 
 import { updateNotification } from './reducers/notificationReducer'
 import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogReducer'
@@ -147,7 +148,6 @@ const App = () => {
 
   const blogsDisplay = () => (
     <div id="blogs-display">
-      <h2>Blogs</h2>
       {blogs.map((blog) => (
         <Blog
           key={blog.id}
@@ -166,11 +166,13 @@ const App = () => {
       {!user && loginForm()}
       {user && (
         <div>
+          <h2>Blogs</h2>
           <p>{user.username} logged in</p>
           <button id="logout-button" onClick={handleLogout}>
             Logout
           </button>
           {blogForm()}
+          <SingleUserView user={userInfo[0]} />
           {blogsDisplay()}
           <UserView props={userInfo} />
         </div>
