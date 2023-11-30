@@ -8,6 +8,7 @@ import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import { updateNotification } from './reducers/notificationReducer'
 import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogReducer'
@@ -162,21 +163,23 @@ const App = () => {
 
   return (
     <div className="container">
-      <Notification />
-      {!user && loginForm()}
-      {user && (
-        <div>
-          <h2>Blogs</h2>
-          <p>{user.username} logged in</p>
-          <button id="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-          {blogForm()}
-          <SingleUserView user={userInfo[0]} />
-          {blogsDisplay()}
-          <UserView props={userInfo} />
-        </div>
-      )}
+      <Router>
+        <Notification />
+        {!user && loginForm()}
+        {user && (
+          <div>
+            <h2>Blogs</h2>
+            <p>{user.username} logged in</p>
+            <button id="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+            {blogForm()}
+            <SingleUserView user={userInfo[0]} />
+            {blogsDisplay()}
+            <UserView props={userInfo} />
+          </div>
+        )}
+      </Router>
     </div>
   )
 }
