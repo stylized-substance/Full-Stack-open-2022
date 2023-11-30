@@ -161,6 +161,14 @@ const App = () => {
     </div>
   )
 
+  const MainPageElements = () => (
+    <div>
+      {blogForm()}
+      {blogsDisplay()}
+      <UserView props={userInfo} />
+    </div>
+  )
+
   return (
     <div className="container">
       <Router>
@@ -173,10 +181,10 @@ const App = () => {
             <button id="logout-button" onClick={handleLogout}>
               Logout
             </button>
-            {blogForm()}
-            <SingleUserView user={userInfo[0]} />
-            {blogsDisplay()}
-            <UserView props={userInfo} />
+            <Routes>
+              <Route path="/" element={<MainPageElements />} />
+              <Route path="/users/:id" element={<SingleUserView user={userInfo[0]} />} />
+            </Routes>
           </div>
         )}
       </Router>
