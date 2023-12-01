@@ -72,26 +72,6 @@ const App = () => {
     setUser(null)
   }
 
-  const handleLike = (id, title) => {
-    blogService.getOne(id)
-      .then((blog) => {
-        const newLikes = blog.likes + 1
-        const updateObject = {
-          likes: newLikes
-        }
-        blogService.update(id, updateObject)
-          .then(() => {
-            setblogsNeedReload(true)
-          })
-        setNotificationMessage(`Liked blog ${title}`)
-        setNotificationType('success')
-        setTimeout(() => {
-          setNotificationMessage(null)
-          setNotificationType(null)
-        }, 5000)
-      })
-  }
-
   const handleRemove = (id, title) => {
     if (window.confirm('Remove blog ' + title + '?')) {
       blogService.remove(id)

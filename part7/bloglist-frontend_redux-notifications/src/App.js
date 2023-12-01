@@ -16,7 +16,6 @@ import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogR
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import useHandleLike from './utils/useHandleLike'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -26,7 +25,6 @@ const App = () => {
   const blogs = useSelector((state => state.blogs))
   const user = useSelector((state => state.user))
   const dispatch = useDispatch()
-  const handleLike = useHandleLike()
 
   useEffect(() => {
     userService.getAll().then((response) => {setUserInfo(response)})
@@ -146,7 +144,6 @@ const App = () => {
         <Blog
           key={blog.id}
           blog={blog}
-          handleLike={handleLike}
           handleRemove={handleRemove}
           user={user.username}
         />

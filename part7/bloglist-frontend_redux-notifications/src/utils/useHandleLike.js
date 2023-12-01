@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { likeBlog } from '../reducers/blogReducer'
 import { updateNotification } from '../reducers/notificationReducer'
-
 const useHandleLike = (blog, title) => {
   const dispatch = useDispatch()
 

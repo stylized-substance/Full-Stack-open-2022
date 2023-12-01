@@ -55,7 +55,6 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
           <div>
             <LikeButton
               blog={blog}
-              handleLike={handleLike}
               title={blog.title}
             />
             <RemoveButton
