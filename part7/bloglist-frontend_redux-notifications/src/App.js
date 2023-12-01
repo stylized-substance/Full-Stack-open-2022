@@ -8,6 +8,7 @@ import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
+import SingleBlogview from './components/SingleBlogView'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import { updateNotification } from './reducers/notificationReducer'
@@ -15,6 +16,7 @@ import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogR
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import useHandleLike from './utils/useHandleLike'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -24,6 +26,7 @@ const App = () => {
   const blogs = useSelector((state => state.blogs))
   const user = useSelector((state => state.user))
   const dispatch = useDispatch()
+  const handleLike = useHandleLike()
 
   useEffect(() => {
     userService.getAll().then((response) => {setUserInfo(response)})
@@ -70,16 +73,6 @@ const App = () => {
     event.preventDefault()
     window.localStorage.removeItem('loggedOnUser')
     dispatch(resetUser())
-  }
-
-  const handleLike = (blog, title) => {
-    dispatch(likeBlog(blog))
-    dispatch(
-      updateNotification({ content: `Liked blog ${title}`, type: 'success' })
-    )
-    setTimeout(() => {
-      dispatch(updateNotification({}))
-    }, 5000)
   }
 
   const handleRemove = (blog, title) => {
@@ -184,6 +177,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainPageElements />} />
               <Route path="/users/:id" element={<SingleUserView users={userInfo} />} />
+              <Route path="/blogs/:id" element={<SingleBlogview blogs={blogs} />} />
             </Routes>
           </div>
         )}

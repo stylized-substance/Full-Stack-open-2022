@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import LikeButton from './LikeButton'
 
 const Blog = ({ blog, handleLike, handleRemove, user }) => {
   const [visible, setVisible] = useState(false)
@@ -15,14 +17,6 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     marginBottom: 5
   }
 
-  const LikeButton = ({ blog, handleLike, title }) => {
-    return (
-      <button onClick={() => handleLike(blog, title)} className="like-button">
-        Like
-      </button>
-    )
-  }
-
   const RemoveButton = ({ blog, handleRemove, title }) => {
     if (blog.user.username === user) {
       return (
@@ -37,7 +31,11 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   }
   return (
     <div className="blog" style={blogStyle}>
-      <div className="title">{blog.title}</div>
+      <div className="title">
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title}
+        </Link>
+      </div>
       <div className="author">{blog.author}</div>
       {!visible && (
         <div>
