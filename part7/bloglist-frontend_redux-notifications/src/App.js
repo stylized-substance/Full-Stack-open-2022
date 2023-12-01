@@ -183,7 +183,7 @@ const App = () => {
             </button>
             <Routes>
               <Route path="/" element={<MainPageElements />} />
-              <Route path="/users/:id" element={<SingleUserView user={userInfo[0]} />} />
+              <Route path="/users/:id" element={<SingleUserView users={userInfo} />} />
             </Routes>
           </div>
         )}

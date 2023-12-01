@@ -1,13 +1,18 @@
-const SingleUserView = ({ user }) => {
-  if (user) {
-    console.log(user.blogs)
-    const blogsMapped = user.blogs.map((blog) =>
-      <li key={blog.id}>
-        {blog.title}
-      </li>
-    )
+import Table from 'react-bootstrap/Table'
+import { useParams } from 'react-router-dom'
 
-    console.log(blogsMapped)
+const SingleUserView = ({ users }) => {
+  const userId = useParams().id
+  const user = users.find((user) => user.id === userId)
+
+  if (user) {
+    const blogsMapped = user.blogs.map((blog) =>
+      <tr key={blog.id}>
+        <td>
+          {blog.title}
+        </td>
+      </tr>
+    )
 
     return (
       <div>
@@ -15,15 +20,20 @@ const SingleUserView = ({ user }) => {
         <h2>
           {user.username}
         </h2>
-        <div>
-          {user.id}
-        </div>
-        <b>
-          Added blogs
-        </b>
-        <ul>
-          {blogsMapped}
-        </ul>
+        <Table>
+          <thead>
+            <tr>
+              <th>
+                <h3>
+                  Added blogs
+                </h3>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {blogsMapped}
+          </tbody>
+        </Table>
       </div>
     )
   } else {
