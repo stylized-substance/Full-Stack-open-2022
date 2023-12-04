@@ -5,11 +5,12 @@ import { updateNotification } from '../reducers/notificationReducer'
 const useHandleLike = () => {
   const dispatch = useDispatch()
   const handleLike = ({ blog }) => {
-    console.log(blog)
-
     dispatch(likeBlog(blog))
     dispatch(
-      updateNotification({ content: `Liked blog ${blog.title}`, type: 'success' })
+      updateNotification({
+        content: `Liked blog ${blog.title}`,
+        type: 'success'
+      })
     )
     setTimeout(() => {
       dispatch(updateNotification({}))

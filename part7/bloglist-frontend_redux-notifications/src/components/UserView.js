@@ -3,17 +3,15 @@ import SingleUserView from './SingleUserView'
 import { Routes, Route, Link } from 'react-router-dom'
 
 const UserView = ({ props }) => {
-  console.log(props)
-  const usersMappedToTable = props.map((user) =>
+  props
+  const usersMappedToTable = props.map((user) => (
     <tr key={user.id}>
       <td>
         <Link to={`/users/${user.id}`}>{user.username}</Link>
       </td>
-      <td>
-        {user.blogs.length}
-      </td>
+      <td>{user.blogs.length}</td>
     </tr>
-  )
+  ))
 
   return (
     <div>
@@ -21,20 +19,14 @@ const UserView = ({ props }) => {
         <thead>
           <tr>
             <th>
-              <h2>
-                User
-              </h2>
+              <h2>User</h2>
             </th>
             <th>
-              <h2>
-              Blogs created
-              </h2>
+              <h2>Blogs created</h2>
             </th>
           </tr>
         </thead>
-        <tbody>
-          {usersMappedToTable}
-        </tbody>
+        <tbody>{usersMappedToTable}</tbody>
       </Table>
     </div>
   )

@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom'
 import LikeButton from './LikeButton'
 
 const Blog = ({ blog, handleRemove, user }) => {
-  const [visible, setVisible] = useState(false)
-
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -37,34 +32,22 @@ const Blog = ({ blog, handleRemove, user }) => {
         </Link>
       </div>
       <div className="author">{blog.author}</div>
-      {!visible && (
+      <div className="moreinfo">
+        <div className="url">{blog.url}</div>
+        <div className="likes">Likes: {blog.likes}</div>
+        <div>Added by: {blog.user.name}</div>
         <div>
-          <button onClick={toggleVisibility} className="more-button">
-            More
-          </button>
+          <LikeButton
+            blog={blog}
+          />
+          <RemoveButton
+            blog={blog}
+            id={blog.id}
+            handleRemove={handleRemove}
+            title={blog.title}
+          />
         </div>
-      )}
-      {visible && (
-        <div className="moreinfo">
-          <div className="url">{blog.url}</div>
-          <div className="likes">Likes: {blog.likes}</div>
-          <div>Added by: {blog.user.name}</div>
-          <div>
-            <button onClick={toggleVisibility}>Less</button>
-          </div>
-          <div>
-            <LikeButton
-              blog={blog}
-            />
-            <RemoveButton
-              blog={blog}
-              id={blog.id}
-              handleRemove={handleRemove}
-              title={blog.title}
-            />
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   )
 }

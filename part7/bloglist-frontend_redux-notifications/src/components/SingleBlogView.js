@@ -15,13 +15,14 @@ const SingleBlogView = ({ blogs }) => {
       <h1>
         {blog.title}
       </h1>
-      {blog.likes} likes
-      <br></br>
       <a href={blog.url}>
         {blog.url}
       </a>
       <br></br>
+      {blog.likes} likes
+      <br></br>
       Added by {blog.user.username}
+      <br></br>
       <LikeButton blog={blog} />
     </div>
   )
