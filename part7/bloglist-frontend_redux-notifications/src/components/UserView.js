@@ -3,7 +3,6 @@ import SingleUserView from './SingleUserView'
 import { Routes, Route, Link } from 'react-router-dom'
 
 const UserView = ({ props }) => {
-  props
   const usersMappedToTable = props.map((user) => (
     <tr key={user.id}>
       <td>
