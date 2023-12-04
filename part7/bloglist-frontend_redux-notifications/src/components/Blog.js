@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import LikeButton from './LikeButton'
 
-const Blog = ({ blog, handleLike, handleRemove, user }) => {
+const Blog = ({ blog, handleRemove, user }) => {
   const [visible, setVisible] = useState(false)
 
   const toggleVisibility = () => {
@@ -55,7 +55,6 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
           <div>
             <LikeButton
               blog={blog}
-              title={blog.title}
             />
             <RemoveButton
               blog={blog}

@@ -1,12 +1,9 @@
-import Table from "react-bootstrap/Table"
 import { useParams } from 'react-router-dom'
 import LikeButton from "./LikeButton"
-import useHandleLike from '../utils/useHandleLike'
 
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
   const blog = blogs.find((blog) => blog.id === blogId)
-  console.log(blog)
 
   if (!blog) {
     return null
@@ -25,6 +22,7 @@ const SingleBlogView = ({ blogs }) => {
       </a>
       <br></br>
       Added by {blog.user.username}
+      <LikeButton blog={blog} />
     </div>
   )
 }

@@ -1,16 +1,21 @@
 import { useDispatch } from 'react-redux'
 import { likeBlog } from '../reducers/blogReducer'
 import { updateNotification } from '../reducers/notificationReducer'
-const useHandleLike = (blog, title) => {
-  const dispatch = useDispatch()
 
-  dispatch(likeBlog(blog))
-  dispatch(
-    updateNotification({ content: `Liked blog ${title}`, type: 'success' })
-  )
-  setTimeout(() => {
-    dispatch(updateNotification({}))
-  }, 5000)
+const useHandleLike = () => {
+  const dispatch = useDispatch()
+  const handleLike = ({ blog }) => {
+    console.log(blog)
+
+    dispatch(likeBlog(blog))
+    dispatch(
+      updateNotification({ content: `Liked blog ${blog.title}`, type: 'success' })
+    )
+    setTimeout(() => {
+      dispatch(updateNotification({}))
+    }, 5000)
+  }
+  return handleLike
 }
 
 export default useHandleLike
