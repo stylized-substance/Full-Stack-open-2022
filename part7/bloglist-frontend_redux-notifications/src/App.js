@@ -12,7 +12,12 @@ import SingleBlogview from './components/SingleBlogView'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import { updateNotification } from './reducers/notificationReducer'
-import { initializeBlogs, addBlog, likeBlog, removeBlog } from './reducers/blogReducer'
+import {
+  initializeBlogs,
+  addBlog,
+  likeBlog,
+  removeBlog
+} from './reducers/blogReducer'
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -22,12 +27,14 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [userInfo, setUserInfo] = useState([])
   const createFormRef = useRef()
-  const blogs = useSelector((state => state.blogs))
-  const user = useSelector((state => state.user))
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    userService.getAll().then((response) => {setUserInfo(response)})
+    userService.getAll().then((response) => {
+      setUserInfo(response)
+    })
   }, [])
 
   useEffect(() => {
@@ -35,7 +42,9 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedOnUserLocalStorage = JSON.parse(window.localStorage.getItem('loggedOnUser'))
+    const loggedOnUserLocalStorage = JSON.parse(
+      window.localStorage.getItem('loggedOnUser')
+    )
     if (loggedOnUserLocalStorage) {
       dispatch(setLoggedInUser(loggedOnUserLocalStorage))
       blogService.setToken(loggedOnUserLocalStorage.token)
@@ -173,8 +182,14 @@ const App = () => {
             </button>
             <Routes>
               <Route path="/" element={<MainPageElements />} />
-              <Route path="/users/:id" element={<SingleUserView users={userInfo} />} />
-              <Route path="/blogs/:id" element={<SingleBlogview blogs={blogs} />} />
+              <Route
+                path="/users/:id"
+                element={<SingleUserView users={userInfo} />}
+              />
+              <Route
+                path="/blogs/:id"
+                element={<SingleBlogview blogs={blogs} />}
+              />
             </Routes>
           </div>
         )}

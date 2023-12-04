@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import LikeButton from './LikeButton'
 
 const Blog = ({ blog, handleRemove, user }) => {
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -27,9 +26,7 @@ const Blog = ({ blog, handleRemove, user }) => {
   return (
     <div className="blog" style={blogStyle}>
       <div className="title">
-        <Link to={`/blogs/${blog.id}`}>
-          {blog.title}
-        </Link>
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
       </div>
       <div className="author">{blog.author}</div>
       <div className="moreinfo">
@@ -37,9 +34,7 @@ const Blog = ({ blog, handleRemove, user }) => {
         <div className="likes">Likes: {blog.likes}</div>
         <div>Added by: {blog.user.name}</div>
         <div>
-          <LikeButton
-            blog={blog}
-          />
+          <LikeButton blog={blog} />
           <RemoveButton
             blog={blog}
             id={blog.id}

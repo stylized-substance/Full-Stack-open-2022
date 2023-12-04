@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import LikeButton from "./LikeButton"
+import LikeButton from './LikeButton'
 
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
@@ -12,12 +12,8 @@ const SingleBlogView = ({ blogs }) => {
   return (
     <div>
       <br></br>
-      <h1>
-        {blog.title}
-      </h1>
-      <a href={blog.url}>
-        {blog.url}
-      </a>
+      <h1>{blog.title}</h1>
+      <a href={blog.url}>{blog.url}</a>
       <br></br>
       {blog.likes} likes
       <br></br>
