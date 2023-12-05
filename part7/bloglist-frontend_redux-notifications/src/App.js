@@ -11,6 +11,7 @@ import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
 import SingleBlogview from './components/SingleBlogView'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom'
+import useHandleLogin from './utils/useHandleLogin'
 
 import { updateNotification } from './reducers/notificationReducer'
 import {
@@ -29,8 +30,28 @@ const App = () => {
   const [userInfo, setUserInfo] = useState([])
   const createFormRef = useRef()
   const blogs = useSelector((state) => state.blogs)
-  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  
+  useEffect(() => {
+    const loggedOnUserLocalStorage = JSON.parse(
+      window.localStorage.getItem('loggedOnUser')
+    )
+    if (loggedOnUserLocalStorage) {
+      console.log('setting user...', loggedOnUserLocalStorage)
+      dispatch(setLoggedInUser(loggedOnUserLocalStorage))
+      blogService.setToken(loggedOnUserLocalStorage.token)
+    }
+  }, [])
+
+  const user = useSelector((state) => {
+    console.log(state)
+    if (state.user) {
+      return state.user
+    } else {
+      return 'empty'
+    }
+  })
+  console.log(user)
 
   useEffect(() => {
     userService.getAll().then((response) => {
@@ -41,42 +62,6 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [])
-
-  useEffect(() => {
-    const loggedOnUserLocalStorage = JSON.parse(
-      window.localStorage.getItem('loggedOnUser')
-    )
-    if (loggedOnUserLocalStorage) {
-      dispatch(setLoggedInUser(loggedOnUserLocalStorage))
-      blogService.setToken(loggedOnUserLocalStorage.token)
-    }
-  }, [])
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    try {
-      const loginResult = await loginService.login({
-        username,
-        password
-      })
-
-      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
-
-      blogService.setToken(loginResult.token)
-      dispatch(setLoggedInUser(loginResult))
-      setUsername('')
-      setPassword('')
-      navigate('/')
-    } catch (exception) {
-      dispatch(
-        updateNotification({ content: 'Invalid credentials', type: 'error' })
-        )
-        setTimeout(() => {
-          dispatch(updateNotification({}))
-        }, 5000)
-    }
-  }
 
   const handleLogout = (event) => {
     event.preventDefault()
@@ -115,10 +100,16 @@ const App = () => {
 
   const LoginForm = () => {
     const navigate = useNavigate()
+    const handleLogin = useHandleLogin()
+    // useEffect(() => {
+    //   if (user) {
+    //     navigate('/')
+    //   }
+    // })
     return (
       <div>
         <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={() => handleLogin(username, password)}>
           <div>
             username
             <input
@@ -191,12 +182,19 @@ const App = () => {
   }
 
   //{!user && navigate('/login')}
+  while (!user) {
+    return (
+      <div>
+        Loading...
+      </div>
+    )
+  }
   return (
     <div className="container">
       <Router>
         <Notification />
           <Routes>
-            <Route path="/" element={user ? <Home /> : <Navigate replace to='/login' />} />
+            <Route path="/" element={user !== 'empty' ? <Home /> : <Navigate replace to='/login' />} />
             <Route path="/login" element={<LoginForm />} />
             <Route
               path="/users/:id"
