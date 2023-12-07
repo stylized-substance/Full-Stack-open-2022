@@ -35,8 +35,9 @@ const App = () => {
   const createFormRef = useRef()
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
-  const [loggedOn, setLoggedon] = useState(false)
-  const loggedOnUserLocalStorage = JSON.parse(window.localStorage.getItem('loggedOnUser'))
+  const loggedOnUserLocalStorage = JSON.parse(
+    window.localStorage.getItem('loggedOnUser')
+  )
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -44,9 +45,6 @@ const App = () => {
 
   useEffect(() => {
     if (loggedOnUserLocalStorage) {
-      console.log('loggedOn', loggedOn)
-      console.log('setting loggedon to true')
-      setLoggedon(true)
       dispatch(setLoggedInUser(loggedOnUserLocalStorage))
       blogService.setToken(loggedOnUserLocalStorage.token)
     }
@@ -182,7 +180,7 @@ const App = () => {
 
   const Home = () => {
     if (!loggedOnUserLocalStorage && !user) {
-      return (<Navigate replace to="/login" />)
+      return <Navigate replace to="/login" />
     }
     return (
       <>

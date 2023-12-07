@@ -24,11 +24,11 @@ const useHandleLogin = () => {
       console.log('exception', exception)
       dispatch(
         updateNotification({ content: 'Invalid credentials', type: 'error' })
-        )
-        setTimeout(() => {
-          dispatch(updateNotification({}))
-        }, 5000)
-      }
+      )
+      setTimeout(() => {
+        dispatch(updateNotification({}))
+      }, 5000)
+    }
     console.log('useHandleLogin', username, password)
   }
   return handleLogin

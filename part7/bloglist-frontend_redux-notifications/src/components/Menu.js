@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom'
 
 const Menu = () => {
@@ -8,9 +7,15 @@ const Menu = () => {
 
   return (
     <>
-      <Link style={padding} to='/'>Home</Link>
-      <Link style={padding} to='/blogs'>Blogs</Link>
-      <Link style={padding} to='/users'>Users</Link>
+      <Link style={padding} to="/">
+        Home
+      </Link>
+      <Link style={padding} to="/blogs">
+        Blogs
+      </Link>
+      <Link style={padding} to="/users">
+        Users
+      </Link>
     </>
   )
 }
