@@ -8,7 +8,8 @@ import { useDispatch } from 'react-redux'
 const useHandleLogin = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const handleLogin = async (username, password) => {
+  const handleLogin = async (event, username, password) => {
+    event.preventDefault()
     try {
       const loginResult = await loginService.login({
         username,
@@ -29,7 +30,6 @@ const useHandleLogin = () => {
         dispatch(updateNotification({}))
       }, 5000)
     }
-    console.log('useHandleLogin', username, password)
   }
   return handleLogin
 }

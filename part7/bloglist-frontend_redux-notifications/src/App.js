@@ -3,7 +3,6 @@ import Menu from './components/Menu'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import userService from './services/users'
-import loginService from './services/login'
 import Notification from './components/Notification'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
@@ -29,6 +28,7 @@ import {
 import { setLoggedInUser, resetUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import useHandleLogin from './utils/useHandleLogin'
 
 const App = () => {
   const [userInfo, setUserInfo] = useState([])
@@ -39,7 +39,7 @@ const App = () => {
     window.localStorage.getItem('loggedOnUser')
   )
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const handleLogin = useHandleLogin()
 
   console.log('app rendering')
 
@@ -59,27 +59,6 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [])
-
-  const handleLogin = async (event, username, password) => {
-    event.preventDefault()
-    try {
-      const loginResult = await loginService.login({
-        username,
-        password
-      })
-      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
-      blogService.setToken(loginResult.token)
-      dispatch(setLoggedInUser(loginResult))
-      navigate('/')
-    } catch (exception) {
-      dispatch(
-        updateNotification({ content: 'Invalid credentials', type: 'error' })
-      )
-      setTimeout(() => {
-        dispatch(updateNotification({}))
-      }, 5000)
-    }
-  }
 
   const handleLogout = (event) => {
     event.preventDefault()
