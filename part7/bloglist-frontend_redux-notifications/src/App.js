@@ -10,8 +10,14 @@ import Togglable from './components/Togglable'
 import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
 import SingleBlogview from './components/SingleBlogView'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom'
-import useHandleLogin from './utils/useHandleLogin'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useNavigate
+} from 'react-router-dom'
 
 import { updateNotification } from './reducers/notificationReducer'
 import {
@@ -25,33 +31,26 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [userInfo, setUserInfo] = useState([])
   const createFormRef = useRef()
   const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
+  const [loggedOn, setLoggedon] = useState(false)
+  const loggedOnUserLocalStorage = JSON.parse(window.localStorage.getItem('loggedOnUser'))
   const dispatch = useDispatch()
-  
+  const navigate = useNavigate()
+
+  console.log('app rendering')
+
   useEffect(() => {
-    const loggedOnUserLocalStorage = JSON.parse(
-      window.localStorage.getItem('loggedOnUser')
-    )
     if (loggedOnUserLocalStorage) {
-      console.log('setting user...', loggedOnUserLocalStorage)
+      console.log('loggedOn', loggedOn)
+      console.log('setting loggedon to true')
+      setLoggedon(true)
       dispatch(setLoggedInUser(loggedOnUserLocalStorage))
       blogService.setToken(loggedOnUserLocalStorage.token)
     }
   }, [])
-
-  const user = useSelector((state) => {
-    console.log(state)
-    if (state.user) {
-      return state.user
-    } else {
-      return 'empty'
-    }
-  })
-  console.log(user)
 
   useEffect(() => {
     userService.getAll().then((response) => {
@@ -62,6 +61,27 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [])
+
+  const handleLogin = async (event, username, password) => {
+    event.preventDefault()
+    try {
+      const loginResult = await loginService.login({
+        username,
+        password
+      })
+      window.localStorage.setItem('loggedOnUser', JSON.stringify(loginResult))
+      blogService.setToken(loginResult.token)
+      dispatch(setLoggedInUser(loginResult))
+      navigate('/')
+    } catch (exception) {
+      dispatch(
+        updateNotification({ content: 'Invalid credentials', type: 'error' })
+      )
+      setTimeout(() => {
+        dispatch(updateNotification({}))
+      }, 5000)
+    }
+  }
 
   const handleLogout = (event) => {
     event.preventDefault()
@@ -99,17 +119,12 @@ const App = () => {
   }
 
   const LoginForm = () => {
-    const navigate = useNavigate()
-    const handleLogin = useHandleLogin()
-    // useEffect(() => {
-    //   if (user) {
-    //     navigate('/')
-    //   }
-    // })
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     return (
       <div>
         <h2>Log in to application</h2>
-        <form onSubmit={() => handleLogin(username, password)}>
+        <form onSubmit={() => handleLogin(event, username, password)}>
           <div>
             username
             <input
@@ -137,7 +152,7 @@ const App = () => {
       </div>
     )
   }
-  
+
   const blogForm = () => (
     <Togglable buttonLabel="Create blog" ref={createFormRef}>
       <CreateForm createBlog={createBlog} />
@@ -166,11 +181,14 @@ const App = () => {
   )
 
   const Home = () => {
+    if (!loggedOnUserLocalStorage && !user) {
+      return (<Navigate replace to="/login" />)
+    }
     return (
       <>
         <Menu />
         <h2>Blogs</h2>
-        <p>{user.username} logged in</p>
+        <p>{loggedOnUserLocalStorage.username} logged in</p>
         <button id="logout-button" onClick={handleLogout}>
           Logout
         </button>
@@ -181,31 +199,18 @@ const App = () => {
     )
   }
 
-  //{!user && navigate('/login')}
-  while (!user) {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
   return (
     <div className="container">
-      <Router>
-        <Notification />
-          <Routes>
-            <Route path="/" element={user !== 'empty' ? <Home /> : <Navigate replace to='/login' />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route
-              path="/users/:id"
-              element={<SingleUserView users={userInfo} />}
-            />
-            <Route
-              path="/blogs/:id"
-              element={<SingleBlogview blogs={blogs} />}
-            />
-          </Routes>
-      </Router>
+      <Notification />
+      <Routes>
+        <Route path="/" element=<Home /> />
+        <Route path="/login" element={<LoginForm />} />
+        <Route
+          path="/users/:id"
+          element={<SingleUserView users={userInfo} />}
+        />
+        <Route path="/blogs/:id" element={<SingleBlogview blogs={blogs} />} />
+      </Routes>
     </div>
   )
 }
