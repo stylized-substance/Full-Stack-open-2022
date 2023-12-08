@@ -152,14 +152,6 @@ const App = () => {
     )
   }
 
-  const MainPageElements = () => (
-    <div>
-      {blogForm()}
-      {blogsDisplay()}
-      <UserView props={userInfo} />
-    </div>
-  )
-
   const Home = () => {
     if (!loggedOnUserLocalStorage && !user) {
       return <Navigate replace to="/login" />
@@ -175,6 +167,7 @@ const App = () => {
       </>
     )
   }
+  
   return (
     <div className="container">
       <Notification />
