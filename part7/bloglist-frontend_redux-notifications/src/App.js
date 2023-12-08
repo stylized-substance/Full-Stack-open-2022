@@ -153,7 +153,7 @@ const App = () => {
   }
 
   const Home = () => {
-    if (!loggedOnUserLocalStorage && !user) {
+    if (!loggedOnUserLocalStorage) {
       return <Navigate replace to="/login" />
     }
     return (
@@ -167,7 +167,7 @@ const App = () => {
       </>
     )
   }
-  
+
   return (
     <div className="container">
       <Notification />
