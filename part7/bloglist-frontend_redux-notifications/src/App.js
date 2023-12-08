@@ -136,18 +136,21 @@ const App = () => {
     </Togglable>
   )
 
-  const blogsDisplay = () => (
-    <div id="blogs-display">
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleRemove={handleRemove}
-          user={user.username}
-        />
-      ))}
-    </div>
-  )
+  const BlogsDisplay = ({ blogs }) => {
+    return (
+      <div id="blogs-display">
+        <h2>Blogs</h2>
+          {blogs.map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleRemove={handleRemove}
+              user={user.username}
+            />
+          ))}
+      </div>
+    )
+  }
 
   const MainPageElements = () => (
     <div>
@@ -163,25 +166,24 @@ const App = () => {
     }
     return (
       <>
-        <Menu />
-        <h2>Blogs</h2>
         <p>{loggedOnUserLocalStorage.username} logged in</p>
         <button id="logout-button" onClick={handleLogout}>
           Logout
         </button>
         {blogForm()}
-        {blogsDisplay()}
-        <UserView props={userInfo} />
+        <BlogsDisplay blogs={blogs} />
       </>
     )
   }
-
   return (
     <div className="container">
       <Notification />
+      <Menu />
       <Routes>
         <Route path="/" element=<Home /> />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/users" element={<UserView props={userInfo} />} />
+        <Route path="/blogs" element={<BlogsDisplay blogs={blogs} />} />
         <Route
           path="/users/:id"
           element={<SingleUserView users={userInfo} />}

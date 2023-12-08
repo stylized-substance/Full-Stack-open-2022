@@ -14,14 +14,17 @@ const UserView = ({ props }) => {
 
   return (
     <div>
+      <h2>
+        Users
+      </h2>
       <Table>
         <thead>
           <tr>
             <th>
-              <h2>User</h2>
+              <h3>User</h3>
             </th>
             <th>
-              <h2>Blogs created</h2>
+              <h3>Blogs created</h3>
             </th>
           </tr>
         </thead>
