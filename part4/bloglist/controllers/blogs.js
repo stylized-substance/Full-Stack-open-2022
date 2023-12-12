@@ -18,7 +18,6 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
 
   const user = await User.findById(request.user)
-  console.log(user)
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -49,15 +48,13 @@ blogsRouter.get('/:id/comments', async (request, response) => {
 
 blogsRouter.post('/:id/comments', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
-  console.log(blog)
   const comment = new Comment({
     content: request.body.content,
     blog: blog._id
   })
-
-  comment.populate('blog')
-
   const savedComment = await comment.save()
+  blog.comments = blog.comments.concat(savedComment.id)
+  await blog.save()
   response.status(201).json(savedComment)
 })
 

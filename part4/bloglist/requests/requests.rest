@@ -151,7 +151,7 @@ GET http://localhost:3003/api/blogs/656486c5dd5f1d90d81f462a/comments
 
 ###
 
-POST http://localhost:3003/api/blogs/656486c5dd5f1d90d81f462a/comments
+POST http://localhost:3003/api/blogs/657847a69fc97e54585ac1a3/comments
 Content-Type: application/json
 
 {
