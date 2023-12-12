@@ -1,9 +1,14 @@
 import { useParams } from 'react-router-dom'
 import LikeButton from './LikeButton'
+import blogService from '../services/blogs'
 
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
   const blog = blogs.find((blog) => blog.id === blogId)
+  const comments = blogService.getComments(blogId).then(res => {return res})
+  //blogService.getComments(blogId).then(res => console.log(res))
+  console.log(comments)
+  //console.log(blogService.getComments)
 
   if (!blog) {
     return null

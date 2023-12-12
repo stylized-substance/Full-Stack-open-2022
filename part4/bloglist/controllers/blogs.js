@@ -42,7 +42,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
 
 blogsRouter.get('/:id/comments', async (request, response) => {
   const blog = await Blog.findById(request.params.id).populate('comments')
-  console.log(blog)
+  console.log(blog.title)
   response.status(200).json(blog.comments)
 })
 
