@@ -144,3 +144,16 @@ Content-Type: application/json
   "username": "root",
   "password": "superuser"
 }
+
+###
+
+GET http://localhost:3003/api/blogs/656486c5dd5f1d90d81f462a/comments
+
+###
+
+POST http://localhost:3003/api/blogs/656486c5dd5f1d90d81f462a/comments
+Content-Type: application/json
+
+{
+  "content": "this is a test comment"
+}

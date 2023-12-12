@@ -1,7 +1,7 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+const User = require('../models/user');
+const Comment = require('../models/comment')
 const userExtractor = require('../utils/userExtractor')
 
 blogsRouter.get('/', async (request, response) => {
@@ -18,7 +18,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
 
   const user = await User.findById(request.user)
-
+  console.log(user)
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -40,6 +40,26 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
     response.status(201).json(savedBlog)
   }
 });
+
+blogsRouter.get('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  console.log(blog)
+  response.status(200).json(blog.comments)
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  console.log(blog)
+  const comment = new Comment({
+    content: request.body.content,
+    blog: blog._id
+  })
+
+  comment.populate('blog')
+
+  const savedComment = await comment.save()
+  response.status(201).json(savedComment)
+})
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
