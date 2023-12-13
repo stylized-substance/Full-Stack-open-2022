@@ -1,18 +1,31 @@
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import LikeButton from './LikeButton'
 import blogService from '../services/blogs'
 
+
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
-  const blog = blogs.find((blog) => blog.id === blogId)
-  const comments = blogService.getComments(blogId).then(res => {return res})
-  //blogService.getComments(blogId).then(res => console.log(res))
-  console.log(comments)
-  //console.log(blogService.getComments)
 
+  const [comments, setComments] = useState([])
+
+  useEffect(() => {
+    blogService.getComments(blogId)
+    .then((result) => setComments(result))
+  }, [])
+
+  const blog = blogs.find((blog) => blog.id === blogId)
   if (!blog) {
     return null
   }
+
+  const commentsList = comments.map((comment) => {
+    return (
+      <li key={comment.id}>
+        {comment.content}
+      </li>
+    )
+  })
 
   return (
     <div>
@@ -25,6 +38,12 @@ const SingleBlogView = ({ blogs }) => {
       Added by {blog.user.username}
       <br></br>
       <LikeButton blog={blog} />
+      <br></br>
+      <br></br>
+      <h2>Comments</h2>
+      <ul>
+        {commentsList}
+      </ul>
     </div>
   )
 }
