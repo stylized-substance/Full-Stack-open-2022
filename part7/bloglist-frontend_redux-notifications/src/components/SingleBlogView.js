@@ -3,17 +3,16 @@ import { useParams } from 'react-router-dom'
 import LikeButton from './LikeButton'
 import blogService from '../services/blogs'
 
-
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
 
   const [comments, setComments] = useState([])
+  const [comment, setComment] = useState('')
 
   useEffect(() => {
     blogService.getComments(blogId)
     .then((result) => setComments(result))
   }, [])
-
   const blog = blogs.find((blog) => blog.id === blogId)
   if (!blog) {
     return null
@@ -26,6 +25,13 @@ const SingleBlogView = ({ blogs }) => {
       </li>
     )
   })
+
+  const submitComment = async () => {
+    event.preventDefault()
+    const commentObject = { content: comment }
+    const response = await blogService.submitComment(blogId, commentObject)
+    setComments(comments.concat(response))
+  }
 
   return (
     <div>
@@ -41,11 +47,14 @@ const SingleBlogView = ({ blogs }) => {
       <br></br>
       <br></br>
       <h2>Comments</h2>
+      <form onSubmit={submitComment}>
+        <input onChange={(event) => setComment(event.target.value)}></input>
+        <button>Send</button>
+      </form>
       <ul>
         {commentsList}
       </ul>
     </div>
   )
 }
-
 export default SingleBlogView

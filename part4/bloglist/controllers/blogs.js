@@ -3,6 +3,7 @@ const Blog = require('../models/blog');
 const User = require('../models/user');
 const Comment = require('../models/comment')
 const userExtractor = require('../utils/userExtractor')
+const logger = require('../utils/logger');
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user')
@@ -42,7 +43,6 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
 
 blogsRouter.get('/:id/comments', async (request, response) => {
   const blog = await Blog.findById(request.params.id).populate('comments')
-  console.log(blog.title)
   response.status(200).json(blog.comments)
 })
 
