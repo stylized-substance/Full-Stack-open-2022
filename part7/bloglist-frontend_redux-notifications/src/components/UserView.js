@@ -14,9 +14,7 @@ const UserView = ({ props }) => {
 
   return (
     <div>
-      <h2>
-        Users
-      </h2>
+      <h2>Users</h2>
       <Table>
         <thead>
           <tr>

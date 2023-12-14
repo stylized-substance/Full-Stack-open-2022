@@ -108,30 +108,26 @@ const App = () => {
         <br></br>
         <Form onSubmit={() => handleLogin(event, username, password)}>
           <Form.Group>
-            <Form.Label>
-              Username
-            </Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               id="username-input"
               type="text"
               value={username}
               name="Username"
-              onChange={({ target }) => setUsername(target.value)}>
-            </Form.Control>
-            <Form.Label>
-              Password
-            </Form.Label>
+              onChange={({ target }) => setUsername(target.value)}
+            ></Form.Control>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               id="password-input"
               type="password"
               value={password}
               name="Password"
-              onChange={({ target }) => setPassword(target.value)}>
-            </Form.Control>
+              onChange={({ target }) => setPassword(target.value)}
+            ></Form.Control>
           </Form.Group>
-        <Button variant="primary" type="submit" id="login-button">
-          Login
-        </Button>
+          <Button variant="primary" type="submit" id="login-button">
+            Login
+          </Button>
         </Form>
       </div>
     )
@@ -147,14 +143,14 @@ const App = () => {
     return (
       <div id="blogs-display">
         <h2>Blogs</h2>
-          {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleRemove={handleRemove}
-              user={user.username}
-            />
-          ))}
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleRemove={handleRemove}
+            user={user.username}
+          />
+        ))}
       </div>
     )
   }
@@ -165,8 +161,15 @@ const App = () => {
     }
     return (
       <>
-        <p style={{color: "red"}}>{loggedOnUserLocalStorage.username} logged in</p>
-        <Button size="sm" variant="light" id="logout-button" onClick={handleLogout}>
+        <p style={{ color: 'red' }}>
+          {loggedOnUserLocalStorage.username} logged in
+        </p>
+        <Button
+          size="sm"
+          variant="light"
+          id="logout-button"
+          onClick={handleLogout}
+        >
           Logout
         </Button>
         {blogForm()}

@@ -9,7 +9,7 @@ const Notification = () => {
 
   if (notificationType === 'success') {
     return (
-      <Alert key='success' variant='success'>
+      <Alert key="success" variant="success">
         {message}
       </Alert>
     )
@@ -17,7 +17,7 @@ const Notification = () => {
 
   if (notificationType === 'error') {
     return (
-      <Alert key='danger' variant='danger'>
+      <Alert key="danger" variant="danger">
         {message}
       </Alert>
     )

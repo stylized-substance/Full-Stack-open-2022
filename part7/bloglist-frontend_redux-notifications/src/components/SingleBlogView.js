@@ -12,8 +12,7 @@ const SingleBlogView = ({ blogs }) => {
   const [comment, setComment] = useState('')
 
   useEffect(() => {
-    blogService.getComments(blogId)
-    .then((result) => setComments(result))
+    blogService.getComments(blogId).then((result) => setComments(result))
   }, [])
   const blog = blogs.find((blog) => blog.id === blogId)
   if (!blog) {
@@ -21,11 +20,7 @@ const SingleBlogView = ({ blogs }) => {
   }
 
   const commentsList = comments.map((comment) => {
-    return (
-      <li key={comment.id}>
-        {comment.content}
-      </li>
-    )
+    return <li key={comment.id}>{comment.content}</li>
   })
 
   const submitComment = async () => {
@@ -57,21 +52,17 @@ const SingleBlogView = ({ blogs }) => {
       </form> */}
       <Form onSubmit={submitComment}>
         <Form.Group>
-          <Form.Label>
-            Add comment
-          </Form.Label>
+          <Form.Label>Add comment</Form.Label>
           <Form.Control
             value={comment}
-            onChange={(event) => setComment(event.target.value)}>
-          </Form.Control>
+            onChange={(event) => setComment(event.target.value)}
+          ></Form.Control>
         </Form.Group>
         <Button size="sm" variant="dark" type="submit">
           Send
         </Button>
       </Form>
-      <ul>
-        {commentsList}
-      </ul>
+      <ul>{commentsList}</ul>
     </div>
   )
 }

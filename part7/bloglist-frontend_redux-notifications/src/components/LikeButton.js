@@ -7,9 +7,14 @@ const LikeButton = ({ blog }) => {
     // <button onClick={() => handleLike({ blog })} className="like-button">
     //   Like
     // </button>
-    <Button size="sm" variant="dark" onClick={() => handleLike({ blog })} className="like-button">
+    <Button
+      size="sm"
+      variant="dark"
+      onClick={() => handleLike({ blog })}
+      className="like-button"
+    >
       Like
-    </Button> 
+    </Button>
   )
 }
 

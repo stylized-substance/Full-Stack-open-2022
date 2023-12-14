@@ -21,7 +21,12 @@ const Blog = ({ blog, handleRemove, user }) => {
         // >
         //   Remove
         // </button>
-        <Button size="sm" variant="light" className="remove-button" onClick={() => handleRemove(blog, title)}>
+        <Button
+          size="sm"
+          variant="light"
+          className="remove-button"
+          onClick={() => handleRemove(blog, title)}
+        >
           Remove
         </Button>
       )
