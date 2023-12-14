@@ -10,6 +10,7 @@ import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
 import SingleBlogview from './components/SingleBlogView'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import {
   BrowserRouter as Router,
   Routes,
@@ -99,34 +100,39 @@ const App = () => {
   const LoginForm = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    console.log(username, password)
     return (
       <div>
+        <br></br>
         <h2>Log in to application</h2>
-        <form onSubmit={() => handleLogin(event, username, password)}>
-          <div>
-            username
-            <input
+        <br></br>
+        <Form onSubmit={() => handleLogin(event, username, password)}>
+          <Form.Group>
+            <Form.Label>
+              Username
+            </Form.Label>
+            <Form.Control
               id="username-input"
               type="text"
               value={username}
               name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
+              onChange={({ target }) => setUsername(target.value)}>
+            </Form.Control>
+            <Form.Label>
+              Password
+            </Form.Label>
+            <Form.Control
               id="password-input"
               type="password"
               value={password}
               name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <Button variant="light" type="submit" id="login-button">
-            Login
-          </Button>
-        </form>
+              onChange={({ target }) => setPassword(target.value)}>
+            </Form.Control>
+          </Form.Group>
+        <Button variant="primary" type="submit" id="login-button">
+          Login
+        </Button>
+        </Form>
       </div>
     )
   }
@@ -159,7 +165,7 @@ const App = () => {
     }
     return (
       <>
-        <p>{loggedOnUserLocalStorage.username} logged in</p>
+        <p style={{color: "red"}}>{loggedOnUserLocalStorage.username} logged in</p>
         <Button size="sm" variant="light" id="logout-button" onClick={handleLogout}>
           Logout
         </Button>

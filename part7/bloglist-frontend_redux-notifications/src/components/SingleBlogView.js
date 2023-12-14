@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import LikeButton from './LikeButton'
 import blogService from '../services/blogs'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
@@ -29,6 +30,8 @@ const SingleBlogView = ({ blogs }) => {
 
   const submitComment = async () => {
     event.preventDefault()
+    console.log(comment)
+    setComment('')
     const commentObject = { content: comment }
     const response = await blogService.submitComment(blogId, commentObject)
     setComments(comments.concat(response))
@@ -48,10 +51,24 @@ const SingleBlogView = ({ blogs }) => {
       <br></br>
       <br></br>
       <h2>Comments</h2>
-      <form onSubmit={submitComment}>
+      <br></br>
+      {/* <form onSubmit={submitComment}>
         <input onChange={(event) => setComment(event.target.value)}></input>
-        <Button size="sm" variant="light">Send</Button>
-      </form>
+      </form> */}
+      <Form onSubmit={submitComment}>
+        <Form.Group>
+          <Form.Label>
+            Add comment
+          </Form.Label>
+          <Form.Control
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}>
+          </Form.Control>
+        </Form.Group>
+        <Button size="sm" variant="dark" type="submit">
+          Send
+        </Button>
+      </Form>
       <ul>
         {commentsList}
       </ul>
