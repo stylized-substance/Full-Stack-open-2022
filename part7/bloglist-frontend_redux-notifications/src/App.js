@@ -9,6 +9,7 @@ import Togglable from './components/Togglable'
 import UserView from './components/UserView'
 import SingleUserView from './components/SingleUserView'
 import SingleBlogview from './components/SingleBlogView'
+import Button from 'react-bootstrap/Button'
 import {
   BrowserRouter as Router,
   Routes,
@@ -122,9 +123,9 @@ const App = () => {
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button type="submit" id="login-button">
+          <Button variant="light" type="submit" id="login-button">
             Login
-          </button>
+          </Button>
         </form>
       </div>
     )
@@ -159,9 +160,9 @@ const App = () => {
     return (
       <>
         <p>{loggedOnUserLocalStorage.username} logged in</p>
-        <button id="logout-button" onClick={handleLogout}>
+        <Button size="sm" variant="light" id="logout-button" onClick={handleLogout}>
           Logout
-        </button>
+        </Button>
         {blogForm()}
         <BlogsDisplay blogs={blogs} />
       </>

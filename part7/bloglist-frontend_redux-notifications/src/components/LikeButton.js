@@ -1,11 +1,15 @@
 import useHandleLike from '../utils/useHandleLike'
+import Button from 'react-bootstrap/Button'
 
 const LikeButton = ({ blog }) => {
   const handleLike = useHandleLike()
   return (
-    <button onClick={() => handleLike({ blog })} className="like-button">
+    // <button onClick={() => handleLike({ blog })} className="like-button">
+    //   Like
+    // </button>
+    <Button size="sm" variant="primary" onClick={() => handleLike({ blog })} className="like-button">
       Like
-    </button>
+    </Button> 
   )
 }
 

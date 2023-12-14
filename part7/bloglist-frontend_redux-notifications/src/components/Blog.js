@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import LikeButton from './LikeButton'
+import Button from 'react-bootstrap/Button'
 
 const Blog = ({ blog, handleRemove, user }) => {
   const blogStyle = {
@@ -14,12 +15,15 @@ const Blog = ({ blog, handleRemove, user }) => {
   const RemoveButton = ({ blog, handleRemove, title }) => {
     if (blog.user.username === user) {
       return (
-        <button
-          className="remove-button"
-          onClick={() => handleRemove(blog, title)}
-        >
+        // <button
+        //   className="remove-button"
+        //   onClick={() => handleRemove(blog, title)}
+        // >
+        //   Remove
+        // </button>
+        <Button size="sm" variant="danger" className="remove-button" onClick={() => handleRemove(blog, title)}>
           Remove
-        </button>
+        </Button>
       )
     }
   }

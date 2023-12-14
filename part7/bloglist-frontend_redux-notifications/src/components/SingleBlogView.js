@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import LikeButton from './LikeButton'
 import blogService from '../services/blogs'
+import Button from 'react-bootstrap/Button'
 
 const SingleBlogView = ({ blogs }) => {
   const blogId = useParams().id
@@ -49,7 +50,7 @@ const SingleBlogView = ({ blogs }) => {
       <h2>Comments</h2>
       <form onSubmit={submitComment}>
         <input onChange={(event) => setComment(event.target.value)}></input>
-        <button>Send</button>
+        <Button size="sm" variant="light">Send</Button>
       </form>
       <ul>
         {commentsList}
