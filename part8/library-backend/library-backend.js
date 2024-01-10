@@ -160,12 +160,14 @@ const resolvers = {
     addBook: (root, args) => {
       const book = { ...args, id: uuid() }
       const author = {
-        name: args.author,
+        name: book.author,
         id: uuid(),
-        born: args.born
+        born: book.born
       }
       books = books.concat(book)
-      authors = authors.concat(author)
+      if (!(authors.some(author => author.name === book.author))) {
+        authors = authors.concat(author)
+      }
       return book
     }
   }
