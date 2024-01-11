@@ -163,6 +163,7 @@ const resolvers = {
   Mutation: {
     addBook: (root, args) => {
       const book = { ...args, id: uuid() }
+      console.log(book)
       const author = {
         name: book.author,
         id: uuid(),
