@@ -1,6 +1,7 @@
 import { ALL_AUTHORS, CHANGE_BIRTHYEAR } from "../queries"
 import { useQuery, useMutation } from "@apollo/client"
 import { useState } from "react"
+import Select from 'react-select'
 
 const Authors = (props) => {
   const [name, setName] = useState()
@@ -29,6 +30,11 @@ const Authors = (props) => {
 
   const authors = result.data.allAuthors
 
+  const options = authors.map(
+    (author) => ({value: author.name, label: author.name}))
+
+  console.log(options)
+
   return (
     <div>
       <h2>authors</h2>
@@ -53,19 +59,17 @@ const Authors = (props) => {
       </h2>
       <form onSubmit={submit}>
         <div>
-          name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+          <Select options={options} onChange={opt => setName(opt.value)} />
         </div>
+        <br></br>
         <div>
-          year
+          Year:
           <input
             value={year}
             onChange={({ target }) => setYear(Number(target.value))}
           />
         </div>
+        <br></br>
         <button type="submit">
           Send
         </button>
