@@ -178,18 +178,22 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      const book = { ...args, id: uuid() }
+      const book = new Book({ ...args, id: uuid() })
       console.log(book)
       const author = {
         name: book.author,
         id: uuid(),
         born: book.born
       }
-      books = books.concat(book)
-      if (!(authors.some(author => author.name === book.author))) {
-        authors = authors.concat(author)
-      }
-      return book
+      const updatedBook = {...book, author:  author}
+      console.log(updatedBook)
+
+      // books = books.concat(book)
+      // if (!(authors.some(author => author.name === book.author))) {
+      //   authors = authors.concat(author)
+      // }
+      return book.save()
+      // return updatedBook
     },
     editAuthor: (root, args) => {
       const author = authors.find(author => author.name === args.name)
