@@ -59,7 +59,7 @@ const Authors = (props) => {
       </h2>
       <form onSubmit={submit}>
         <div>
-          <Select options={options} onChange={opt => setName(opt.value)} />
+          <Select defaultValue={options[0]} options={options} onChange={opt => setName(opt.value)} />
         </div>
         <br></br>
         <div>
