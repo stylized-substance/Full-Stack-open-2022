@@ -157,25 +157,38 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
-    allBooks: (root, args) => {
-      if (!args.author && !args.genre) {
-        return books
-      }
-      if (args.author) {
-        const booksByAuthor = books.filter(book => book.author === args.author)
-        if (args.genre) {
-          return booksByAuthor.filter(book => book.genres.includes(args.genre))
-        } else {
-          return booksByAuthor
-        }
-      }
-      if (args.genre) {
-        return books.filter(book => book.genres.includes(args.genre))
-      }
+    bookCount: async () => {
+      const books = await Book.find({})
+      return books.length
     },
-    allAuthors: () => authors,
+    authorCount: async () => {
+      const authors = await Author.find({})
+      return authors.length
+    },
+    allBooks: async (root, args) => {
+      // if (!args.author && !args.genre) {
+      //   return books
+      // }
+      // if (args.author) {
+      //   const booksByAuthor = books.filter(book => book.author === args.author)
+      //   if (args.genre) {
+      //     return booksByAuthor.filter(book => book.genres.includes(args.genre))
+      //   } else {
+      //     return booksByAuthor
+      //   }
+      // }
+      // if (args.genre) {
+      //   return books.filter(book => book.genres.includes(args.genre))
+      // }
+      const books = await Book.find({})
+      const bookAuthor
+      console.log(books)
+      return books
+    },
+    allAuthors: async () => {
+      const authors = await Author.find({})
+      return authors
+    }
   },
   Author: {
     bookCount: (root) => books.filter(book => root.name === book.author).length
