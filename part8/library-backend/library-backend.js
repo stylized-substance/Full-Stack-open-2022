@@ -5,6 +5,7 @@ const { v1: uuid } = require('uuid')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 const Book = require('./models/book')
+const Author = require('./models/author')
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -18,31 +19,31 @@ mongoose.connect(MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
-// let authors = [
-//   {
-//     name: "Robert Martin",
-//     id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-//     born: 1952,
-//   },
-//   {
-//     name: "Martin Fowler",
-//     id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-//     born: 1963,
-//   },
-//   {
-//     name: "Fyodor Dostoevsky",
-//     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-//     born: 1821,
-//   },
-//   {
-//     name: "Joshua Kerievsky", // birthyear not known
-//     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-//   },
-//   {
-//     name: "Sandi Metz", // birthyear not known
-//     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-//   },
-// ];
+let authors = [
+  {
+    name: "Robert Martin",
+    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
+    born: 1952,
+  },
+  {
+    name: "Martin Fowler",
+    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
+    born: 1963,
+  },
+  {
+    name: "Fyodor Dostoevsky",
+    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
+    born: 1821,
+  },
+  {
+    name: "Joshua Kerievsky", // birthyear not known
+    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
+  },
+  {
+    name: "Sandi Metz", // birthyear not known
+    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+  },
+];
 
 /*
  * Suomi:
@@ -138,6 +139,9 @@ const typeDefs = `
   }
 
   type Mutation {
+    addAuthor(
+      name: String!
+    ): Author
     addBook(
       title: String!
       published: Int!
@@ -171,29 +175,24 @@ const resolvers = {
         return books.filter(book => book.genres.includes(args.genre))
       }
     },
-    allAuthors: () => authors
+    allAuthors: () => authors,
   },
   Author: {
     bookCount: (root) => books.filter(book => root.name === book.author).length
   },
   Mutation: {
-    addBook: (root, args) => {
-      const book = new Book({ ...args, id: uuid() })
-      console.log(book)
-      const author = {
-        name: book.author,
-        id: uuid(),
-        born: book.born
+    addAuthor: (root, args) => {
+      const author = new Author({ ...args })
+      return author.save()
+    },
+    addBook: async (root, args) => {
+      let author = await Author.findOne({ name: args.author })
+      if (!author) {
+        author = new Author({ name: args.author })
+        await author.save()
       }
-      const updatedBook = {...book, author:  author}
-      console.log(updatedBook)
-
-      // books = books.concat(book)
-      // if (!(authors.some(author => author.name === book.author))) {
-      //   authors = authors.concat(author)
-      // }
-      return book.save()
-      // return updatedBook
+      const book = new Book({ ...args, author: author })
+      return await book.save()
     },
     editAuthor: (root, args) => {
       const author = authors.find(author => author.name === args.name)
