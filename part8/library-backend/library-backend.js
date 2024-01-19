@@ -5,7 +5,8 @@ const { v1: uuid } = require('uuid')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 const Book = require('./models/book')
-const Author = require('./models/author')
+const Author = require('./models/author');
+const book = require("./models/book");
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -181,9 +182,12 @@ const resolvers = {
       //   return books.filter(book => book.genres.includes(args.genre))
       // }
       const books = await Book.find({})
-      const bookAuthor
-      console.log(books)
-      return books
+      const booksWithAuthors = books.map(async (book) => {
+        const author = await Author.findById(book.author)
+        book.author = author
+        return book
+      })
+      return booksWithAuthors
     },
     allAuthors: async () => {
       const authors = await Author.find({})
@@ -191,7 +195,11 @@ const resolvers = {
     }
   },
   Author: {
-    bookCount: (root) => books.filter(book => root.name === book.author).length
+    //bookCount: (root) => books.filter(book => root.name === book.author).length
+    bookCount: async (root) => {
+      const books = await Book.find({ author: root.id })
+      return books.length
+    }
   },
   Mutation: {
     addAuthor: (root, args) => {
