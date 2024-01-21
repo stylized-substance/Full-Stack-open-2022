@@ -11,7 +11,7 @@ const Books = (props) => {
   if (!props.show) {
     return null
   }
-
+  console.log(result.data)
   const books = result.data.allBooks
 
   return (

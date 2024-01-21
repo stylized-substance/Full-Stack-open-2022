@@ -7,6 +7,7 @@ mongoose.set('strictQuery', false)
 const Book = require('./models/book')
 const Author = require('./models/author');
 const book = require("./models/book");
+const author = require("./models/author");
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -181,13 +182,26 @@ const resolvers = {
       // if (args.genre) {
       //   return books.filter(book => book.genres.includes(args.genre))
       // }
-      const books = await Book.find({})
-      const booksWithAuthors = books.map(async (book) => {
+      let books = await Book.find({})
+      for (let book of books) {
         const author = await Author.findById(book.author)
         book.author = author
-        return book
-      })
-      return booksWithAuthors
+      }
+      // const authors = await Author.find({})
+      // const booksWithAuthors = books.map((book) => {
+      //   const author = authors.find((author) => book.id === author.id)
+      //   console.log(author)
+      //   book.author = author
+      //   return book
+      // })
+      // let booksWithAuthors = books.map(async (book) => {
+      //   const author = await Author.findById(book.author)
+      //   book.author = author
+      //   return book
+      // })
+      // booksWithAuthors = Promise.all(booksWithAuthors).then((values) => {return values})
+      // console.log(booksWithAuthors)
+      return books
     },
     allAuthors: async () => {
       const authors = await Author.find({})
@@ -202,9 +216,9 @@ const resolvers = {
     }
   },
   Mutation: {
-    addAuthor: (root, args) => {
+    addAuthor: async (root, args) => {
       const author = new Author({ ...args })
-      return author.save()
+      return await author.save()
     },
     addBook: async (root, args) => {
       let author = await Author.findOne({ name: args.author })
@@ -215,12 +229,11 @@ const resolvers = {
       const book = new Book({ ...args, author: author })
       return await book.save()
     },
-    editAuthor: (root, args) => {
-      const author = authors.find(author => author.name === args.name)
+    editAuthor: async (root, args) => {
+      let author = await Author.findOne({ name: args.name })
       if (author) {
-        updatedAuthor = { ...author, born: args.born }
-        authors = authors.map(author => author.name === args.name ? updatedAuthor : author)
-        return updatedAuthor
+        author.born = args.born
+        return await author.save()
       } else {
         return null
       }
