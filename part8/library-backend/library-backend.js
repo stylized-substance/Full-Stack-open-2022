@@ -8,6 +8,7 @@ const Book = require('./models/book')
 const Author = require('./models/author');
 const book = require("./models/book");
 const author = require("./models/author");
+const { GraphQLError } = require("graphql");
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -218,13 +219,36 @@ const resolvers = {
   Mutation: {
     addAuthor: async (root, args) => {
       const author = new Author({ ...args })
-      return await author.save()
+      try {
+        await author.save()
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Saving author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
+      return author
     },
     addBook: async (root, args) => {
       let author = await Author.findOne({ name: args.author })
       if (!author) {
         author = new Author({ name: args.author })
-        await author.save()
+        try {
+          await author.save()
+        } catch (error) {
+          throw new GraphQLError('Saving book failed', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.title,
+              error
+            }
+          })
+        }
+        return author
       }
       const book = new Book({ ...args, author: author })
       return await book.save()
@@ -233,7 +257,18 @@ const resolvers = {
       let author = await Author.findOne({ name: args.name })
       if (author) {
         author.born = args.born
-        return await author.save()
+        try {
+          author.save()
+        } catch (error) {
+          throw new GraphQLError('Editing author failed', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.name,
+              error
+            }
+          })
+        }
+        return author
       } else {
         return null
       }
