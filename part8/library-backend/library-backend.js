@@ -239,19 +239,30 @@ const resolvers = {
         author = new Author({ name: args.author })
         try {
           await author.save()
+          return author
         } catch (error) {
-          throw new GraphQLError('Saving book failed', {
+          throw new GraphQLError('Saving author failed', {
             extensions: {
               code: 'BAD_USER_INPUT',
-              invalidArgs: args.title,
+              invalidArgs: args.name,
               error
             }
           })
         }
-        return author
       }
       const book = new Book({ ...args, author: author })
-      return await book.save()
+      try {
+        await book.save()
+        return book
+      } catch (error) {
+        throw new GraphQLError('Saving book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.title,
+            error
+          }
+        })
+      }
     },
     editAuthor: async (root, args) => {
       let author = await Author.findOne({ name: args.name })
