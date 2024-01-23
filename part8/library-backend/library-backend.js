@@ -3,9 +3,11 @@ const { startStandaloneServer } = require("@apollo/server/standalone");
 const { v1: uuid } = require('uuid')
 
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 mongoose.set('strictQuery', false)
 const Book = require('./models/book')
 const Author = require('./models/author');
+const User = require('./models/user')
 const book = require("./models/book");
 const author = require("./models/author");
 const { GraphQLError } = require("graphql");
@@ -134,11 +136,22 @@ const typeDefs = `
     bookCount: Int
   }
 
+  type User {
+    username: String!
+    favoriteGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -155,6 +168,14 @@ const typeDefs = `
       name: String!
       born: Int!
     ): Author
+    createUser(
+      username: String!
+      favoriteGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `;
 
@@ -207,7 +228,11 @@ const resolvers = {
     allAuthors: async () => {
       const authors = await Author.find({})
       return authors
-    }
+    },
+    me: (root, args, context) => {
+      console.log(context)
+      return context.currentUser
+    },
   },
   Author: {
     //bookCount: (root) => books.filter(book => root.name === book.author).length
@@ -283,6 +308,38 @@ const resolvers = {
       } else {
         return null
       }
+    },
+    createUser: async (root, args) => {
+      const user = new User({ username: args.username })
+      user.save()
+        .catch((error) => {
+          throw new GraphQLError('Creating new user failed', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.username,
+              error
+            }
+          })
+        })
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+      if (!user || args.password !== 'secret') {
+        throw new GraphQLError('Wrong password', {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        })
+      }
+
+      const userForToken = {
+        username: user.username,
+        id: user._id
+      }
+
+      console.log(userForToken)
+
+      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
     }
   }
 };
@@ -294,6 +351,22 @@ const server = new ApolloServer({
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
+  context: async ({ req, res }) => {
+    const auth = req ? req.headers.authorization : null
+    if (auth && auth.startsWith('Bearer ')) {
+      const decodedToken = jwt.verify(
+        auth.substring(7), process.env.JWT_SECRET
+        )
+      console.log(decodedToken)
+      // console.log(auth)
+      const currentUser = await User.findById(decodedtoken.id)
+      User.findById(decodedtoken.id)
+        .catch((error) => {
+          console.log(error)
+        })
+      return currentUser
+    }
+  }
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
