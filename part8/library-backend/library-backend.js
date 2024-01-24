@@ -134,7 +134,11 @@ const resolvers = {
       }
       return author
     },
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new GraphQLError('Authorization header missing')
+        //return null
+      }
       let author = await Author.findOne({ name: args.author })
       if (!author) {
         author = new Author({ name: args.author })
@@ -165,7 +169,11 @@ const resolvers = {
         })
       }
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new GraphQLError('Authorization header missing')
+        //return null
+      }
       let author = await Author.findOne({ name: args.name })
       if (author) {
         author.born = args.born
