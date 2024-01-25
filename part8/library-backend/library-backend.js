@@ -107,7 +107,6 @@ const resolvers = {
       return authors
     },
     me: (root, args, context) => {
-      console.log(context)
       return context.currentUser
     },
   },
@@ -123,7 +122,6 @@ const resolvers = {
       try {
         await author.save()
       } catch (error) {
-        console.log(error)
         throw new GraphQLError('Saving author failed', {
           extensions: {
             code: 'BAD_USER_INPUT',
@@ -135,7 +133,6 @@ const resolvers = {
       return author
     },
     addBook: async (root, args, context) => {
-      console.log(root, args, context)
       if (!context.currentUser) {
         throw new GraphQLError('Authorization header missing')
         //return null
@@ -156,6 +153,7 @@ const resolvers = {
           })
         }
       }
+      console.log(({ ...args, author: author }))
       const book = new Book({ ...args, author: author })
       try {
         await book.save()
@@ -179,7 +177,8 @@ const resolvers = {
       if (author) {
         author.born = args.born
         try {
-          author.save()
+          await author.save()
+          return author
         } catch (error) {
           throw new GraphQLError('Editing author failed', {
             extensions: {
@@ -189,7 +188,6 @@ const resolvers = {
             }
           })
         }
-        return author
       } else {
         return null
       }
@@ -224,7 +222,6 @@ const resolvers = {
         value: jwt.sign(userForToken, process.env.JWT_SECRET),
         username: user.username
       }
-      console.log(responseObject)
       return responseObject
     }
   }
@@ -242,8 +239,8 @@ startStandaloneServer(server, {
     if (auth && auth.startsWith('Bearer ')) {
       const decodedToken = jwt.verify(
         auth.substring(7), process.env.JWT_SECRET
-      )
-      const currentUser = await User.findById(decodedToken.id)
+        )
+        const currentUser = await User.findById(decodedToken.id)
       return { currentUser }
     }
   }
