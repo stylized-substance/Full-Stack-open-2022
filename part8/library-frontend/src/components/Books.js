@@ -12,7 +12,6 @@ const Books = (props) => {
     return null
   }
   const books = result.data.allBooks
-  console.log(books)
 
   return (
     <div>

@@ -135,6 +135,7 @@ const resolvers = {
       return author
     },
     addBook: async (root, args, context) => {
+      console.log(root, args, context)
       if (!context.currentUser) {
         throw new GraphQLError('Authorization header missing')
         //return null
@@ -194,7 +195,6 @@ const resolvers = {
       }
     },
     createUser: async (root, args) => {
-      console.log({ ...args })
       const user = new User({ ...args })
       return user.save()
         .catch((error) => {
@@ -220,7 +220,12 @@ const resolvers = {
         username: user.username,
         id: user._id
       }
-      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
+      const responseObject = {
+        value: jwt.sign(userForToken, process.env.JWT_SECRET),
+        username: user.username
+      }
+      console.log(responseObject)
+      return responseObject
     }
   }
 };

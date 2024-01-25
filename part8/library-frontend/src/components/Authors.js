@@ -19,7 +19,6 @@ const Authors = (props) => {
     setYear('')
   }
 
-  
   if (result.loading) {
     return <div>loading..</div>
   }
@@ -33,7 +32,32 @@ const Authors = (props) => {
   const options = authors.map(
     (author) => ({value: author.name, label: author.name}))
 
-  console.log(options)
+  const EditAuthor = () => {
+    return (
+      <div>
+        <h2>
+          Set author birth year
+        </h2>
+        <form onSubmit={submit}>
+          <div>
+            <Select defaultValue={options[0]} options={options} onChange={opt => setName(opt.value)} />
+          </div>
+          <br></br>
+          <div>
+            Year:
+            <input
+              value={year}
+              onChange={({ target }) => setYear(Number(target.value))}
+            />
+          </div>
+          <br></br>
+          <button type="submit">
+            Send
+          </button>
+        </form>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -54,26 +78,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <h2>
-        Set author birth year
-      </h2>
-      <form onSubmit={submit}>
-        <div>
-          <Select defaultValue={options[0]} options={options} onChange={opt => setName(opt.value)} />
-        </div>
-        <br></br>
-        <div>
-          Year:
-          <input
-            value={year}
-            onChange={({ target }) => setYear(Number(target.value))}
-          />
-        </div>
-        <br></br>
-        <button type="submit">
-          Send
-        </button>
-      </form>
+      {props.loggedInUser && <EditAuthor />}
     </div>
   )
 }
