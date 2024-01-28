@@ -1,16 +1,34 @@
 import { ALL_AUTHORS, CHANGE_BIRTHYEAR } from "../queries"
 import { useQuery, useMutation } from "@apollo/client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Select from 'react-select'
 
 const Authors = (props) => {
-  const [name, setName] = useState()
-  const [year, setYear] = useState()
+  const result = useQuery(ALL_AUTHORS)
+  const [name, setName] = useState('')
+  const [year, setYear] = useState('')
   const [ changeBirthYear ] = useMutation(CHANGE_BIRTHYEAR, {
     refetchQueries: [ { query: ALL_AUTHORS }]
   })
-  const result = useQuery(ALL_AUTHORS)
 
+  console.log('rendering')
+
+  useEffect(() => {
+    if (!result.loading) {
+      setName(result.data.allAuthors[0].name)
+    }
+  }, [result])
+
+  if (!props.show) {
+    return null
+  }
+
+  if (result.loading) {
+    return <div>loading..</div>
+  }
+  
+  const authors = result.data.allAuthors
+  
   const submit = async (event) => {
     event.preventDefault()
     
@@ -19,18 +37,13 @@ const Authors = (props) => {
     setYear('')
   }
 
-  if (result.loading) {
-    return <div>loading..</div>
-  }
-  
-  if (!props.show) {
-    return null
-  }
-
-  const authors = result.data.allAuthors
-
   const options = authors.map(
-    (author) => ({value: author.name, label: author.name}))
+    (author) => ({value: author.name, label: author.name})
+  )
+
+  const handleYearChange = (event) => {
+    setYear(Number(event.target.value))
+  }
 
   const EditAuthor = () => {
     return (
@@ -47,7 +60,9 @@ const Authors = (props) => {
             Year:
             <input
               value={year}
-              onChange={({ target }) => setYear(Number(target.value))}
+              // onChange={({ event }) => setYear(Number(event.target.value))}
+              onChange={handleYearChange}
+              // onChange={({ event }) => console.log(event)}
             />
           </div>
           <br></br>
