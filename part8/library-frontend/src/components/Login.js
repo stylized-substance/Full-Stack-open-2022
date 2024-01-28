@@ -17,14 +17,15 @@ const Login = ({ setToken, setPage, show, setLoggedInUser }) => {
       const token = result.data.login.value
       setToken(token)
       localStorage.setItem('library-user-token', token)
+      setLoggedInUser(username)
+      localStorage.setItem('library-user', username)
     }
   }, [result.data])
-
+  
   const login = async (event) => {
     event.preventDefault()
     loginMutation({ variables: { username, password } })
     setPage('authors')
-    setLoggedInUser(username)
   }
   
   if (show) {
