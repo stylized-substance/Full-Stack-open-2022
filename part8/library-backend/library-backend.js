@@ -49,6 +49,8 @@ const typeDefs = `
 
   type Token {
     value: String!
+    username: String
+    favoritegenre: String
   }
 
   type Query {
@@ -220,7 +222,9 @@ const resolvers = {
       }
       const responseObject = {
         value: jwt.sign(userForToken, process.env.JWT_SECRET),
-        username: user.username
+        username: user.username,
+        favoritegenre: user.favoriteGenre
+
       }
       return responseObject
     }
