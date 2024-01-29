@@ -102,6 +102,9 @@ const resolvers = {
         const author = await Author.findById(book.author)
         book.author = author
       }
+      if (args.genre) {
+        return books.filter((book) => book.genres.includes(args.genre))
+      }
       return books
     },
     allAuthors: async () => {

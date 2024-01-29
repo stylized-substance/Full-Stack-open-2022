@@ -4,17 +4,17 @@ import { useState, useEffect } from 'react'
 
 const Recommendations = (props) => {
   const [books, setBooks] = useState([])
-  const result = useQuery(ALL_BOOKS)
-
-  console.log(books)
+  const booksByGenre = useQuery(ALL_BOOKS, {
+    variables: { genre: props.favoriteGenre }
+  })
 
   useEffect(() => {
-    if (!result.loading) {
-      setBooks(result.data.allBooks.filter((book) => book.genres.includes(props.favoriteGenre)))
+    if (!booksByGenre.loading) {
+      setBooks(booksByGenre.data.allBooks)
     }
-  }, [result])
+  }, [booksByGenre])
 
-  if (result.loading) {
+  if (booksByGenre.loading) {
     return <div>loading..</div>
   }
 

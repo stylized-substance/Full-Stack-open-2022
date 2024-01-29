@@ -6,8 +6,11 @@ import Select from 'react-select'
 const Books = (props) => {
   const [books, setBooks] = useState([])
   const [booksToShow, setBooksToShow] = useState([])
-  const [genre, setGenre] = useState('')
+  const [genre, setGenre] = useState(null)
   const result = useQuery(ALL_BOOKS)
+  const booksByGenre = useQuery(ALL_BOOKS, {
+    variables: { genre }
+  })
 
   useEffect(() => {
     if (!result.loading) {
@@ -17,8 +20,11 @@ const Books = (props) => {
   }, [result])
 
   useEffect(() => {
-    setBooksToShow(books.filter((book) => book.genres.includes(genre)))
-  }, [genre])
+    if (!booksByGenre.loading) {
+      setBooksToShow(booksByGenre.data.allBooks)
+    }
+    // setBooksToShow(books.filter((book) => book.genres.includes(genre)))
+  }, [genre, booksByGenre])
   
   if (result.loading) {
     return <div>loading..</div>
