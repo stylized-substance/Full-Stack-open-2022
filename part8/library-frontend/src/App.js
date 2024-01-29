@@ -10,7 +10,6 @@ const App = () => {
   const [token , setToken] = useState(null)
   const [loggedInUser, setLoggedInUser] = useState(null)
   const client = useApolloClient()
-  const localStorageToken = localStorage.getItem('library-user-token')
 
   useEffect(() => {
     setToken(localStorage.getItem('library-user-token'))
@@ -23,6 +22,7 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+
   const Header = ({ user }) => {
     return (
       <div>

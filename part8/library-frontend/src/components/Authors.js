@@ -3,6 +3,39 @@ import { useQuery, useMutation } from "@apollo/client"
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 
+const EditAuthor = ({ year, setYear, setName, submit, options }) => {
+  const handleYearChange = (event) => {
+    setYear(Number(event.target.value))
+  }
+
+  return (
+    <div>
+      <h2>
+        Set author birth year
+      </h2>
+      <form onSubmit={submit}>
+        <div>
+          <Select defaultValue={options[0]} options={options} onChange={opt => setName(opt.value)} />
+        </div>
+        <br></br>
+        <div>
+          Year:
+          <input
+            value={year}
+            // onChange={({ event }) => setYear(Number(event.target.value))}
+            onChange={handleYearChange}
+            // onChange={({ event }) => console.log(event)}
+          />
+        </div>
+        <br></br>
+        <button type="submit">
+          Send
+        </button>
+      </form>
+    </div>
+  )
+}
+
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
   const [name, setName] = useState('')
@@ -10,8 +43,6 @@ const Authors = (props) => {
   const [ changeBirthYear ] = useMutation(CHANGE_BIRTHYEAR, {
     refetchQueries: [ { query: ALL_AUTHORS }]
   })
-
-  console.log('rendering')
 
   useEffect(() => {
     if (!result.loading) {
@@ -41,39 +72,6 @@ const Authors = (props) => {
     (author) => ({value: author.name, label: author.name})
   )
 
-  const handleYearChange = (event) => {
-    setYear(Number(event.target.value))
-  }
-
-  const EditAuthor = () => {
-    return (
-      <div>
-        <h2>
-          Set author birth year
-        </h2>
-        <form onSubmit={submit}>
-          <div>
-            <Select defaultValue={options[0]} options={options} onChange={opt => setName(opt.value)} />
-          </div>
-          <br></br>
-          <div>
-            Year:
-            <input
-              value={year}
-              // onChange={({ event }) => setYear(Number(event.target.value))}
-              onChange={handleYearChange}
-              // onChange={({ event }) => console.log(event)}
-            />
-          </div>
-          <br></br>
-          <button type="submit">
-            Send
-          </button>
-        </form>
-      </div>
-    )
-  }
-
   return (
     <div>
       <h2>authors</h2>
@@ -93,7 +91,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      {props.loggedInUser && <EditAuthor />}
+      {props.loggedInUser && <EditAuthor year={year} setYear={setYear} setName={setName} submit={submit} options={options} />}
     </div>
   )
 }
