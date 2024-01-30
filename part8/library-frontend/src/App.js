@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useSubscription } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommendations from './components/Recommendations'
+import toast, { Toaster } from 'react-hot-toast'
+import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -17,6 +19,18 @@ const App = () => {
     setToken(localStorage.getItem('library-user-token'))
     setLoggedInUser(localStorage.getItem('library-user'))
   }, [])
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data, client }) => {
+      const addedBook = data.data.bookAdded
+      toast(`Book "${addedBook.title}" added!`)
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return {
+          allBooks: allBooks.concat(addedBook)
+        }
+      })
+    }
+  })
 
   const logout = () => {
     setToken(null)
@@ -37,6 +51,8 @@ const App = () => {
 
   return (
     <div>
+      <Toaster />
+      
       {token && <Header user={loggedInUser} />}
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
