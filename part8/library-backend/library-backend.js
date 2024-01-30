@@ -1,16 +1,19 @@
+const { WebSocketServer } = require('ws')
+const { useServer } = require('graphql-ws/lib/use/ws')
 const { ApolloServer } = require("@apollo/server");
-const { startStandaloneServer } = require("@apollo/server/standalone");
-const { v1: uuid } = require('uuid')
-
+const { expressMiddleware} = require('@apollo/server/express4')
+const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer')
+const { makeExecutableSchema } = require('@graphql-tools/schema')
+const express = require('express')
+const cors = require('cors')
+const http = require('http')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-mongoose.set('strictQuery', false)
-const Book = require('./models/book')
-const Author = require('./models/author');
+const typeDefs = require('./schema')
+const resolvers = require('./resolvers')
 const User = require('./models/user')
-const book = require("./models/book");
-const author = require("./models/author");
-const { GraphQLError } = require("graphql");
+
+mongoose.set('strictQuery', false)
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
@@ -24,233 +27,59 @@ mongoose.connect(MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
+const start = async () => {
+  const app = express()
+  const httpServer = http.createServer(app)
 
-const typeDefs = `
-  type Book {
-    title: String!
-    published: Int!
-    author: Author!
-    id: String!
-    genres: [String!]!
-  }
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/'
+  })
 
-  type Author {
-    name: String!
-    id: String!
-    born: Int
-    bookCount: Int
-  }
+  const schema = makeExecutableSchema({ typeDefs, resolvers })
+  const serverCleanup = useServer({ schema }, wsServer)
 
-  type User {
-    username: String!
-    favoriteGenre: String!
-    id: ID!
-  }
-
-  type Token {
-    value: String!
-    username: String
-    favoritegenre: String
-  }
-
-  type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
-    allAuthors: [Author!]!
-    me: User
-  }
-
-  type Mutation {
-    addAuthor(
-      name: String!
-    ): Author
-    addBook(
-      title: String!
-      published: Int!
-      author: String!
-      genres: [String!]!
-    ): Book
-    editAuthor(
-      name: String!
-      born: Int!
-    ): Author
-    createUser(
-      username: String!
-      favoriteGenre: String!
-    ): User
-    login(
-      username: String!
-      password: String!
-    ): Token
-  }
-`;
-
-const resolvers = {
-  Query: {
-    bookCount: async () => {
-      const books = await Book.find({})
-      return books.length
-    },
-    authorCount: async () => {
-      const authors = await Author.find({})
-      return authors.length
-    },
-    allBooks: async (root, args) => {
-      let books = await Book.find({})
-      for (let book of books) {
-        const author = await Author.findById(book.author)
-        book.author = author
-      }
-      if (args.genre) {
-        return books.filter((book) => book.genres.includes(args.genre))
-      }
-      return books
-    },
-    allAuthors: async () => {
-      const authors = await Author.find({})
-      return authors
-    },
-    me: (root, args, context) => {
-      return context.currentUser
-    },
-  },
-  Author: {
-    bookCount: async (root) => {
-      const books = await Book.find({ author: root.id })
-      return books.length
-    }
-  },
-  Mutation: {
-    addAuthor: async (root, args) => {
-      const author = new Author({ ...args })
-      try {
-        await author.save()
-      } catch (error) {
-        throw new GraphQLError('Saving author failed', {
-          extensions: {
-            code: 'BAD_USER_INPUT',
-            invalidArgs: args.name,
-            error
-          }
-        })
-      }
-      return author
-    },
-    addBook: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new GraphQLError('Authorization header missing')
-        //return null
-      }
-      let author = await Author.findOne({ name: args.author })
-      if (!author) {
-        author = new Author({ name: args.author })
-        try {
-          await author.save()
-          //return author
-        } catch (error) {
-          throw new GraphQLError('Saving author failed', {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              invalidArgs: args.name,
-              error
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose()
             }
-          })
+          }
         }
       }
-      console.log(({ ...args, author: author }))
-      const book = new Book({ ...args, author: author })
-      try {
-        await book.save()
-        return book
-      } catch (error) {
-        throw new GraphQLError('Saving book failed', {
-          extensions: {
-            code: 'BAD_USER_INPUT',
-            invalidArgs: args.title,
-            error
-          }
-        })
-      }
-    },
-    editAuthor: async (root, args, context) => {
-      if (!context.currentUser) {
-        throw new GraphQLError('Authorization header missing')
-        //return null
-      }
-      let author = await Author.findOne({ name: args.name })
-      if (author) {
-        author.born = args.born
-        try {
-          await author.save()
-          return author
-        } catch (error) {
-          throw new GraphQLError('Editing author failed', {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              invalidArgs: args.name,
-              error
-            }
-          })
+    ]
+  })
+
+  await server.start()
+
+  app.use(
+    '/',
+    cors(),
+    express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const auth = req ? req.headers.authorization : null
+        if (auth && auth.startsWith('Bearer ')) {
+          const decodedToken = jwt.verify(
+            auth.substring(7), process.env.JWT_SECRET
+            )
+          const currentUser = await User.findById(decodedToken.id)
+          return { currentUser }
         }
-      } else {
-        return null
       }
-    },
-    createUser: async (root, args) => {
-      const user = new User({ ...args })
-      return user.save()
-        .catch((error) => {
-          throw new GraphQLError('Creating new user failed', {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              invalidArgs: args.username,
-              error
-            }
-          })
-        })
-    },
-    login: async (root, args) => {
-      const user = await User.findOne({ username: args.username })
-      if (!user || args.password !== 'secret') {
-        throw new GraphQLError('Wrong password', {
-          extensions: {
-            code: 'BAD_USER_INPUT'
-          }
-        })
-      }
-      const userForToken = {
-        username: user.username,
-        id: user._id
-      }
-      const responseObject = {
-        value: jwt.sign(userForToken, process.env.JWT_SECRET),
-        username: user.username,
-        favoritegenre: user.favoriteGenre
+    })
+  )
 
-      }
-      return responseObject
-    }
-  }
-};
+  const PORT = 4000
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+  httpServer.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  )
+}
 
-startStandaloneServer(server, {
-  listen: { port: 4000 },
-  context: async ({ req, res }) => {
-    const auth = req ? req.headers.authorization : null
-    if (auth && auth.startsWith('Bearer ')) {
-      const decodedToken = jwt.verify(
-        auth.substring(7), process.env.JWT_SECRET
-        )
-        const currentUser = await User.findById(decodedToken.id)
-      return { currentUser }
-    }
-  }
-}).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
-});
+start()
