@@ -60,26 +60,15 @@ const resolvers = {
     addBook: async (root, args, context) => {
       if (!context.currentUser) {
         throw new GraphQLError('Authorization header missing')
-        //return null
       }
-      let author = await Author.findOne({ name: args.author })
+
+      let author = await Author.findOne({ name: args.author }).populate('books')
       if (!author) {
         author = new Author({ name: args.author })
-        try {
-          await author.save()
-          //return author
-        } catch (error) {
-          throw new GraphQLError('Saving author failed', {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              invalidArgs: args.name,
-              error
-            }
-          })
-        }
       }
-      console.log(({ ...args, author: author }))
+
       const book = new Book({ ...args, author: author })
+
       try {
         await book.save()
       } catch (error) {
@@ -92,6 +81,22 @@ const resolvers = {
         })
       }
       
+      author.books.push(book)
+      console.log(author)
+
+
+      try {
+        await author.save()
+      } catch (error) {
+        throw new GraphQLError('Saving author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
+
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
       return book
     },
