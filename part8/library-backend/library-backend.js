@@ -14,6 +14,7 @@ const resolvers = require('./resolvers')
 const User = require('./models/user')
 
 mongoose.set('strictQuery', false)
+mongoose.set('debug', true)
 require('dotenv').config()
 console.log(process.env.MONGODB_URI)
 const MONGODB_URI = process.env.MONGODB_URI
