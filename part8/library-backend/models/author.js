@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
   books: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Author'
+      ref: 'Book'
     }
   ]
 })

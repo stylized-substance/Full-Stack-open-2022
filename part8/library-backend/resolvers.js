@@ -63,14 +63,18 @@ const resolvers = {
       }
 
       let author = await Author.findOne({ name: args.author }).populate('books')
+      
       if (!author) {
         author = new Author({ name: args.author })
+        await author.save()
+        console.log('new author created')
       }
 
       const book = new Book({ ...args, author: author })
 
       try {
         await book.save()
+        console.log('book saved')
       } catch (error) {
         throw new GraphQLError('Saving book failed', {
           extensions: {
@@ -81,12 +85,13 @@ const resolvers = {
         })
       }
       
+      author = await Author.findOne({ name: args.author })
       author.books.push(book)
       console.log(author)
 
-
       try {
         await author.save()
+        console.log('author saved')
       } catch (error) {
         throw new GraphQLError('Saving author failed', {
           extensions: {
