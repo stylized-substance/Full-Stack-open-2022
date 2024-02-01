@@ -17,11 +17,8 @@ const resolvers = {
       return authors.length
     },
     allBooks: async (root, args) => {
-      let books = await Book.find({})
-      for (let book of books) {
-        const author = await Author.findById(book.author)
-        book.author = author
-      }
+      console.log('allbooks find')
+      let books = await Book.find({}).populate('author')
       if (args.genre) {
         return books.filter((book) => book.genres.includes(args.genre))
       }
@@ -32,9 +29,8 @@ const resolvers = {
       return authors
     },
     singleAuthor: async (root, args) => {
-      const res = await Author.find({ name: args.name })
-      console.log(res[0])
-      return res
+      const result = await Author.find({ name: args.name })
+      return result[0]
     },
     me: (root, args, context) => {
       return context.currentUser
@@ -46,7 +42,8 @@ const resolvers = {
       return books.length
     },
     books: async (root) => {
-      const books = await Book.find({ author: root.id })
+      const books = await Book.find({ author: root.id }).populate('author')
+      console.log('book find')
       return books
     }
   },
