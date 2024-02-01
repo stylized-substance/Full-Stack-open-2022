@@ -31,6 +31,11 @@ const resolvers = {
       const authors = await Author.find({})
       return authors
     },
+    singleAuthor: async (root, args) => {
+      const res = await Author.find({ name: args.name })
+      console.log(res[0])
+      return res
+    },
     me: (root, args, context) => {
       return context.currentUser
     },
@@ -39,6 +44,10 @@ const resolvers = {
     bookCount: async (root) => {
       const books = await Book.find({ author: root.id })
       return books.length
+    },
+    books: async (root) => {
+      const books = await Book.find({ author: root.id })
+      return books
     }
   },
   Mutation: {
@@ -67,14 +76,12 @@ const resolvers = {
       if (!author) {
         author = new Author({ name: args.author })
         await author.save()
-        console.log('new author created')
       }
 
       const book = new Book({ ...args, author: author })
 
       try {
         await book.save()
-        console.log('book saved')
       } catch (error) {
         throw new GraphQLError('Saving book failed', {
           extensions: {
@@ -87,11 +94,9 @@ const resolvers = {
       
       author = await Author.findOne({ name: args.author })
       author.books.push(book)
-      console.log(author)
 
       try {
         await author.save()
-        console.log('author saved')
       } catch (error) {
         throw new GraphQLError('Saving author failed', {
           extensions: {

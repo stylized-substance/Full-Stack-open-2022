@@ -33,6 +33,7 @@ const typeDefs = `
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
     me: User
+    singleAuthor(name: String): Author
   }
 
   type Mutation {
