@@ -17,7 +17,6 @@ const resolvers = {
       return authors.length
     },
     allBooks: async (root, args) => {
-      console.log('allbooks find')
       let books = await Book.find({}).populate('author')
       if (args.genre) {
         return books.filter((book) => book.genres.includes(args.genre))
@@ -42,7 +41,6 @@ const resolvers = {
     },
     books: async (root) => {
       const books = await Book.find({ author: root.id }).populate('author')
-      console.log('book find')
       return books
     }
   },
