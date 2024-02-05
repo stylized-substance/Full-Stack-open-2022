@@ -8,28 +8,30 @@ interface ReturnObject {
   average: number;
 }
 
-interface ReturnObject {
-  periodLength: number;
-}
-
 const calculateExercises = (hourArray: number[], target: number): ReturnObject => {
   const trainingDays = hourArray.filter((element => element > 0));
   
   const averageHours = Number((hourArray.reduce((accumulator, currentValue) => {
     return accumulator + currentValue;
-  }) / hourArray.length).toFixed(2));
+  }) / hourArray.length));
 
-  const percentOfGoal = averageHours / target * 100
-  console.log(percentOfGoal)
+  const percentOfGoal = Math.floor(averageHours / target * 100);
 
-  let rating
+  let rating;
+  let ratingDescription;
   switch (true) {
     case (percentOfGoal < 50):
       rating = 1;
-    case (percentOfGoal < 80):
+      ratingDescription = 'Could do better';
+      break;
+    case (percentOfGoal >= 50 && percentOfGoal < 97):
       rating = 2;
-    case (percentOfGoal >= 80):
+      ratingDescription = 'Doing OK';
+      break;
+    case (percentOfGoal >= 97):
       rating = 3;
+      ratingDescription = 'Doing great!';
+      break;
   }
 
   
@@ -38,12 +40,10 @@ const calculateExercises = (hourArray: number[], target: number): ReturnObject =
     trainingDays: trainingDays.length,
     success: averageHours >= target,
     rating: rating,
-    ratingDescription: '0',
+    ratingDescription: ratingDescription,
     target: target,
     average: averageHours
   }
 }
 
-
-// console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 10));
+console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
