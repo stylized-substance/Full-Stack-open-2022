@@ -8,12 +8,12 @@ interface ReturnObject {
   average: number;
 }
 
-const calculateExercises = (hourArray: number[], target: number): ReturnObject => {
-  const trainingDays = hourArray.filter((element => element > 0));
+const calculateExercises = (target: number, dayArray: number[]): ReturnObject => {
+  const trainingDays = dayArray.filter((element => element > 0));
   
-  const averageHours = Number((hourArray.reduce((accumulator, currentValue) => {
+  const averageHours = Number((dayArray.reduce((accumulator, currentValue) => {
     return accumulator + currentValue;
-  }) / hourArray.length));
+  }) / dayArray.length));
 
   const percentOfGoal = Math.floor(averageHours / target * 100);
 
@@ -36,7 +36,7 @@ const calculateExercises = (hourArray: number[], target: number): ReturnObject =
 
   
   return {
-    periodLength: hourArray.length,
+    periodLength: dayArray.length,
     trainingDays: trainingDays.length,
     success: averageHours >= target,
     rating: rating,
@@ -46,4 +46,37 @@ const calculateExercises = (hourArray: number[], target: number): ReturnObject =
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+interface calculateExercisesInput {
+  target: number;
+  dayArray: number[];
+}
+
+const parseInput = (args: string[]): calculateExercisesInput => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+  let dayArray: number[] = [];
+  const argsToProcess = args.slice(3);
+
+  for (const arg of argsToProcess) {
+    if (isNaN(Number(arg))) {
+      throw new Error('Only numbers are allowed as arguments');
+    }
+    dayArray.push(Number(arg));
+  }
+
+  return {
+    target: Number(argsToProcess[0]),
+    dayArray: dayArray
+  }
+}
+
+try {
+  const { target, dayArray } = parseInput(process.argv);
+  console.log(parseInput(process.argv))
+  console.log(calculateExercises(target, dayArray));
+} catch (error: unknown) {
+  let errorMessage = 'Error: ';
+  if (error instanceof Error) {
+    errorMessage += error.message;
+  }
+  console.log(errorMessage);
+}
