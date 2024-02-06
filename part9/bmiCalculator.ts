@@ -9,6 +9,8 @@ const calculateBmi = (height: number, weight: number): string => {
       return 'Overweight';
     case bmi >= 30:
       return 'Obese';
+    default:
+      return 'Invalid bmi'
   }
 }
 

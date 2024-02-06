@@ -39,8 +39,8 @@ const calculateExercises = (target: number, dayArray: number[]): ReturnObject =>
     periodLength: dayArray.length,
     trainingDays: trainingDays.length,
     success: averageHours >= target,
-    rating: rating,
-    ratingDescription: ratingDescription,
+    rating: Number(rating),
+    ratingDescription: String(ratingDescription),
     target: target,
     average: averageHours
   }
