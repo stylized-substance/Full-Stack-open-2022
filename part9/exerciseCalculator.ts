@@ -8,7 +8,7 @@ interface ReturnObject {
   average: number;
 }
 
-const calculateExercises = (target: number, dayArray: number[]): ReturnObject => {
+export const calculateExercises = (target: number, dayArray: number[]): ReturnObject => {
   const trainingDays = dayArray.filter((element => element > 0));
   
   const averageHours = Number((dayArray.reduce((accumulator, currentValue) => {
@@ -51,7 +51,8 @@ interface calculateExercisesInput {
   dayArray: number[];
 }
 
-const parseInput = (args: string[]): calculateExercisesInput => {
+export const parseInput = (args: string[]): calculateExercisesInput => {
+  console.log('here')
   if (args.length < 4) throw new Error('Not enough arguments');
   const dayArray: number[] = [];   // changed let to const per eslint suggestion
   const argsToProcess = args.slice(3);

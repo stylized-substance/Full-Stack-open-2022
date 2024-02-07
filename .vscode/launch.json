@@ -5,7 +5,7 @@
       "name": "TS-Node",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node",
+      "runtimeExecutable": "${workspaceRoot}/part9/node_modules/.bin/ts-node",
       "runtimeArgs": [
         "--transpile-only",
         // if you use esm
