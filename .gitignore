@@ -1,3 +1,4 @@
 node_modules
 tilix_session.json
 .env
+build
