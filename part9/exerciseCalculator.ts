@@ -10,7 +10,6 @@ interface ReturnObject {
 
 export const calculateExercises = (target: number, dayArray: number[]): ReturnObject => {
   const trainingDays = dayArray.filter((element => element > 0));
-  
   const averageHours = Number((dayArray.reduce((accumulator, currentValue) => {
     return accumulator + currentValue;
   }) / dayArray.length));
@@ -45,39 +44,3 @@ export const calculateExercises = (target: number, dayArray: number[]): ReturnOb
     average: averageHours
   };
 };
-
-interface calculateExercisesInput {
-  target: number;
-  dayArray: number[];
-}
-
-export const parseInput = (args: string[]): calculateExercisesInput => {
-  console.log('here')
-  if (args.length < 4) throw new Error('Not enough arguments');
-  const dayArray: number[] = [];   // changed let to const per eslint suggestion
-  const argsToProcess = args.slice(3);
-
-  for (const arg of argsToProcess) {
-    if (isNaN(Number(arg))) {
-      throw new Error('Only numbers are allowed as arguments');
-    }
-    dayArray.push(Number(arg));
-  }
-
-  return {
-    target: Number(argsToProcess[0]),
-    dayArray: dayArray
-  };
-};
-
-try {
-  const { target, dayArray } = parseInput(process.argv);
-  console.log(parseInput(process.argv));
-  console.log(calculateExercises(target, dayArray));
-} catch (error: unknown) {
-  let errorMessage = 'Error: ';
-  if (error instanceof Error) {
-    errorMessage += error.message;
-  }
-  console.log(errorMessage);
-}
