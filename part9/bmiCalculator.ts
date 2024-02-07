@@ -10,6 +10,6 @@ export const bmiCalculator = (height: number, weight: number): string => {
     case bmi >= 30:
       return 'Obese';
     default:
-      return 'Invalid bmi'
+      return 'Invalid bmi';
   }
-}
+};

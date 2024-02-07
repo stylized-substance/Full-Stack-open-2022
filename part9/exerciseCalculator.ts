@@ -43,8 +43,8 @@ const calculateExercises = (target: number, dayArray: number[]): ReturnObject =>
     ratingDescription: String(ratingDescription),
     target: target,
     average: averageHours
-  }
-}
+  };
+};
 
 interface calculateExercisesInput {
   target: number;
@@ -53,7 +53,7 @@ interface calculateExercisesInput {
 
 const parseInput = (args: string[]): calculateExercisesInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
-  let dayArray: number[] = [];
+  const dayArray: number[] = [];   // changed let to const per eslint suggestion
   const argsToProcess = args.slice(3);
 
   for (const arg of argsToProcess) {
@@ -66,12 +66,12 @@ const parseInput = (args: string[]): calculateExercisesInput => {
   return {
     target: Number(argsToProcess[0]),
     dayArray: dayArray
-  }
-}
+  };
+};
 
 try {
   const { target, dayArray } = parseInput(process.argv);
-  console.log(parseInput(process.argv))
+  console.log(parseInput(process.argv));
   console.log(calculateExercises(target, dayArray));
 } catch (error: unknown) {
   let errorMessage = 'Error: ';
