@@ -5,6 +5,10 @@
 		},
 		{
 			"path": "../Full-Stack-open-2022-part3"
+		},
+		{
+			"name": "patientor",
+			"path": "../Full-Stack-open-2022-patientor/patientor"
 		}
 	],
 	"settings": {}
