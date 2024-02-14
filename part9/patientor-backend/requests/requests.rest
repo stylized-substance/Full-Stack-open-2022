@@ -2,4 +2,17 @@ GET http://localhost:3001/api/ping
 
 ###
 
-Get http://localhost:3001/api/patients
+GET http://localhost:3001/api/patients
+
+###
+
+POST http://localhost:3001/api/patients
+content-type: application/json
+
+{
+  "name":"asd",
+  "occupation":"asd",
+  "ssn":"asd",
+  "dateOfBirth":"asd",
+  "gender":"male"
+}
