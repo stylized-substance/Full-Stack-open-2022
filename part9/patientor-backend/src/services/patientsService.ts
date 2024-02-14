@@ -13,4 +13,9 @@ const getEntries = (): PatientNoSSN[] => {
   }));
 };
 
-export default { getEntries };
+const findById = (id: string): PatientNoSSN | undefined => {
+  const patient = patients.find((patient) => patient.id === id);
+  return patient;
+};
+
+export default { getEntries, findById };
