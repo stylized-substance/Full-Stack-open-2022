@@ -5,6 +5,14 @@ const isString = (text: unknown): text is string => {
   return typeof(text) === 'string' || text instanceof String;
 };
 
+const isGender = (param: string): param is Gender => {
+  return Object.values(Gender).map(value => value.toString()).includes(param);
+};
+
+const isDate = (date: string): boolean => {
+  return Boolean(Date.parse(date));
+};
+
 const parseName = (name: unknown): string => {
   if (!isString(name)) {
     throw new Error('Incorrect name');
@@ -14,7 +22,7 @@ const parseName = (name: unknown): string => {
 };
 
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
-  if (!isString(dateOfBirth)) {
+  if (!isString(dateOfBirth) || !isDate(dateOfBirth)) {
     throw new Error('Incorrect date of birth');
   }
 
@@ -35,10 +43,6 @@ const parseOccupation = (occupation: unknown): string => {
   }
 
   return occupation;
-};
-
-const isGender = (param: string): param is Gender => {
-  return Object.values(Gender).map(value => value.toString()).includes(param);
 };
 
 const parseGender = (gender: unknown): Gender => {
