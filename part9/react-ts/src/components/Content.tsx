@@ -14,7 +14,7 @@ const Content = ({ props }: ContentProps) => {
       </p>
       
     </>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;

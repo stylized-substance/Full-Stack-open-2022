@@ -7,7 +7,7 @@ const Total = ({ totalExercises }: TotalProps) => {
         Number of exercises {totalExercises}
       </p>
     </>
-  )
-}
+  );
+};
 
 export default Total;

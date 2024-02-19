@@ -1,4 +1,4 @@
-import { HeaderProps } from "../types"
+import { HeaderProps } from "../types";
 
 const Header = (props: HeaderProps) => {
   return (
@@ -7,7 +7,7 @@ const Header = (props: HeaderProps) => {
         {props.text}
       </h1>  
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
