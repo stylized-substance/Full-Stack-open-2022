@@ -5,53 +5,71 @@ const assertNever = (value: never) => {
 };
 
 const Part = ({ props }: PartProps) => {
-  console.log(props);
-  let jsxToRender;
-  
-  // switch (props.kind) {
-  //   case "basic": 
-  //     propertiesToRender = [props.name, props.exerciseCount];
-  //     break;
-  //   case "group":
-  //     propertiesToRender = [props.name, props.exerciseCount, props.groupProjectCount];
-  //     break;
-  //   case "background":
-  //     propertiesToRender = [props.name, props.exerciseCount, props.description, props.backgroundMaterial];
-  //     break;
-  //   default:
-  //     return assertNever(props);
-  // }
 
   switch (props.kind) {
     case "basic": {
       const { name, exerciseCount } = props;
-      jsxToRender = <div>{name} {exerciseCount}</div>;
-      break;
+      console.log(name);
+      return (
+        <div>
+          <p>
+            <b>
+              {name} {exerciseCount}
+            </b>
+          </p>
+        </div>
+      );
     }
     case "group": {
       const { name, exerciseCount, groupProjectCount } = props;
-      jsxToRender = <div>{name} {exerciseCount} {groupProjectCount}</div>;
-      break;
+      return (
+        <div>
+          <p>
+            <b>
+              {name} {exerciseCount}
+            </b>
+            <br></br>
+            Group projects: {groupProjectCount}
+          </p>
+        </div>
+      );
     }
     case "background": {
       const { name, exerciseCount, description, backgroundMaterial } = props;
-      jsxToRender = <div>{name} {exerciseCount} {description} {backgroundMaterial}</div>;
-      break;
+      return (
+        <div>
+          <p>
+            <b>
+              {name} {exerciseCount}
+            </b>
+            <br></br>
+            {description}
+            <br></br>
+            {backgroundMaterial}
+          </p>
+        </div>
+      );
+    }
+    case "special": {
+      const { name, exerciseCount, description, requirements } = props;
+      return (
+        <div>
+          <p>
+            <b>
+              {name} {exerciseCount}
+            </b>
+            <br></br>
+            {description}
+            <br></br>
+            Required skills: {requirements.map(item => <div>{item}</div>)}
+          </p>
+        </div>
+      );
     }
     default: {
       return assertNever(props);
     }
   }
-
-  console.log(jsxToRender);
-  // const propertiesToRenderMapped = propertiesToRender.map(property => <div>{property}</div>);
-  
-  return (
-    <div>
-      {/* {propertiesToRenderMapped} */}
-      {jsxToRender}
-    </div>
-  );
 };
 
 export default Part;
