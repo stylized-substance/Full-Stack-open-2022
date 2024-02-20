@@ -8,7 +8,7 @@ const Part = ({ props }: PartProps) => {
 
   switch (props.kind) {
     case "basic": {
-      const { name, exerciseCount } = props;
+      const { name, exerciseCount, description } = props;
       console.log(name);
       return (
         <div>
@@ -16,6 +16,8 @@ const Part = ({ props }: PartProps) => {
             <b>
               {name} {exerciseCount}
             </b>
+            <br></br>
+            {description}
           </p>
         </div>
       );
