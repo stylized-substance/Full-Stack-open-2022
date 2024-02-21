@@ -14,15 +14,13 @@ const App = () => {
     });
   }, []);
 
-  console.log(diaries);
-
   return (
     <div>
       <div>
         <h1>
           Add new entry
         </h1>
-        <NewDiaryForm />
+        <NewDiaryForm diaries={diaries} setDiaries={setDiaries} />
       </div>
       <div>
         <h1>

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { NewDiaryFormProps } from "../types";
 
-const NewDiaryForm = () => {
+const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
   const [date, setDate] = useState("");
   const [visibility, setVisibility] = useState("");
   const [weather, setWeather] = useState("");
@@ -9,15 +10,18 @@ const NewDiaryForm = () => {
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const newDiary = {
+      id: diaries[diaries.length -1].id + 1,
       date: date,
-      visibility: visibility,
       weather: weather,
+      visibility: visibility,
       comment: comment,
     };
     
     for (const setAction of [ setDate, setVisibility, setWeather, setComment ]) {
       setAction('');
     }
+
+    setDiaries(diaries.concat(newDiary));
   };
 
   return (
