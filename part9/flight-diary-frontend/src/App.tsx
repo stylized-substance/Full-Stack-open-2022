@@ -9,7 +9,7 @@ const App = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
 
   useEffect(() => {
-    getDiaries().then(data => {
+    getDiaries().then((data) => {
       setDiaries(data);
     });
   }, []);
@@ -17,15 +17,11 @@ const App = () => {
   return (
     <div>
       <div>
-        <h1>
-          Add new entry
-        </h1>
+        <h1>Add new entry</h1>
         <NewDiaryForm diaries={diaries} setDiaries={setDiaries} />
       </div>
       <div>
-        <h1>
-          Diary entries
-        </h1>
+        <h1>Diary entries</h1>
         <DiaryView diaries={diaries} />
       </div>
     </div>

@@ -1,20 +1,20 @@
 export interface Diary {
-  id: number,
-  date: string,
-  weather: string,
-  visibility: string,
-  comment: string
+  id: number;
+  date: string;
+  weather: string;
+  visibility: string;
+  comment: string;
 }
 
-// export type NewDiary = Omit<Diary, "id">
+export type NewDiary = Omit<Diary, "id">;
 
 export interface DiaryViewProps {
-  diaries: Diary[]
+  diaries: Diary[];
 }
 
 export interface NewDiaryFormProps {
-  diaries: Diary[]
+  diaries: Diary[];
   // setDiaries: React.Dispatch<React.SetStateAction<Diary[]>>
   // setDiaries: () => void
-  setDiaries: React.Dispatch<React.SetStateAction<Diary[]>>
+  setDiaries: React.Dispatch<React.SetStateAction<Diary[]>>;
 }

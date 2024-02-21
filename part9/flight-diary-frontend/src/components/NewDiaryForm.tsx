@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { NewDiaryFormProps } from "../types";
+import { NewDiaryFormProps, NewDiary } from "../types";
+import { addDiary } from "../services/diaryService";
 
 const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
   const [date, setDate] = useState("");
@@ -9,45 +10,63 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const newDiary = {
-      id: diaries[diaries.length -1].id + 1,
+    const newDiary: NewDiary = {
       date: date,
       weather: weather,
       visibility: visibility,
       comment: comment,
     };
-    
-    for (const setAction of [ setDate, setVisibility, setWeather, setComment ]) {
-      setAction('');
-    }
 
-    setDiaries(diaries.concat(newDiary));
+    // const newDiary: NewDiary = {
+    //   date: "12-12-2020",
+    //   weather: "sunny",
+    //   visibility: "ok",
+    //   comment: comment,
+    // };
+
+    addDiary(newDiary).then((res) => {
+      console.log(res);
+      setDiaries(diaries.concat(res));
+    });
+
+    // addDiary(newDiary)
+    // .then((res) => setDiaries(diaries.concat(res)));
+
+    for (const setAction of [setDate, setVisibility, setWeather, setComment]) {
+      setAction("");
+    }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          Date: <input
-            value={date} onChange={(event) => setDate(event.target.value)} />
+          Date:{" "}
+          <input
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
+          />
         </div>
         <div>
-          Visibility: <input
+          Visibility:{" "}
+          <input
             value={visibility}
             onChange={(event) => setVisibility(event.target.value)}
           />
         </div>
         <div>
-          Weather: <input
+          Weather:{" "}
+          <input
             value={weather}
             onChange={(event) => setWeather(event.target.value)}
           />
         </div>
         <div>
-          Comment: <input
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-        />
+          Comment:{" "}
+          <input
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+          />
         </div>
         <button type="submit">Add</button>
       </form>
