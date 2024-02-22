@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NewDiaryFormProps, NewDiary } from "../types";
+import { NewDiaryFormProps, NewDiary, Diary } from "../types";
 import { addDiary } from "../services/diaryService";
 
 const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
@@ -7,6 +7,10 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
   const [visibility, setVisibility] = useState("");
   const [weather, setWeather] = useState("");
   const [comment, setComment] = useState("");
+
+  const isDiary = (input: Diary | Error): input is Diary => {
+    return (input as Diary).weather !== undefined;
+  };
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -17,24 +21,24 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
       comment: comment,
     };
 
-    // const newDiary: NewDiary = {
-    //   date: "12-12-2020",
-    //   weather: "sunny",
-    //   visibility: "ok",
-    //   comment: comment,
-    // };
+    addDiary(newDiary).then((result) => {
+      if (isDiary(result)) {
+        setDiaries(diaries.concat(result));
+      }
 
-    addDiary(newDiary).then((res) => {
-      console.log(res);
-      setDiaries(diaries.concat(res));
+      if (result instanceof Error) {
+        console.log(result.message);
+      }
+
+      for (const setAction of [
+        setDate,
+        setVisibility,
+        setWeather,
+        setComment,
+      ]) {
+        setAction("");
+      }
     });
-
-    // addDiary(newDiary)
-    // .then((res) => setDiaries(diaries.concat(res)));
-
-    for (const setAction of [setDate, setVisibility, setWeather, setComment]) {
-      setAction("");
-    }
   };
 
   return (
