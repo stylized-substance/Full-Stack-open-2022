@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { NewDiaryFormProps, NewDiary, Diary } from "../types";
 import { addDiary } from "../services/diaryService";
+import toast, { Toaster } from "react-hot-toast";
 
 const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
   const [date, setDate] = useState("");
   const [visibility, setVisibility] = useState("");
   const [weather, setWeather] = useState("");
   const [comment, setComment] = useState("");
+
+  const notify = (message: string) => toast(message);
 
   const isDiary = (input: Diary | Error): input is Diary => {
     return (input as Diary).weather !== undefined;
@@ -27,7 +30,7 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
       }
 
       if (result instanceof Error) {
-        console.log(result.message);
+        notify(`Error: ${result.message}`);
       }
 
       for (const setAction of [
@@ -43,6 +46,7 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
 
   return (
     <div>
+      <Toaster />
       <form onSubmit={handleSubmit}>
         <div>
           Date:{" "}

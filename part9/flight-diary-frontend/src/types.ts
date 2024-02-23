@@ -17,4 +17,5 @@ export interface NewDiaryFormProps {
   // setDiaries: React.Dispatch<React.SetStateAction<Diary[]>>
   // setDiaries: () => void
   setDiaries: React.Dispatch<React.SetStateAction<Diary[]>>;
+  // notify: () => string
 }
