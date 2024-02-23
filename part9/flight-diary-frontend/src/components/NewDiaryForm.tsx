@@ -15,6 +15,10 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
     return (input as Diary).weather !== undefined;
   };
 
+  const isString = (input: unknown): input is string => {
+    return typeof input === "string" || input instanceof String;
+  };
+
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const newDiary: NewDiary = {
@@ -27,10 +31,12 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
     addDiary(newDiary).then((result) => {
       if (isDiary(result)) {
         setDiaries(diaries.concat(result));
-      }
-
-      if (result instanceof Error) {
-        notify(`Error: ${result.message}`);
+      } else {
+        if (isString(result)) {
+          notify(result);
+        } else {
+          throw new Error(`addDiary result is unknown: ${JSON.stringify(result)}`);
+        }
       }
 
       for (const setAction of [
@@ -49,32 +55,104 @@ const NewDiaryForm = ({ diaries, setDiaries }: NewDiaryFormProps) => {
       <Toaster />
       <form onSubmit={handleSubmit}>
         <div>
-          Date:{" "}
-          <input
-            value={date}
-            onChange={(event) => setDate(event.target.value)}
-          />
+          <label>
+            Date:
+            <input
+              type="date"
+              value={date}
+              required
+              onChange={(event) => setDate(event.target.value)}
+            />
+          </label>
+        </div>
+        <br></br>
+        <div>
+          <fieldset>
+            <legend>Visibility:</legend>
+            <label htmlFor="Great">Great</label>
+            <input
+              type="radio"
+              name="Visibility"
+              value="great"
+              id="Great"
+              onChange={(event) => setVisibility(event.target.value)}
+            />
+            <label htmlFor="Good">Good</label>
+            <input
+              type="radio"
+              name="Visibility"
+              value="good"
+              onChange={(event) => setVisibility(event.target.value)}
+            />
+            <label htmlFor="Ok">Ok</label>
+            <input
+              type="radio"
+              name="Visibility"
+              value="ok"
+              onChange={(event) => setVisibility(event.target.value)}
+            />
+            <label htmlFor="Poor">Poor</label>
+            <input
+              type="radio"
+              name="Visibility"
+              value="poor"
+              onChange={(event) => setVisibility(event.target.value)}
+            />
+          </fieldset>
         </div>
         <div>
-          Visibility:{" "}
-          <input
-            value={visibility}
-            onChange={(event) => setVisibility(event.target.value)}
-          />
+          <fieldset>
+            <legend>Weather</legend>
+            <label htmlFor="Sunny">Sunny</label>
+            <input
+              type="radio"
+              name="Weather"
+              value="sunny"
+              id="Sunny"
+              onChange={(event) => setWeather(event.target.value)}
+            />
+            <label htmlFor="Rainy">Rainy</label>
+            <input
+              type="radio"
+              name="Weather"
+              value="rainy"
+              id="Rainy"
+              onChange={(event) => setWeather(event.target.value)}
+            />
+            <label htmlFor="Cloudy">Cloudy</label>
+            <input
+              type="radio"
+              name="Weather"
+              value="cloudy"
+              id="Cloudy"
+              onChange={(event) => setWeather(event.target.value)}
+            />
+            <label htmlFor="Stormy">Stormy</label>
+            <input
+              type="radio"
+              name="Weather"
+              value="stormy"
+              id="Stormy"
+              onChange={(event) => setWeather(event.target.value)}
+            />
+            <label htmlFor="Windy">Windy</label>
+            <input
+              type="radio"
+              name="Weather"
+              value="windy"
+              id="Windy"
+              onChange={(event) => setWeather(event.target.value)}
+            />
+          </fieldset>
         </div>
         <div>
-          Weather:{" "}
-          <input
-            value={weather}
-            onChange={(event) => setWeather(event.target.value)}
-          />
-        </div>
-        <div>
-          Comment:{" "}
-          <input
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-          />
+          <label>
+            Comment:
+            <input
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+          </label>
         </div>
         <button type="submit">Add</button>
       </form>

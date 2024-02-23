@@ -13,7 +13,9 @@ export const addDiary = (newDiary: NewDiary) => {
     .then((response) => response.data)
     .catch((error) => {
       if (axios.isAxiosError(error)) {
-        return error;
+        if (error.response) {
+          return error.response.data;
+        }
       } else {
         throw new Error(`Unknown error: ${JSON.stringify(error)}`);
       }
