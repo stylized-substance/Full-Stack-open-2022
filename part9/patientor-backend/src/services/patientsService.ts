@@ -1,21 +1,32 @@
-import { v1 as uuid } from 'uuid';
-import patientsData from '../../data/patients';
-import { Patient, PatientNoSSN, NewPatient } from '../types';
+import { v1 as uuid } from "uuid";
+import patientsData from "../../data/patients";
+import { Patient, PatientNoSSN, NewPatient } from "../types";
 
-const patients: PatientNoSSN[] = patientsData;
+const patients: Patient[] = patientsData;
 
 const getEntries = (): PatientNoSSN[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-    id,
-    name,
-    dateOfBirth,
-    gender,
-    occupation,
-  }));
+  const map = patients.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+      id,
+      name,
+      dateOfBirth,
+      gender,
+      occupation,
+      entries,
+    }),
+  );
+  console.log(map);
+  return map;
 };
 
 const findById = (id: string): PatientNoSSN | undefined => {
-  const patient = patients.find((patient) => patient.id === id);
+  let patient = patients.find((patient) => patient.id === id);
+  if (patient && !patient.entries) {
+    patient = {
+      ...patient,
+      entries: [],
+    };
+  }
   return patient;
 };
 
