@@ -1,5 +1,5 @@
 import { v1 as uuid } from "uuid";
-import patientsData from "../../data/patients";
+import patientsData from "../../data/patients-full";
 import { Patient, PatientNoSSN, NewPatient } from "../types";
 
 const patients: Patient[] = patientsData;
@@ -15,7 +15,6 @@ const getEntries = (): PatientNoSSN[] => {
       entries,
     }),
   );
-  console.log(map);
   return map;
 };
 
