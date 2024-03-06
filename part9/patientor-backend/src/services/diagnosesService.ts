@@ -7,4 +7,8 @@ const getEntries = (): Diagnosis[] => {
   return diagnoses;
 };
 
-export default { getEntries };
+const getOne = (code: string): Diagnosis | undefined => {
+  return diagnoses.find((diagnosis) => diagnosis.code === code);
+};
+
+export default { getEntries, getOne };
