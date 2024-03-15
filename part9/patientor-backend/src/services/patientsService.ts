@@ -18,6 +18,10 @@ const getEntries = (): PatientNoSSN[] => {
   return map;
 };
 
+const addEntry = (entry: unknown): Entry => {
+
+}
+
 const findById = (id: string): PatientNoSSN | undefined => {
   let patient = patients.find((patient) => patient.id === id);
   if (patient && !patient.entries) {
@@ -38,4 +42,4 @@ const addPatient = (patient: NewPatient): Patient => {
   return newPatient;
 };
 
-export default { getEntries, findById, addPatient };
+export default { getEntries, findById, addPatient, addEntry };

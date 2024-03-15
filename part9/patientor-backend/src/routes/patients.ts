@@ -24,4 +24,10 @@ router.post("/", (req, res) => {
   res.json(addedPatient);
 });
 
+router.post("/:id/entries", (req, res) => {
+  const newEntry = toNewEntry(req.body)
+  const addedEntry = patientsService.addEntry(newEntry)
+  res.json(addedEntry);
+});
+
 export default router;
