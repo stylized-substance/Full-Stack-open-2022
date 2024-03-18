@@ -40,9 +40,12 @@ export interface HealthCheck extends BaseEntry {
   healthCheckRating: HealthCheckRating;
 }
 
+// Define special omit for unions
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+
 export type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheck;
 
-export type NewEntry = Omit<Entry, "id">;
+export type NewEntry = UnionOmit<Entry, "id">;
 
 export interface Patient {
   id: string;
@@ -58,6 +61,12 @@ export enum Gender {
   Male = "male",
   Female = "female",
   Other = "other",
+}
+
+export enum Type {
+  OccupationalHealthcareEntry = "OccupationalHealthcare",
+  HospitalEntry = "Hospital",
+  HealthCheck = "HealthCheck",
 }
 
 export type PatientNoSSN = Omit<Patient, "ssn">;

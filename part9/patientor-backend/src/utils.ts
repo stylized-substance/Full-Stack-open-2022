@@ -1,6 +1,6 @@
 import { NewPatient } from "./types";
 import { Gender } from "./types";
-import { BaseEntry, OccupationalHealthcareEntry, HospitalEntry, HealthCheck, NewEntry } from "./types";
+import { BaseEntry, OccupationalHealthcareEntry, HospitalEntry, HealthCheck, NewEntry, Type } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -8,6 +8,12 @@ const isString = (text: unknown): text is string => {
 
 const isGender = (param: string): param is Gender => {
   return Object.values(Gender)
+    .map((value) => value.toString())
+    .includes(param);
+};
+
+const isType = (param: string): param is Type => {
+  return Object.values(Type)
     .map((value) => value.toString())
     .includes(param);
 };
@@ -55,6 +61,22 @@ const parseGender = (gender: unknown): Gender => {
 
   return gender;
 };
+
+const parseType = (type: unknown): Type => {
+  if (!isString(type) || !isType(type)) {
+    throw new Error("incorrect type");
+  }
+
+  return type;
+}
+
+const parseDate = (type: date): string => {
+  if (!isString(date)) {
+    throw new Error("incorrect date")
+  }
+
+  return date;
+}
 
 const parseSpecialist = (specialist: unknown): string => {
   if (!isString(specialist)) {
@@ -143,32 +165,38 @@ const toNewEntry = (object: unknown): NewEntry => {
     throw new Error("Incorrect or missing data");
   }
 
+  console.log(object)
+  
   if (object.diagnosisCodes) {
     //diagnosisCodes here
   }
 
-  switch (object.type) {
-    case "OccupationalHealthcare":
-      if (
-        "date" in object &&
-        "specialist" in object &&
-        "description" in object &&
-        "employerName" in object
-      ) {
-        const newEntry: NewEntry = {
-          specialist: parseSpecialist(object.specialist),
-          description: parseDescription(object.description),
-        };
-    
-        return newPatient;
-      } else {
-        throw new Error("Incorrect data, some fields are missing");
-      }
-    case "Hospital":
-    case "HealthCheck":
-    default:
-      break;
+  if ("type" in object) {
+    switch (object.type) {
+      case "OccupationalHealthcare":
+        if (
+          "date" in object &&
+          "specialist" in object &&
+          "description" in object &&
+          "employerName" in object
+        ) {
+          const newEntry: NewEntry = {
+            type: parseType(object.type),
+            date: parseDate(object.date),
+            specialist: parseSpecialist(object.specialist),
+            description: parseDescription(object.description),
+            employerName: parseEmployerName(object.employerName)
+          };    
+          return newEntry;
+        } else {
+          throw new Error("Incorrect data, some fields are missing");
+        }
+      case "Hospital":
+      case "HealthCheck":
+      default:
+        break;
+    }
   }
 }
 
-export default toNewPatient;
+export { toNewPatient, toNewEntry };
