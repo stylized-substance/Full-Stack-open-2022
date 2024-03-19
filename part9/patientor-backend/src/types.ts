@@ -24,7 +24,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
   sickLeave?: {
     startDate: string;
     endDate: string;
-  };
+  } | Record<string, never>
 }
 
 export interface HospitalEntry extends BaseEntry {
@@ -63,11 +63,11 @@ export enum Gender {
   Other = "other",
 }
 
-export enum Type {
-  OccupationalHealthcareEntry = "OccupationalHealthcare",
-  HospitalEntry = "Hospital",
-  HealthCheck = "HealthCheck",
-}
+// export enum Type {
+//   OccupationalHealthcareEntry = "OccupationalHealthcare",
+//   HospitalEntry = "Hospital",
+//   HealthCheck = "HealthCheck",
+// }
 
 export type PatientNoSSN = Omit<Patient, "ssn">;
 
