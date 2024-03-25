@@ -21,11 +21,15 @@ export interface BaseEntry {
 export interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
   employerName: string;
-  sickLeave?: {
-    startDate: string;
-    endDate: string;
-  } | Record<string, never>
+  sickLeave?: SickLeave
 }
+
+export type SickLeave = {
+  startDate: string;
+  endDate: string;
+};
+
+// export type SickLeave = Pick<OccupationalHealthcareEntry, "sickLeave">
 
 export interface HospitalEntry extends BaseEntry {
   type: "Hospital";
