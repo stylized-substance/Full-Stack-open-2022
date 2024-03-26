@@ -1,12 +1,12 @@
-import { NewPatient, OccupationalHealthcareEntry } from "./types";
+import { HealthCheck, HospitalEntry, NewPatient, OccupationalHealthcareEntry } from "./types";
 import { Gender } from "./types";
 import { NewEntry, SickLeave } from "./types";
 
-const assertNever = (value: never): never => {
-  throw new Error(
-    `Unhandled discriminated union member: ${JSON.stringify(value)}`
-  );
-};
+// const assertNever = (value: never): never => {
+//   throw new Error(
+//     `Unhandled discriminated union member: ${JSON.stringify(value)}`
+//   );
+// };
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -24,6 +24,33 @@ const isDate = (date: string): boolean => {
 
 const isObject = (input: unknown): input is object => {
   return input !== null && typeof input === "object";
+};
+
+const isNewEntry = (input: unknown): input is NewEntry => {
+  const entryTypes = [
+    'OccupationalHealthcareEntry',
+    'HospitalEntry',
+    'HealthCheck'
+  ];
+
+  return (
+    isObject(input) &&
+    'date' in input &&
+    'specialist' in input &&
+    'description' in input &&
+    'type' in input &&
+    isString(input.type) &&
+    entryTypes.includes(input.type)
+  );
+};
+
+const isOccupationalHealthcareEntry = (
+  input: NewEntry
+): input is OccupationalHealthcareEntry => {
+  return (
+    "employerName" in input &&
+    isString(input.employerName)
+  );
 };
 
 const parseName = (name: unknown): string => {
@@ -74,13 +101,13 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
-const parseType = (type: unknown): string => {
-  if (!isString(type)) {
-    throw new Error("incorrect type");
-  }
+// const parseType = (type: unknown): string => {
+//   if (!isString(type)) {
+//     throw new Error("incorrect type");
+//   }
 
-  return type;
-};
+//   return type;
+// };
 
 const parseSpecialist = (specialist: unknown): string => {
   if (!isString(specialist)) {
@@ -151,17 +178,6 @@ const parseSickLeave = (input: unknown): SickLeave => {
 //   return healthCheckRating;
 // };
 
-const isOccupationalHealthcareEntry = (
-  object: unknown
-): object is OccupationalHealthcareEntry => {
-  return (
-    "date" in object &&
-    "specialist" in object &&
-    "description" in object &&
-    "employerName" in object
-  );
-};
-
 const toNewPatient = (object: unknown): NewPatient => {
   if (!isObject(object)) {
     throw new Error("Incorrect or missing data");
@@ -188,8 +204,8 @@ const toNewPatient = (object: unknown): NewPatient => {
   }
 };
 
-const toNewEntry = (object: NewEntry): NewEntry => {
-  if (!isObject(object)) {
+const toNewEntry = (object: unknown): NewEntry => {
+  if (!isNewEntry(object)) {
     throw new Error("Incorrect or missing data");
   }
 
@@ -198,38 +214,31 @@ const toNewEntry = (object: NewEntry): NewEntry => {
   // if (object.diagnosisCodes) {
   //   //diagnosisCodes here
   // }
-
-  if ("type" in object) {
-    //   const type = parseType(object.type);
-
-    switch (object.type) {
-      case "OccupationalHealthcare":
-        if (isOccupationalHealthcareEntry(object)) {
-          const newEntry: NewEntry = {
-            type: object.type,
-            date: parseDate(object.date),
-            specialist: parseSpecialist(object.specialist),
-            description: parseDescription(object.description),
-            employerName: parseEmployerName(object.employerName),
-          };
-          if ("sickLeave" in object && "sickLeave" !== undefined) {
-            newEntry.sickLeave = parseSickLeave(object.sickLeave);
-          }
-          return newEntry;
-        }
-        break;
-      case "Hospital":
-        break;
-      case "HealthCheck":
-        break;
-      default:
-        const _exhaustiveCheck: never = object;
-        return _exhaustiveCheck;
-    }
+  
+  switch (object.type) {
+    case "OccupationalHealthcare":
+      if (!isOccupationalHealthcareEntry(object)) {
+        throw new Error("Incorrect or missing data for 'OccupationalHealthcare' entry");
+      }
+      const newEntry: NewEntry = {
+        type: object.type,
+        date: parseDate(object.date),
+        specialist: parseSpecialist(object.specialist),
+        description: parseDescription(object.description),
+        employerName: parseEmployerName(object.employerName),
+      };
+      if ("sickLeave" in object && "sickLeave" !== undefined) {
+        newEntry.sickLeave = parseSickLeave(object.sickLeave);
+      }
+      return newEntry;
+    case "Hospital":
+      return 'asd' as unknown as HospitalEntry;
+    case "HealthCheck":
+      return 'asd' as unknown as HealthCheck;
+    default:
+      const _exhaustiveCheck: never = object;
+      return _exhaustiveCheck;
   }
-  // } else {
-  //   throw new Error("Unknown entry type");
-  // }
 };
 
 export { toNewPatient, toNewEntry };
