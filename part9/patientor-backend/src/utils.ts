@@ -1,12 +1,13 @@
-import { HealthCheck, HospitalEntry, NewPatient, OccupationalHealthcareEntry } from "./types";
+import {
+  Diagnosis,
+  HealthCheck,
+  HealthCheckRating,
+  HospitalEntry,
+  NewPatient,
+  OccupationalHealthcareEntry,
+} from "./types";
 import { Gender } from "./types";
 import { NewEntry, SickLeave } from "./types";
-
-// const assertNever = (value: never): never => {
-//   throw new Error(
-//     `Unhandled discriminated union member: ${JSON.stringify(value)}`
-//   );
-// };
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -27,18 +28,14 @@ const isObject = (input: unknown): input is object => {
 };
 
 const isNewEntry = (input: unknown): input is NewEntry => {
-  const entryTypes = [
-    'OccupationalHealthcareEntry',
-    'HospitalEntry',
-    'HealthCheck'
-  ];
+  const entryTypes = ["OccupationalHealthcare", "HospitalEntry", "HealthCheck"];
 
   return (
     isObject(input) &&
-    'date' in input &&
-    'specialist' in input &&
-    'description' in input &&
-    'type' in input &&
+    "date" in input &&
+    "specialist" in input &&
+    "description" in input &&
+    "type" in input &&
     isString(input.type) &&
     entryTypes.includes(input.type)
   );
@@ -47,10 +44,37 @@ const isNewEntry = (input: unknown): input is NewEntry => {
 const isOccupationalHealthcareEntry = (
   input: NewEntry
 ): input is OccupationalHealthcareEntry => {
+  return "employerName" in input && isString(input.employerName);
+};
+
+const isHospitalEntry = (input: NewEntry): input is HospitalEntry => {
   return (
-    "employerName" in input &&
-    isString(input.employerName)
+    "discharge" in input &&
+    isObject(input.discharge) &&
+    isString(input.discharge.date) &&
+    isString(input.discharge.criteria)
   );
+};
+
+const isHealthCheckEntry = (input: NewEntry): input is HealthCheck => {
+  return "healthCheckRating" in input;
+};
+
+const parseHealthCheckRating = (input: unknown): number => {  
+  if (
+    isString(input) ||
+    typeof input !== 'number'
+  ) {
+    throw new Error("Incorrect HealthCheckRating");
+  }
+  if (
+    Object.values(HealthCheckRating).map((value) => 
+      value.toString().includes(input.toString()))
+  ) {
+    return Number(input);
+  } else {
+    throw new Error("Incorrect HealthCheckRating");
+  }
 };
 
 const parseName = (name: unknown): string => {
@@ -77,7 +101,7 @@ const parseDate = (input: unknown): string => {
   return input;
 };
 
-const parsSsn = (ssn: unknown): string => {
+const parseSsn = (ssn: unknown): string => {
   if (!isString(ssn)) {
     throw new Error("Incorrect ssn");
   }
@@ -101,14 +125,6 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
-// const parseType = (type: unknown): string => {
-//   if (!isString(type)) {
-//     throw new Error("incorrect type");
-//   }
-
-//   return type;
-// };
-
 const parseSpecialist = (specialist: unknown): string => {
   if (!isString(specialist)) {
     throw new Error("incorrect specialist");
@@ -125,13 +141,21 @@ const parseDescription = (description: unknown): string => {
   return description;
 };
 
-// const parseDiagnosisCodes = (diagnosisCodes: unknown): string => {
-//   if (!isString(diagnosisCodes)) {
-//     throw new Error("incorrect diagnosisCodes");
-//   }
+const parseDiagnosisCodes = (input: NewEntry): Array<Diagnosis['code']> => {
+  // if (!isString(diagnosisCodes)) {
+  //   throw new Error("incorrect diagnosisCodes");
+  // }
 
-//   return diagnosisCodes;
-// };
+  // return diagnosisCodes;
+  if (
+    !('diagnosisCodes' in input) ||
+    !isObject(input.diagnosisCodes)
+  ) {
+    return [] as Array<Diagnosis['code']>;
+  }
+
+  return input.diagnosisCodes;
+};
 
 const parseEmployerName = (employerName: unknown): string => {
   if (!isString(employerName)) {
@@ -162,22 +186,6 @@ const parseSickLeave = (input: unknown): SickLeave => {
   };
 };
 
-// const parseDischarge = (discharge: unknown): string => {
-//   if (!isString(discharge)) {
-//     throw new Error("incorrect discharge");
-//   }
-
-//   return discharge;
-// };
-
-// const parseHealthCheckRating = (healthCheckRating: unknown): string => {
-//   if (!isString(healthCheckRating)) {
-//     throw new Error("incorrect healthCheckRating");
-//   }
-
-//   return healthCheckRating;
-// };
-
 const toNewPatient = (object: unknown): NewPatient => {
   if (!isObject(object)) {
     throw new Error("Incorrect or missing data");
@@ -193,7 +201,7 @@ const toNewPatient = (object: unknown): NewPatient => {
     const newPatient: NewPatient = {
       name: parseName(object.name),
       dateOfBirth: parseDateOfBirth(object.dateOfBirth),
-      ssn: parsSsn(object.ssn),
+      ssn: parseSsn(object.ssn),
       gender: parseGender(object.gender),
       occupation: parseOccupation(object.occupation),
     };
@@ -209,16 +217,14 @@ const toNewEntry = (object: unknown): NewEntry => {
     throw new Error("Incorrect or missing data");
   }
 
-  console.log(object);
+  const diagnosisCodes = parseDiagnosisCodes(object);
 
-  // if (object.diagnosisCodes) {
-  //   //diagnosisCodes here
-  // }
-  
   switch (object.type) {
-    case "OccupationalHealthcare":
+    case "OccupationalHealthcare": {
       if (!isOccupationalHealthcareEntry(object)) {
-        throw new Error("Incorrect or missing data for 'OccupationalHealthcare' entry");
+        throw new Error(
+          "Incorrect or missing data for OccupationalHealthcare entry"
+        );
       }
       const newEntry: NewEntry = {
         type: object.type,
@@ -226,18 +232,45 @@ const toNewEntry = (object: unknown): NewEntry => {
         specialist: parseSpecialist(object.specialist),
         description: parseDescription(object.description),
         employerName: parseEmployerName(object.employerName),
+        diagnosisCodes: diagnosisCodes
       };
       if ("sickLeave" in object && "sickLeave" !== undefined) {
         newEntry.sickLeave = parseSickLeave(object.sickLeave);
       }
       return newEntry;
-    case "Hospital":
-      return 'asd' as unknown as HospitalEntry;
-    case "HealthCheck":
-      return 'asd' as unknown as HealthCheck;
-    default:
+    }
+    case "Hospital": {
+      if (!isHospitalEntry(object)) {
+        throw new Error("Incorrect or missing data for Hospital entry");
+      }
+      const newEntry = {
+        type: object.type,
+        date: object.date,
+        specialist: object.specialist,
+        description: object.description,
+        discharge: object.discharge,
+        diagnosisCodes: diagnosisCodes
+      };
+      return newEntry;
+    }
+    case "HealthCheck": {
+      if (!isHealthCheckEntry(object)) {
+        throw new Error("Incorrect or missing data for HealthCheck entry");
+      }
+      const newEntry = {
+        type: object.type,
+        date: object.date,
+        specialist: object.specialist,
+        description: object.description,
+        healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
+        diagnosisCodes: diagnosisCodes
+      };
+      return newEntry;
+    }
+    default: {
       const _exhaustiveCheck: never = object;
       return _exhaustiveCheck;
+    }
   }
 };
 

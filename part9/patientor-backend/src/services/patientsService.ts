@@ -24,13 +24,12 @@ const addEntry = (id: string, entry: NewEntry): Entry => {
     ...entry,
   };
 
-  const patient = findById(id)
+  const patient = findById(id);
   if (patient && patient.entries) {
     patient.entries.push(newEntry);
   }
-  
   return newEntry;
-}
+};
 
 const findById = (id: string): PatientNoSSN | undefined => {
   let patient = patients.find((patient) => patient.id === id);
