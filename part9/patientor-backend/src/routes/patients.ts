@@ -25,9 +25,17 @@ router.post("/", (req, res) => {
 });
 
 router.post("/:id/entries", (req, res) => {
-  const newEntry = toNewEntry(req.body);
-  const addedEntry = patientsService.addEntry(req.params.id, newEntry);
-  res.json(addedEntry);
+  try {
+    const newEntry = toNewEntry(req.body);
+    const addedEntry = patientsService.addEntry(req.params.id, newEntry);
+    res.json(addedEntry);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).send(error.message)
+    } else {
+      res.status(400).send('Unknown error')
+    }
+  }
 });
 
 export default router;

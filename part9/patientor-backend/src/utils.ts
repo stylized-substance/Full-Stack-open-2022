@@ -60,21 +60,15 @@ const isHealthCheckEntry = (input: NewEntry): input is HealthCheck => {
   return "healthCheckRating" in input;
 };
 
-const parseHealthCheckRating = (input: unknown): number => {  
-  if (
-    isString(input) ||
-    typeof input !== 'number'
-  ) {
-    throw new Error("Incorrect HealthCheckRating");
+const isHealthCheckRating = (input: unknown): input is HealthCheckRating => {
+  return Object.values(HealthCheckRating).includes(Number(input))
+};
+
+const parseHealthCheckRating = (input: unknown): HealthCheckRating => {
+  if (!isHealthCheckRating(input)) {
+    throw new Error("HealthCheckRating must be a number between 0 and 3");
   }
-  if (
-    Object.values(HealthCheckRating).map((value) => 
-      value.toString().includes(input.toString()))
-  ) {
-    return Number(input);
-  } else {
-    throw new Error("Incorrect HealthCheckRating");
-  }
+  return input;
 };
 
 const parseName = (name: unknown): string => {
