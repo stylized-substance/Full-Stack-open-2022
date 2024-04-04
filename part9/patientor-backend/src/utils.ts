@@ -27,9 +27,17 @@ const isObject = (input: unknown): input is object => {
   return input !== null && typeof input === "object";
 };
 
-const isNewEntry = (input: unknown): input is NewEntry => {
+const parseType = (input: string) => {
   const entryTypes = ["OccupationalHealthcare", "HospitalEntry", "HealthCheck"];
+  
+  if (!(entryTypes.includes(input))) {
+    throw new Error("Incorrect entry type")
+  }
 
+  return true;
+}
+
+const isNewEntry = (input: unknown): input is NewEntry => {
   return (
     isObject(input) &&
     "date" in input &&
@@ -37,7 +45,7 @@ const isNewEntry = (input: unknown): input is NewEntry => {
     "description" in input &&
     "type" in input &&
     isString(input.type) &&
-    entryTypes.includes(input.type)
+    parseType(input.type)
   );
 };
 
@@ -207,6 +215,7 @@ const toNewPatient = (object: unknown): NewPatient => {
 };
 
 const toNewEntry = (object: unknown): NewEntry => {
+  console.log(object)
   if (!isNewEntry(object)) {
     throw new Error("Incorrect or missing data");
   }
