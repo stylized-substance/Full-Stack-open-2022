@@ -20,6 +20,7 @@ const isGender = (param: string): param is Gender => {
 };
 
 const isDate = (date: string): boolean => {
+  console.log((Date.parse(date)))
   return Boolean(Date.parse(date));
 };
 
@@ -215,7 +216,6 @@ const toNewPatient = (object: unknown): NewPatient => {
 };
 
 const toNewEntry = (object: unknown): NewEntry => {
-  console.log(object)
   if (!isNewEntry(object)) {
     throw new Error("Incorrect or missing data");
   }
