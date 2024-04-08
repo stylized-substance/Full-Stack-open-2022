@@ -29,15 +29,15 @@ export type SickLeave = {
   endDate: string;
 };
 
-// export type SickLeave = Pick<OccupationalHealthcareEntry, "sickLeave">
-
 export interface HospitalEntry extends BaseEntry {
   type: "Hospital";
-  discharge: {
-    date: string;
-    criteria: string;
-  };
+  discharge: Discharge;
 }
+
+export type Discharge = {
+  date: string;
+  criteria: string
+};
 
 export interface HealthCheck extends BaseEntry {
   type: "HealthCheck";
