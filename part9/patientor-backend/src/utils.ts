@@ -139,11 +139,6 @@ const parseDescription = (description: unknown): string => {
 };
 
 const parseDiagnosisCodes = (input: NewEntry): Array<Diagnosis["code"]> => {
-  // if (!isString(diagnosisCodes)) {
-  //   throw new Error("incorrect diagnosisCodes");
-  // }
-
-  // return diagnosisCodes;
   if (!("diagnosisCodes" in input) || !isObject(input.diagnosisCodes)) {
     return [] as Array<Diagnosis["code"]>;
   }
