@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 import { Diary, NewDiary } from "../types";
 
 export const getDiaries = () => {
