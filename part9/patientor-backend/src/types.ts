@@ -21,7 +21,7 @@ export interface BaseEntry {
 export interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
   employerName: string;
-  sickLeave?: SickLeave
+  sickLeave?: SickLeave;
 }
 
 export type SickLeave = {
@@ -36,7 +36,7 @@ export interface HospitalEntry extends BaseEntry {
 
 export type Discharge = {
   date: string;
-  criteria: string
+  criteria: string;
 };
 
 export interface HealthCheck extends BaseEntry {
@@ -45,7 +45,9 @@ export interface HealthCheck extends BaseEntry {
 }
 
 // Define special omit for unions
-type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
 
 export type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheck;
 

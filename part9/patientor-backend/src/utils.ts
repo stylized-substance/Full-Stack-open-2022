@@ -5,7 +5,7 @@ import {
   HospitalEntry,
   NewPatient,
   OccupationalHealthcareEntry,
-  Discharge
+  Discharge,
 } from "./types";
 import { Gender } from "./types";
 import { NewEntry, SickLeave } from "./types";
@@ -31,15 +31,15 @@ const isObject = (input: unknown): input is object => {
 const parseType = (input: string) => {
   const entryTypes = ["OccupationalHealthcare", "Hospital", "HealthCheck"];
 
-  if (!(entryTypes.includes(input))) {
-    throw new Error("Incorrect entry type")
+  if (!entryTypes.includes(input)) {
+    throw new Error("Incorrect entry type");
   }
 
   return true;
-}
+};
 
 const isNewEntry = (input: unknown): input is NewEntry => {
-    return (
+  return (
     isObject(input) &&
     "date" in input &&
     "specialist" in input &&
@@ -51,16 +51,13 @@ const isNewEntry = (input: unknown): input is NewEntry => {
 };
 
 const isOccupationalHealthcareEntry = (
-  input: NewEntry
+  input: NewEntry,
 ): input is OccupationalHealthcareEntry => {
   return "employerName" in input && isString(input.employerName);
 };
 
 const isHospitalEntry = (input: NewEntry): input is HospitalEntry => {
-  return (
-    "discharge" in input &&
-    isObject(input.discharge)
-  );
+  return "discharge" in input && isObject(input.discharge);
 };
 
 const isHealthCheckEntry = (input: NewEntry): input is HealthCheck => {
@@ -68,7 +65,7 @@ const isHealthCheckEntry = (input: NewEntry): input is HealthCheck => {
 };
 
 const isHealthCheckRating = (input: unknown): input is HealthCheckRating => {
-  return Object.values(HealthCheckRating).includes(Number(input))
+  return Object.values(HealthCheckRating).includes(Number(input));
 };
 
 const parseHealthCheckRating = (input: unknown): HealthCheckRating => {
@@ -141,17 +138,14 @@ const parseDescription = (description: unknown): string => {
   return description;
 };
 
-const parseDiagnosisCodes = (input: NewEntry): Array<Diagnosis['code']> => {
+const parseDiagnosisCodes = (input: NewEntry): Array<Diagnosis["code"]> => {
   // if (!isString(diagnosisCodes)) {
   //   throw new Error("incorrect diagnosisCodes");
   // }
 
   // return diagnosisCodes;
-  if (
-    !('diagnosisCodes' in input) ||
-    !isObject(input.diagnosisCodes)
-  ) {
-    return [] as Array<Diagnosis['code']>;
+  if (!("diagnosisCodes" in input) || !isObject(input.diagnosisCodes)) {
+    return [] as Array<Diagnosis["code"]>;
   }
 
   return input.diagnosisCodes;
@@ -189,29 +183,32 @@ const parseSickLeave = (input: unknown): SickLeave => {
 };
 
 const isDischarge = (input: unknown): input is Discharge => {
-  return (
-    isObject(input) &&
-    "date" in input &&
-    "criteria" in input
-  )
-}
+  return isObject(input) && "date" in input && "criteria" in input;
+};
+
+const parseCriteria = (input: unknown): string => {
+  if (!isString(input)) {
+    throw new Error("Discharge criteria is not a string");
+  }
+  return input;
+};
 
 const parseDischarge = (input: unknown): Discharge => {
   if (!isDischarge(input)) {
     throw new Error("Incorrect discharge input");
   }
   if (input.date === null) {
-    throw new Error("Incorrect discharge date")
+    throw new Error("Incorrect discharge date");
   }
   if (!isString(input.criteria) || input.criteria.length < 1) {
-    throw new Error("Incorrect discharge criteria")
+    throw new Error("Incorrect discharge criteria");
   }
 
   return {
     date: parseDate(input.date),
-    criteria: input.criteria
-  }
-}
+    criteria: parseCriteria(input.criteria),
+  };
+};
 
 const toNewPatient = (object: unknown): NewPatient => {
   if (!isObject(object)) {
@@ -250,7 +247,7 @@ const toNewEntry = (object: unknown): NewEntry => {
     case "OccupationalHealthcare": {
       if (!isOccupationalHealthcareEntry(object)) {
         throw new Error(
-          "Incorrect or missing data for Occupational healthcare entry"
+          "Incorrect or missing data for Occupational healthcare entry",
         );
       }
       const newEntry: NewEntry = {
@@ -259,7 +256,7 @@ const toNewEntry = (object: unknown): NewEntry => {
         specialist: parseSpecialist(object.specialist),
         description: parseDescription(object.description),
         employerName: parseEmployerName(object.employerName),
-        diagnosisCodes: diagnosisCodes
+        diagnosisCodes: diagnosisCodes,
       };
 
       if ("sickLeave" in object && "sickLeave" !== undefined) {
@@ -268,7 +265,7 @@ const toNewEntry = (object: unknown): NewEntry => {
       return newEntry;
     }
     case "Hospital": {
-      console.log(object)
+      console.log(object);
       if (!isHospitalEntry(object)) {
         throw new Error("Incorrect or missing data for Hospital entry");
       }
@@ -278,7 +275,7 @@ const toNewEntry = (object: unknown): NewEntry => {
         specialist: parseSpecialist(object.specialist),
         description: parseDescription(object.description),
         discharge: parseDischarge(object.discharge),
-        diagnosisCodes: diagnosisCodes
+        diagnosisCodes: diagnosisCodes,
       };
       return newEntry;
     }
@@ -292,7 +289,7 @@ const toNewEntry = (object: unknown): NewEntry => {
         specialist: parseSpecialist(object.specialist),
         description: parseDescription(object.description),
         healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
-        diagnosisCodes: diagnosisCodes
+        diagnosisCodes: diagnosisCodes,
       };
       return newEntry;
     }

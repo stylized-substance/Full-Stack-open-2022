@@ -30,11 +30,11 @@ router.post("/:id/entries", (req, res) => {
     const addedEntry = patientsService.addEntry(req.params.id, newEntry);
     res.json(addedEntry);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error instanceof Error) {
-      res.status(400).send(error.message)
+      res.status(400).send(error.message);
     } else {
-      res.status(400).send('Unknown error')
+      res.status(400).send("Unknown error");
     }
   }
 });
